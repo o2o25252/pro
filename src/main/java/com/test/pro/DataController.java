@@ -16,8 +16,16 @@ import com.data.vo.MovieVO;
 import com.data.vo.RankVO;
 
 @Controller
-public class DataColtroller {
-
+public class DataController {
+	
+	@RequestMapping("main.inc")
+	public String Gomain() {
+		
+		System.out.println("aaaaaaaaaaaaaaaaaa");
+		
+		return	"Main";
+	}
+	
 	@RequestMapping("/dd.inc")
 	public Map<String, Object> Dailydata() throws Exception{
 		
@@ -41,7 +49,7 @@ public class DataColtroller {
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
 			
-			//System.out.println(e.getChildText("movieNm"));
+			System.out.println(e.getChildText("movieNm"));
 			
 			ar[i++] = vo;
 		}

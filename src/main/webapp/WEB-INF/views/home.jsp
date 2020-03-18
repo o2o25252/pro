@@ -6,9 +6,12 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Loading...  
 </h1>
-
-<P>  The time on the server is ${serverTime}. </P>
+<form method="post"></form>
 </body>
+<script type="text/javascript">
+	document.forms[0].action = "main.inc"
+	document.forms[0].submit();
+</script>
 </html>
