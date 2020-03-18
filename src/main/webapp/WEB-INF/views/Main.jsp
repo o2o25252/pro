@@ -89,7 +89,7 @@
 </head>
 <body>
 	<div id="logo">
-		<a class="logo" href="control">
+		<a class="logo" href="main.inc">
 				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
 		</a>
 	</div>

@@ -21,8 +21,7 @@ public class DataController {
 	@RequestMapping("main.inc")
 	public String Gomain() {
 		
-		System.out.println("aaaaaaaaaaaaaaaaaa");
-		
+	
 		return	"Main";
 	}
 	
