@@ -119,6 +119,7 @@
 	
 	<div id="box"></div>
 	<div id="box"></div>
+	
 	<table id="week">
 	<colgroup>
 		<col>
@@ -133,7 +134,7 @@
 			<tbody>
 				<tr>
 					<td>${ vo.rnum }</td>
-					<td><a href="">${ vo.movieCd }</a></td>
+					<td><a href="javascript:go('${ vo.movieCd }')">${ vo.movieCd }</a></td>
 					<td>${ vo.movieNm }</td>
 					<td>${ vo.openDt }</td>
 				</tr>
@@ -166,12 +167,27 @@
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>
-		function send(){
+		
+		function data(){
+			
 			$.ajax({
-				url:""
-			}).done(function(){
-				
+				url:"dd.inc",
+				data:paran,
+				dataType:"json",
+				type: "POST"
+			}).done(function(data){
+				if(data.Dailyar != null){
+					
+				}
+			}).fail(function(err){
+				console.log(err);
 			});
+		}
+		
+		function go(no){
+			
+			
+			
 		}
 	</script>
 </body>
