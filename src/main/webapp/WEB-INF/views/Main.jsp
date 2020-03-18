@@ -163,8 +163,16 @@
 		
 	</form>
 	
+	<script src="resources/js/jquery-3.4.1.min.js"></script>
+	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>
-		
+		function send(){
+			$.ajax({
+				url:""
+			}).done(function(){
+				
+			});
+		}
 	</script>
 </body>
 </html>
