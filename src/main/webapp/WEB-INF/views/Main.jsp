@@ -128,7 +128,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<input type="text" id="search" name="search" placeholder="검색어를 입력하세요"/>	
+					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요"/>	
 				</td>
 				<td> <button type="button">확인</button></td>
 			</tr>
@@ -201,40 +201,46 @@
 	
 		<div id="view_win" style="overflow:scroll; width:500px height:150px;">
          <div id="div2"></div><!-- none  로 숨겨 둠  -->
-         <input type="button" onclick="fnMove('1')" value="맨아래로"/>
          <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리" src="이미지 경로" width="150" height="200">
-         <h3>${moviInfo.movieNmOg }의상세 보기</h3>
+         <h3 id="info">${moviInfo.movieNmOg }의상세 보기</h3>
          <hr/>
-         
-         <label>영화명:'${moviInfo.movieNm }'('${moviInfo.movieNmEn}')</label><br/>
-         <label>상영시간:'${moviInfo.showTm }'</label><br/> 
-         <label>제작연도:'${moviInfo.prdtYear }'</label><br/> 
-         <label>개봉연도:'${moviInfo.openDt }'</label><br/>
-         <label>장르:'${moviInfo.genreNm }'</label><br/> 
+      	 <label id="m_name">영화명:'${vo.movieNm }'('${moviInfo.movieNmEn}')</label><br/>
+         <label id="time">상영시간:'${moviInfo.showTm }'</label><br/> 
+         <label id="year">제작연도:'${moviInfo.prdtYear }'</label><br/> 
+         <label id="openyear">개봉연도:'${moviInfo.openDt }'</label><br/>
+         <label id="genere">장르:'${moviInfo.genreNm }'</label><br/> 
+
          <!-- -----------------------------------------------  -->
          <hr />
         
-               <label>제작사:'${vo.company}'(${vo.companyNmEn })</label><br/>
+               <label id="company">제작사:'${vo.company}'(${vo.companyNmEn })</label><br/>
          <hr/>
-               <label>제작국가:'${vo.nations }'</label><br/>
+               <label id="nations">제작국가:'${vo.nations }'</label><br/>
          <hr/>
-               <label>감독:'${vo.directors_peopleNm }'(${vo.directors_peopleNmEn })</label><br/>
+               <label id="d_people">감독:'${vo.directors_peopleNm }'(${vo.directors_peopleNmEn })</label><br/>
          <hr/>
-               <label>배우:'${vo.actors_peopleNm }'&nbsp;'${vo.cast }'역</label><br/>
+               <label id="a_people">배우:'${vo.actors_peopleNm }'&nbsp;'${vo.cast }'역</label><br/>
          <hr/>
          <hr/>
-               <label >스태프:${vo.staffRoleNm }-'${vo.staffs_peopleNm }'</label><br/>
-               <div id="div1"></div> <!-- none  로 숨겨 둠  -->
-         <hr/>
-         <input type="button" onclick="fnMove('2')" value="맨위로"/>
+             
          <button type="button" id="close_bt">닫기</button>
-      </form>
    </div>
+   
+      <form method="post" action="">
+      	<input type="hidden" id="seq" value="${ vo.movieCd }">
+      </form>
    
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>
 	$(function() {
+		
+		$(".asd").bind("click", function() {
+			var seq = $(".asd").val();
+			console.log(seq);
+			$("#seq").val() = seq;
+			document.froms[0].submit();
+		});
 
         $("#open_btn").bind("click", function() {
            $("#view_win").dialog();
@@ -247,12 +253,8 @@
            $("#view_win").dialog("close");
         });
         
-        // 버튼 클릭스 지정 위치로 이동 
-        function fnMove(seq) {
-           var offset = $("#div" + seq).offset();
-           $("view_win").animate({scrollTop : offset.top}, 1000);
-        }
     	 });
+	
 		$(function(){
 			
 			// 금일 박스 오피스
@@ -269,7 +271,7 @@
 						code += data.Dailyar[i].rnum;
 						code += "</td><td><input type='hidden' value='";
 						code += data.Dailyar[i].movieCd;
-						code += "'></td><td><a href=''>";
+						code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
 						code += data.Dailyar[i].movieNm;
 						code += "</a></td><td>";
 						code += data.Dailyar[i].openDt;
@@ -295,7 +297,7 @@
 						code += data.Weeklyar[i].rnum;
 						code += "</td><td><input type=hidden value='";
 						code += data.Weeklyar[i].movieCd;
-						code += "'/></td><td><a href=''>";
+						code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
 						code += data.Weeklyar[i].movieNm;
 						code += "</a></td><td>";
 						code += data.Weeklyar[i].openDt;
@@ -310,9 +312,48 @@
 			
 		});
 		
-		function go(no){
+		function go(frm){
 			
+			var paran = "movieCd="+encodeURIComponent(frm);
 			
+			$.ajax({
+				url: "oo.inc",
+				type: "POST",
+				data: paran,
+				dataType : "json"
+			}).done(function(data){
+				if(data.vo != undefined){
+					$("#view_win").dialog();
+					var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
+					$("#m_name").html(code);
+					var time = "상영시간: "+data.vo.showTm+"분";
+					$("#time").html(time);
+					var year = "제작년도: "+data.vo.prdtYear+"년";
+					$("#year").html(year);
+					var openyear = "개봉연도: "+data.vo.openDt;
+					$("#openyear").html(openyear);
+					var genere = "장르: "+data.vo.genreNm;
+					$("#genere").html(genere);	
+					var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
+					$("#company").html(company);
+					var nations = "제작국가: "+ data.vo.nationNm;
+					$("#nations").html(nations);
+					var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
+					$("#d_people").html(d_people);
+					var info = data.vo.movieNm+"&nbsp;상세보기";
+					$("#info").html(info);	
+				if(data.vo.avo != undefined){
+					for(var i=0; i<data.vo.avo.length; i++){
+						
+					var a_people = "배우:"+ data.vo.avo[i].peopleNm;
+					$("#a_people").html(a_people);
+					
+					}
+				}
+				}
+			}).fail(function(err){
+				console.log(err);
+			});
 			
 		}
 	</script>
