@@ -10,8 +10,11 @@
 	#week,#weekend {
 		border: 1px solid black;	
 		margin: auto;	
+		width: 500px;
 	}
-	
+	td{
+		text-align: center;
+	}
 	#as{
 		float: right;
 		line-height: 0;
@@ -115,50 +118,44 @@
     	<li class="li"> <a href="#">혜택</a> </li>
   	</ul>
   </div>
-	<aside id="as"></aside>
+  <div id="box"></div>
 	
 	<div id="box"></div>
 	<div id="box"></div>
-	
 	<table id="week">
 	<colgroup>
-		<col>
-		
+		<col width="10px"/>
+		<col width="0px"/>
+		<col width="*"/>
+		<col width="100px"/>
 	</colgroup>
 		<thead>
 			<tr>
-				<th>주간 순위<hr/></th>
+				<th colspan="4">금일 박스 오피스 순위<hr/></th>
 			</tr>
 		</thead>
-		<c:forEach items="${ Dailyar }" var="vo">
 			<tbody>
-				<tr>
-					<td>${ vo.rnum }</td>
-					<td><a href="javascript:go('${ vo.movieCd }')">${ vo.movieCd }</a></td>
-					<td>${ vo.movieNm }</td>
-					<td>${ vo.openDt }</td>
-				</tr>
 			</tbody>
-		</c:forEach>
 	</table>
 	<div class="box"></div>
+	
 	<table id="weekend">
+	<colgroup>
+		<col width="10px"/>
+		<col width="0px"/>
+		<col width="*"/>
+		<col width="100px"/>
+	</colgroup>
 		<thead>
 			<tr>
-				<th>주말 순위<hr/></th>
+				<th colspan="4">금주 박스 오피스<hr/></th>
 			</tr>
 		</thead>
-		<c:forEach items="${ Weeklyar }" var="vo">
 			<tbody>
-				<tr>
-					<td>${ vo.rnum }</td>
-					<td><a href="">${ vo.movieCd }</a></td>
-					<td>${ vo.movieNm }</td>
-					<td>${ vo.openDt }</td>
-				</tr>
+				
 			</tbody>
-		</c:forEach>
 	</table>
+
 	
 	<form action="" method="post" id="dialog">
 		
@@ -168,21 +165,62 @@
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>
 		
-		function data(){
+		$(function(){
 			
+			// 금일 박스 오피스
 			$.ajax({
 				url:"dd.inc",
-				data:paran,
 				dataType:"json",
 				type: "POST"
 			}).done(function(data){
-				if(data.Dailyar != null){
+				if(data.Dailyar != undefined){
 					
+					var code = "";
+					for(var i=0; i<data.Dailyar.length; i++){
+						code += "<tr><td>";
+						code += data.Dailyar[i].rnum;
+						code += "</td><td><input type=hidden value='";
+						code += data.Dailyar[i].movieCd;
+						code += "'/></td><td><a href=''>";
+						code += data.Dailyar[i].movieNm;
+						code += "</a></td><td>";
+						code += data.Dailyar[i].openDt;
+						code += "</td></tr>";
+					}
+					$("#week>tbody").html(code);
 				}
 			}).fail(function(err){
 				console.log(err);
 			});
-		}
+			
+			// 금주 박스 오피스
+			$.ajax({
+				url:"weekly.inc",
+				dataType:"json",
+				type: "POST"
+			}).done(function(data){
+				if(data.Weeklyar != undefined){
+					
+					var code = "";
+					for(var i=0; i<data.Weeklyar.length; i++){
+						code += "<tr><td>";
+						code += data.Weeklyar[i].rnum;
+						code += "</td><td><input type=hidden value='";
+						code += data.Weeklyar[i].movieCd;
+						code += "'/></td><td><a href=''>";
+						code += data.Weeklyar[i].movieNm;
+						code += "</a></td><td>";
+						code += data.Weeklyar[i].openDt;
+						code += "</td></tr>";
+					}
+					
+					$("#weekend>tbody").html(code);
+				}
+			}).fail(function(err){
+				console.log(err);
+			});
+			
+		});
 		
 		function go(no){
 			

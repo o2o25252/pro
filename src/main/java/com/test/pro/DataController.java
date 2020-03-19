@@ -11,6 +11,9 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.data.vo.MovieVO;
 import com.data.vo.RankVO;
@@ -25,7 +28,8 @@ public class DataController {
 		return	"Main";
 	}
 	
-	@RequestMapping("/dd.inc")
+	@RequestMapping(value = "/dd.inc",method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> Dailydata() throws Exception{
 		
 		// 금일 박스오피스 순위
@@ -48,7 +52,7 @@ public class DataController {
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
 			
-			System.out.println(e.getChildText("movieNm"));
+			
 			
 			ar[i++] = vo;
 		}
@@ -59,6 +63,8 @@ public class DataController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/weekly.inc",method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> Weeklydata() throws Exception{
 		
 		// 금주 박스오피스 순위
@@ -80,6 +86,9 @@ public class DataController {
 			vo.setMovieCd(e.getChildText("movieCd"));	// 영화 코드
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
+			
+			System.out.println(e.getChildText("movieNm"));
+			System.out.println(e.getChildText("openDt"));
 
 			ar[i++] = vo;
 		}
