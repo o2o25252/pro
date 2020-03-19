@@ -222,7 +222,7 @@
 		</tfoot>
 	</table>
 		
-		<div  id="view_win" style="overflow:auto; width:500px height:250px;">
+		<div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
         
          <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리"  width="150" height="200">
          <h3 id="info"></h3>
@@ -283,6 +283,7 @@
 		
 		$("#ok_btn").bind("click",function(){
 			var movieNm = $("#search").val();
+			//var movieCd = data.Dailyar[i].movieCd;
 			//var paran = "movieNm="+movieNm;
 			
 			location.href = "search.inc?movieNm="+movieNm;
@@ -386,6 +387,7 @@
 			
 		});
 		
+		// 검색
 		function go(frm){
 			
 			var paran = "movieCd="+encodeURIComponent(frm);
