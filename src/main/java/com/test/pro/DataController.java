@@ -87,8 +87,8 @@ public class DataController {
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
 			
-			System.out.println(e.getChildText("movieNm"));
-			System.out.println(e.getChildText("openDt"));
+			//System.out.println(e.getChildText("movieNm"));
+			//System.out.println(e.getChildText("openDt"));
 
 			ar[i++] = vo;
 		}
@@ -102,16 +102,18 @@ public class DataController {
 	
 	
 	// 미완성-----------------------------------------------------
+	@RequestMapping(value = "/view.inc",method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> Moviedata(String movieCd) throws Exception{
 		
 		// 영화 상세정보
-		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
-		
+		//URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd=20199842");
 		Element root = connectXML(Weeklyurl);
 	
-		Element weeklyBoxOfficeList = root.getChild("weeklyBoxOfficeList");
+		Element movieInfo = root.getChild("movieInfo");
 		
-		List<Element> w_list = weeklyBoxOfficeList.getChildren("weeklyBoxOffice"); 
+		List<Element> w_list = movieInfo.getChildren("weeklyBoxOffice"); 
 		
 		MovieVO[] ar = new MovieVO[w_list.size()];
 
@@ -124,6 +126,7 @@ public class DataController {
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		MovieVO vo = new MovieVO();
 		
 		map.put("moviInfo", ar);
 		return map;
