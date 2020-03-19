@@ -2,6 +2,8 @@ package com.test.pro;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,9 +102,53 @@ public class DataController {
 		return map;
 	}
 	
+	// 검색하기
+		@RequestMapping(value = "/search.inc",method = RequestMethod.GET)
+		public ModelAndView search(String movieNm)throws Exception{
+			
+			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
+			
+			System.out.println(search);
+			
+			Element root = connectXML(search);
+			
+			Element movieList = root.getChild("movieList");
+			
+			List<Element> m_list = movieList.getChildren("movie");
+			
+			MovieVO[] ar = new MovieVO[m_list.size()];
+			
+			int i =0;
+			for(Element m: m_list) {
+				MovieVO vo = new MovieVO();
+				
+				vo.setMovieCd(m.getChildText("movieCd"));
+				vo.setMovieNm(m.getChildText("movieNm"));
+				vo.setPrdtYear(m.getChildText("prdtYear"));
+				vo.setOpenDt(m.getChildText("openDt"));
+				vo.setTypeNm(m.getChildText("typeNm"));
+				vo.setPrdtStatNm(m.getChildText("prdtStatNm"));
+				vo.setNationNm(m.getChildText("nationNm"));
+				vo.setGenreNm(m.getChildText("genreAlt"));
+				vo.setNationNm(m.getChildText("repNationNm"));
+				vo.setGenreNm(m.getChildText("repGenreNm"));
+				vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
+				
+				ar[i++]= vo;
+			}
+			
+			//Map<String, Object> map = new HashMap<String, Object>();
+			
+			//map.put("search", ar);
+			
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("search", ar);
+			mv.setViewName("search");
+			
+			return mv;
+		}
 	
-	
-	// 미완성-----------------------------------------------------
+		
 	@RequestMapping(value = "/oo.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
@@ -123,6 +169,8 @@ public class DataController {
 		vo.setOpenDt(movieInfo.getChildText("openDt"));
 		vo.setPrdtStatNm(movieInfo.getChildText("prdtStatNm"));
 		vo.setTypeNm(movieInfo.getChildText("typeNm"));
+		
+		vo.setPostURL(getPost(vo.getMovieNm(), vo.getPrdtYear()));	// 영화 썸네일
 		
 		Element nations = movieInfo.getChild("nations");		// 제작 국가명
 		List<Element> nation = nations.getChildren("nation");
@@ -166,18 +214,67 @@ public class DataController {
 		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));
 		
 		
-		System.out.println(vo.getMovieCd());
-		System.out.println(vo.getMovieNm());
-		System.out.println(vo.getDirectors_peopleNm());
+		//System.out.println(vo.getMovieCd());
+		//System.out.println(vo.getMovieNm());
+		//System.out.println(vo.getDirectors_peopleNm());
 		
-		System.out.println(vo.getAvo()[0].getPeopleNm());
-		System.out.println(vo.getAvo()[0].getCast());
+		//System.out.println(vo.getAvo()[0].getPeopleNm());
+		//System.out.println(vo.getAvo()[0].getCast());
 		
 		Map<String, MovieVO> map = new HashMap<String, MovieVO>();
+		
 		map.put("vo", vo);
 		return map;
 	}
 
+	public String getPost(String movieNm, String prdtYear) throws Exception{
+	      // 영화 포스터 가져오기
+	      System.out.println(movieNm);
+	      
+	        String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
+	        String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
+	        
+	        String mv_name = URLEncoder.encode(movieNm, "UTF-8");
+	        URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom"+prdtYear+"&yearto"+prdtYear); 
+	        
+	        URLConnection urlConn = url.openConnection(); //openConnection 해당 요청에 대해서 쓸 수 있는 connection 객체 
+	        
+	        urlConn.setRequestProperty("X-Naver-Client-ID", clientID);
+	        urlConn.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+	        
+	        SAXBuilder builder = new SAXBuilder();
+	        Document doc = builder.build(urlConn.getInputStream());
+	/*        
+	        String f_path = "resources/movieInfo.xml";
+	        String path = application.getRealPath(f_path);
+	        
+	        //쓰기를 하기 위해 필요한 객체
+	      XMLOutputter xo = new XMLOutputter();
+	      
+	      //출력형식 설정
+	      Format frm = xo.getFormat();
+	      frm.setIndent("  ");
+	      frm.setLineSeparator("\r\n");
+	      frm.setTextMode(Format.TextMode.TRIM);
+	      
+	      xo.setFormat(frm);
+	      xo.output(doc, new FileWriter(path));
+	*/
+	        Element root = doc.getRootElement();
+	        Element channel = root.getChild("channel");
+
+	      List<Element> item = channel.getChildren("item");
+	      String image_s = null;
+	      if(item.size() != 0) {
+	         image_s = item.get(0).getChildText("image");         
+	      }else {
+	         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
+	      }
+	      
+	      System.out.println("썸네일 : " + image_s);
+	        
+	        return image_s;
+	   }
 
 	public Element connectXML(URL url) throws Exception{
 		// 연결객체 생성
@@ -197,4 +294,6 @@ public class DataController {
 		// 루트 반환
 		return doc.getRootElement();
 	}
+	
+	
 }

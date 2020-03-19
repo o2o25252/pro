@@ -20,8 +20,17 @@ public class MovieVO {
 				   companyCd,			// 참여 영화사 코드를 출력합니다.
 				   companyNm,			// 참여 영화사명을 출력합니다.
 				   companyNmEn,			// 참여 영화사명(영문)을 출력합니다.
-				   companyPartNm;		// 참여 영화사 분야명을 출력합니다.
+				   companyPartNm,		// 참여 영화사 분야명을 출력합니다.
+				   postURL;				// 영화 포스터 썸네일 URL
 	
+	public String getPostURL() {
+		return postURL;
+	}
+
+	public void setPostURL(String postURL) {
+		this.postURL = postURL;
+	}
+
 	private ActorsVO[] avo;
 
 	public ActorsVO[] getAvo() {

@@ -43,7 +43,6 @@
 		
 	}
 	.box{
-		height: 50px;
 	}
 	#menu a:hover {
 		color : blue;
@@ -87,7 +86,6 @@
 		width: 100px;
 		height: 70px;
 		float: left;
-		
 	}
 	#logo a{
 		padding: auto;
@@ -106,9 +104,18 @@
 		text-align: center;
 		text-decoration: none;
 	}
-	#top{
-		
+	
+	#map{
+		display: inline-block;
+		margin: auto;
+		overflow-y: auto;
+		border: 1px solid black;
+		position: fixed;
 	}
+	.h{
+		border: 3px solid black;
+		width: 500px;
+		 }
 </style>
 </head>
 <body>
@@ -130,7 +137,7 @@
 				<td>
 					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요"/>	
 				</td>
-				<td> <button type="button">확인</button></td>
+				<td> <input type="button" id="ok_btn" value="확인"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -147,6 +154,11 @@
     	<li class="li"> <a href="#">혜택</a> </li>
   	</ul>
   </div>
+	 <!-- 지도영역 -->
+		 <aside id="map">
+         	<div style="width:100px;height:200px;"></div>
+          	<button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button>
+          </aside>    	
 	
 	<table id="week">
 	<colgroup>
@@ -170,7 +182,13 @@
 			<tbody>
 			</tbody>
 	</table>
-	<div class="box"></div>
+	<div class="box">
+		<hr class="h"/>
+		<hr class="h"/>
+	</div>
+	
+	
+	
 	
 	<table id="weekend">
 	
@@ -196,44 +214,101 @@
 				
 			</tbody>
 	</table>
-
-	
-	
-		<div id="view_win" style="overflow:scroll; width:500px height:150px;">
-         <div id="div2"></div><!-- none  로 숨겨 둠  -->
-         <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리" src="이미지 경로" width="150" height="200">
-         <h3 id="info">${moviInfo.movieNmOg }의상세 보기</h3>
+	<table>
+		<tfoot>
+			<tr>
+				<td></td>
+			</tr>
+		</tfoot>
+	</table>
+		
+		<div  id="view_win" style="overflow:auto; width:500px height:250px;">
+        
+         <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리"  width="150" height="200">
+         <h3 id="info"></h3>
          <hr/>
-      	 <label id="m_name">영화명:'${vo.movieNm }'('${moviInfo.movieNmEn}')</label><br/>
-         <label id="time">상영시간:'${moviInfo.showTm }'</label><br/> 
-         <label id="year">제작연도:'${moviInfo.prdtYear }'</label><br/> 
-         <label id="openyear">개봉연도:'${moviInfo.openDt }'</label><br/>
-         <label id="genere">장르:'${moviInfo.genreNm }'</label><br/> 
+      	 <label id="m_name"></label><br/>
+         <label id="time"></label><br/> 
+         <label id="year"></label><br/> 
+         <label id="openyear"></label><br/>
+         <label id="genere"></label><br/> 
 
          <!-- -----------------------------------------------  -->
          <hr />
         
-               <label id="company">제작사:'${vo.company}'(${vo.companyNmEn })</label><br/>
+               <label id="company"></label><br/>
          <hr/>
-               <label id="nations">제작국가:'${vo.nations }'</label><br/>
+               <label id="nations"></label><br/>
          <hr/>
-               <label id="d_people">감독:'${vo.directors_peopleNm }'(${vo.directors_peopleNmEn })</label><br/>
+               <label id="d_people"></label><br/>
          <hr/>
-               <label id="a_people">배우:'${vo.actors_peopleNm }'&nbsp;'${vo.cast }'역</label><br/>
+               <label id="a_people"></label><br/>
          <hr/>
          <hr/>
-             
+            
+               
+               
          <button type="button" id="close_bt">닫기</button>
    </div>
    
       <form method="post" action="">
       	<input type="hidden" id="seq" value="${ vo.movieCd }">
       </form>
-   
+    
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
 	<script>
+	var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+	   var options = { //지도를 생성할 때 필요한 기본 옵션
+	      center: new kakao.maps.LatLng(37.559765, 126.942225), //지도의 중심좌표.
+	      level: 3 //지도의 레벨(확대, 축소 정도)
+	   };
+
+	   var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+	   
+	   function panTo() {
+	       // 이동할 위도 경도 위치를 생성합니다 
+	       var moveLatLon = new kakao.maps.LatLng(37.556523, 126.940216);
+	       
+	       // 지도 중심을 부드럽게 이동시킵니다
+	       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+	       map.panTo(moveLatLon);            
+	   }        
+	
+
+	
+	
 	$(function() {
+		
+		$("#ok_btn").bind("click",function(){
+			var movieNm = $("#search").val();
+			//var paran = "movieNm="+movieNm;
+			
+			location.href = "search.inc?movieNm="+movieNm;
+			
+			/*
+			$.ajax({
+				url:"search.inc",
+				type:"POST",
+				dataType: "json",
+				data:paran
+			}).done(function(data){
+				if(data.search != null){
+					console.log(data.search.movieNm);
+					
+				}
+			}).fail(function(err){
+				console.log(err);
+			});
+			*/
+		});
+		$("#search").keydown(function(key){
+			if (key.keyCode == 13) {
+				var movieNm = $("#search").val();
+				location.href = "search.inc?movieNm="+movieNm;
+				}
+		});
 		
 		$(".asd").bind("click", function() {
 			var seq = $(".asd").val();
@@ -264,7 +339,6 @@
 				type: "POST"
 			}).done(function(data){
 				if(data.Dailyar != undefined){
-					
 					var code = "";
 					for(var i=0; i<data.Dailyar.length; i++){
 						code += "<tr><td>";
@@ -324,6 +398,9 @@
 			}).done(function(data){
 				if(data.vo != undefined){
 					$("#view_win").dialog();
+					
+					$("#i1").attr("src", data.vo.postURL);
+					
 					var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
 					$("#m_name").html(code);
 					var time = "상영시간: "+data.vo.showTm+"분";
@@ -342,6 +419,7 @@
 					$("#d_people").html(d_people);
 					var info = data.vo.movieNm+"&nbsp;상세보기";
 					$("#info").html(info);	
+					
 				if(data.vo.avo != undefined){
 					for(var i=0; i<data.vo.avo.length; i++){
 						
@@ -351,6 +429,7 @@
 					}
 				}
 				}
+				
 			}).fail(function(err){
 				console.log(err);
 			});
