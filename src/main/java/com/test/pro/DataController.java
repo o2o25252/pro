@@ -103,20 +103,19 @@ public class DataController {
 	}
 	
 	// 검색하기
-		@RequestMapping(value = "/search.inc",method = RequestMethod.GET)
+		@RequestMapping("/search.inc")
 		public ModelAndView search(String movieNm)throws Exception{
 			
 			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
-			
+			String name = "   ";
 			System.out.println(search);
 			
-			Element root = connectXML(search);
+			Element s_root = connectXML(search);
 			
-			Element movieList = root.getChild("movieList");
+			Element movieList = s_root.getChild("movieList");
 			
 			List<Element> m_list = movieList.getChildren("movie");
-			
-			MovieVO[] ar = new MovieVO[m_list.size()];
+			MovieVO[] s_ar = new MovieVO[m_list.size()];
 			
 			int i =0;
 			for(Element m: m_list) {
@@ -134,7 +133,7 @@ public class DataController {
 				vo.setGenreNm(m.getChildText("repGenreNm"));
 				vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
 				
-				ar[i++]= vo;
+				s_ar[i++]= vo;
 			}
 			
 			
@@ -144,7 +143,7 @@ public class DataController {
 			//map.put("search", ar);
 			
 			ModelAndView mv = new ModelAndView();
-			mv.addObject("search", ar);
+			mv.addObject("search", s_ar);
 			mv.setViewName("search");
 			
 			return mv;
@@ -153,10 +152,11 @@ public class DataController {
 		
 	@RequestMapping(value = "/oo.inc",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
+	public Map<String, MovieVO> Moviedata(String movieCd,String movieNm) throws Exception{
 
 		// 영화 상세정보
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
+		URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
 		System.out.println(movieCd);
 		MovieVO vo = new MovieVO();
 

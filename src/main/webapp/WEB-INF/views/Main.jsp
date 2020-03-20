@@ -251,8 +251,8 @@
          <button type="button" id="close_bt">닫기</button>
    </div>
    
-      <form method="post" action="">
-      	<input type="hidden" id="seq" value="${ vo.movieCd }">
+      <form method="post" action="search.inc" name="nm">
+      	<input type="hidden" name="movieNm"/>
       </form>
     
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
@@ -282,33 +282,26 @@
 	$(function() {
 		
 		$("#ok_btn").bind("click",function(){
-			var movieNm = $("#search").val();
-			//var movieCd = data.Dailyar[i].movieCd;
-			//var paran = "movieNm="+movieNm;
+			var movieNm = $("#search").val().trim().replace(/ /g, "%20");
+			if(movieNm==0){
+				alert("입력하세요");
+			}else{
 			
-			location.href = "search.inc?movieNm="+movieNm;
-			
-			/*
-			$.ajax({
-				url:"search.inc",
-				type:"POST",
-				dataType: "json",
-				data:paran
-			}).done(function(data){
-				if(data.search != null){
-					console.log(data.search.movieNm);
-					
-				}
-			}).fail(function(err){
-				console.log(err);
-			});
-			*/
+			document.nm.movieNm.value=movieNm;
+			document.nm.submit();
+			}
 		});
 		$("#search").keydown(function(key){
 			if (key.keyCode == 13) {
-				var movieNm = $("#search").val();
-				location.href = "search.inc?movieNm="+movieNm;
+				var movieNm = $("#search").val().trim().replace(/ /g, "%20");
+				if(movieNm==0){
+					alert("입력하세요");
+				}else{
+				
+				document.nm.movieNm.value= movieNm;
+				document.nm.submit();
 				}
+			}
 		});
 		
 		$(".asd").bind("click", function() {

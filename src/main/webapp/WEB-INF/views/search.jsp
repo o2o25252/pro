@@ -96,6 +96,9 @@
 	table td{
 		text-align: center;
 	}
+	a{
+		text-decoration: none;
+	}
 </style>
 </head>
 <body>
@@ -184,24 +187,38 @@
                
          <button type="button" id="close_bt">닫기</button>
    </div>
+    <form method="post" action="search.inc" name="nm">
+      	<input type="hidden" name="movieNm"/>
+      </form>
+    
+   
   <script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
 	<script>
 		$(function(){
 			$("#ok_btn").bind("click",function(){
-				var movieNm = $("#search").val();
-				//var paran = "movieNm="+movieNm;
+				var movieNm = $("#search").val().trim().replace(/ /g, "%20");
 				
-				location.href = "search.inc?movieNm="+movieNm;
+				if(movieNm==0){
+					alert("입력하세요");
+				}else{
 				
-				
+				document.nm.movieNm.value=movieNm;
+				document.nm.submit();
+				}
 			});
-			
 			$("#search").keydown(function(key){
 				if (key.keyCode == 13) {
-					var movieNm = $("#search").val();
-					location.href = "search.inc?movieNm="+movieNm;
+					var movieNm = $("#search").val().trim().replace(/ /g, "%20");
+					
+					if(movieNm==0){
+						alert("입력하세요");
+					}else{
+					
+					document.nm.movieNm.value=movieNm;
+					document.nm.submit();
+					}
 					}
 			});
 		});
