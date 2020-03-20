@@ -282,6 +282,9 @@
 	   }        
 	
 	$(function() {
+		
+		day();
+		
 		// 검색 정보
 		$("#ok_btn").bind("click",function(){
 			var movieNm = $("#search").val().trim().replace(/ /g, "%20");
@@ -430,6 +433,32 @@
 			}).fail(function(err){
 				console.log(err);
 			});
+			
+			function day(date) {
+				$.ajax({
+					url:"dd.inc",
+					dataType:"json",
+					type: "POST"
+				}).done(function(data){
+					if(data.Dailyar != undefined){
+						var code = "";
+						for(var i=0; i<data.Dailyar.length; i++){
+							code += "<tr><td>";
+							code += data.Dailyar[i].rnum;
+							code += "<input type='hidden' value='";
+							code += data.Dailyar[i].movieCd;
+							code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
+							code += data.Dailyar[i].movieNm;
+							code += "</a></td><td>";
+							code += data.Dailyar[i].openDt;
+							code += "</td></tr>";
+						}
+						$("#week>tbody").html(code);
+					}
+				}).fail(function(err){
+					console.log(err);
+				});
+			}
 			
 		}
 	</script>
