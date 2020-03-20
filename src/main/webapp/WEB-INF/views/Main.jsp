@@ -137,11 +137,24 @@
 </head>
 <body>
 	<div id="top">
-	<aside id="as">
-		<a href="">로그인</a>&nbsp;
-		<a href="mem.inc">회원가입</a>
-	</aside>
-
+	
+			<c:if test="${empty ok  }">
+				<aside id="as">
+					<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
+				</aside>
+			</c:if>
+			<!-- 일반회원 로그인 -->
+			<c:if test="${ ok eq 0  }">
+				<aside id="as">
+					<label>${memvo.m_name }님 화영합니다</label> <a href="out.inc">로그아웃</a>
+				</aside>
+			</c:if>
+			<!-- 관리자 로그인 		-->
+			<c:if test="${ ok eq 0 and memvo.m_id eq id }">
+				<aside id="as">
+					<a href="mem.inc">회원관리</a>
+				</aside>
+			</c:if>
 	<div id="logo">
 		<a class="logo" href="main.inc">
 				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
