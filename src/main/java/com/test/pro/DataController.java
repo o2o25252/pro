@@ -107,7 +107,7 @@ public class DataController {
 		public ModelAndView search(String movieNm)throws Exception{
 			
 			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
-			System.out.println(search);
+			//System.out.println(search);
 			
 			Element s_root = connectXML(search);
 			
@@ -156,7 +156,7 @@ public class DataController {
 		// 영화 상세정보
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
 		
-		System.out.println(movieCd);
+		//System.out.println(movieCd);
 		MovieVO vo = new MovieVO();
 		
 		Element root = connectXML(Weeklyurl);
@@ -236,7 +236,7 @@ public class DataController {
 
 	public String getPost(String movieNm, String prdtYear) throws Exception{
 	      // 영화 포스터 가져오기
-	      System.out.println(movieNm);
+	      //System.out.println(movieNm);
 	      
 	        String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
 	        String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
@@ -278,7 +278,7 @@ public class DataController {
 	         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
 	      }
 	      
-	      System.out.println("썸네일 : " + image_s);
+	      //System.out.println("썸네일 : " + image_s);
 	        
 	        return image_s;
 	   }

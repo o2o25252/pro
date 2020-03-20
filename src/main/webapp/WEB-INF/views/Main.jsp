@@ -1,13 +1,25 @@
+
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%
+	Date date = new Date();
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
+<link rel="stylesheet" href="resources/css/custom.css"/>
+<link rel="stylesheet" href="resources/css/styles.css"/>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
 <style type="text/css">
+
+
 	#view_win {
 	   display: none;
 	}
@@ -38,11 +50,6 @@
 	}
 	table td a{
 		text-decoration: none;
-	}
-	#week{
-		
-	}
-	.box{
 	}
 	#menu a:hover {
 		color : blue;
@@ -111,11 +118,21 @@
 		overflow-y: auto;
 		border: 1px solid black;
 		position: fixed;
+		width: 240px;
 	}
 	.h{
 		border: 3px solid black;
 		width: 500px;
 		 }
+	#week a,#weekend a{ 
+		text-decoration: none;
+	}	 
+	table th{
+		text-align: center;
+	}
+	.cal_month{
+		width: 220px;
+	}
 </style>
 </head>
 <body>
@@ -135,46 +152,45 @@
 		<tbody>
 			<tr>
 				<td>
-					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요"/>	
+					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요" class="form-control"/>	
 				</td>
-				<td> <input type="button" id="ok_btn" value="확인"/></td>
+				<td> <input type="button" id="ok_btn" value="확인" class="btn btn-primary"/></td>
 			</tr>
 			</tbody>
 		</table>
 	</div>
 	</div>
-	<div id="box"></div>
 	<div id="menu_header" >
   	<ul id="menu">
 		<li class="li"><a href="#">영화</a></li>
     	<li class="li"><a href="#">예매</a></li>
-    	<li class="li"><a href="#">극장</a></li>
+    	<li class="li"><a href="kMap.inc">극장찾기</a></li>
     	<li class="li"><a href="#">이벤트</a> </li>
     	<li class="li"> <a href="#">스토어</a> </li>
     	<li class="li"> <a href="#">혜택</a> </li>
   	</ul>
   </div>
+  <div id="body">
 	 <!-- 지도영역 -->
 		 <aside id="map">
-         	<div style="width:100px;height:200px;"></div>
+          	<div style="width:100px;height:200px;"></div>
           	<button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button>
           </aside>    	
+	<jsp:useBean id="today" class="java.util.Date"/>
 	
-	<table id="week">
+	<table id="week" class="table table-bordered table-hover">
 	<colgroup>
 		<col width="50px"/>
-		<col width="0px"/>
 		<col width="*"/>
 		<col width="100px"/>
 	</colgroup>
 	
 		<thead>
 			<tr>
-				<th colspan="4">금일 박스 오피스 순위<hr/></th>
+				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;금일 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/><label>${ today }</label></th>
 			</tr>
 			<tr>
 				<th>순위</th>
-				<th><input type="hidden" value="영화번호"/></th>
 				<th>제목</th>
 				<th>개봉일</th>
 			</tr>
@@ -187,25 +203,20 @@
 		<hr class="h"/>
 	</div>
 	
-	
-	
-	
-	<table id="weekend">
+	<table id="weekend" class="table table-bordered table-hover">
 	
 	<colgroup>
 		<col width="50px"/>
-		<col width="0px"/>
 		<col width="*"/>
 		<col width="100px"/>
 	</colgroup>
 		<thead>
 			<tr>
 			
-				<th colspan="4">금주 박스 오피스<hr/></th>
+				<th colspan="3"><a href="">&lt;</a>&nbsp;&nbsp;금주 박스 오피스&nbsp;&nbsp;<a href="">&gt;</a> <hr/><label>${ today }</label></th>
 			</tr>
 			<tr>
 				<th>순위</th>
-				<th><input type="hidden" value="영화번호"/></th>
 				<th>제목</th>
 				<th>개봉일</th>
 			</tr>
@@ -213,13 +224,6 @@
 			<tbody>
 				
 			</tbody>
-	</table>
-	<table>
-		<tfoot>
-			<tr>
-				<td></td>
-			</tr>
-		</tfoot>
 	</table>
 		
 		<div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
@@ -254,11 +258,12 @@
       <form method="post" action="search.inc" name="nm">
       	<input type="hidden" name="movieNm"/>
       </form>
-    
+    </div>
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
 	<script>
+	
 	var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 	   var options = { //지도를 생성할 때 필요한 기본 옵션
 	      center: new kakao.maps.LatLng(37.559765, 126.942225), //지도의 중심좌표.
@@ -276,11 +281,8 @@
 	       map.panTo(moveLatLon);            
 	   }        
 	
-
-	
-	
 	$(function() {
-		
+		// 검색 정보
 		$("#ok_btn").bind("click",function(){
 			var movieNm = $("#search").val().trim().replace(/ /g, "%20");
 			if(movieNm==0){
@@ -337,7 +339,7 @@
 					for(var i=0; i<data.Dailyar.length; i++){
 						code += "<tr><td>";
 						code += data.Dailyar[i].rnum;
-						code += "</td><td><input type='hidden' value='";
+						code += "<input type='hidden' value='";
 						code += data.Dailyar[i].movieCd;
 						code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
 						code += data.Dailyar[i].movieNm;
@@ -363,7 +365,7 @@
 					for(var i=0; i<data.Weeklyar.length; i++){
 						code += "<tr><td>";
 						code += data.Weeklyar[i].rnum;
-						code += "</td><td><input type=hidden value='";
+						code += "<input type=hidden value='";
 						code += data.Weeklyar[i].movieCd;
 						code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
 						code += data.Weeklyar[i].movieNm;
@@ -380,7 +382,7 @@
 			
 		});
 		
-		// 검색
+		// 상세 정보
 		function go(frm){
 			
 			var paran = "movieCd="+encodeURIComponent(frm);
