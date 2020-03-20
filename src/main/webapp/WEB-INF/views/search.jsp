@@ -147,17 +147,20 @@
   		</tr>
   	</thead>
   	<tbody>
-  	<c:forEach var="vo" items="${search }">
-  	<c:if test="${ search !=null }">
+  	<c:forEach var="vo" items="${ search }">
   		<tr>
   			<td><a class='asd' href="javascript:go('${ vo.movieCd }')">${ vo.movieNm}</a></td>
   			<td> ${ vo.prdtYear }</td>
   			<td>${ vo.nationNm }</td>
   			<td>${ vo.genreNm }</td>
   		</tr>
-  		</c:if>
-  		<c:if test="${search == null }"> 검색하신 내용이 없습니다.</c:if>
+  		
   		</c:forEach>
+  		<c:if test="${ empty search }">
+  		 <tr>
+  		 	<td colspan="4"> 검색하신 내용이 없습니다. </td> 
+  		 </tr>
+  		 </c:if>
   	</tbody>
   </table>
   <div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
@@ -221,7 +224,12 @@
 					}
 					}
 			});
+			$("#close_bt").bind("click", function() {
+
+		           $("#view_win").dialog("close");
+		        });
 		});
+		
 		
 	function go(frm){
 			

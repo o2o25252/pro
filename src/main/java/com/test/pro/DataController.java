@@ -107,7 +107,6 @@ public class DataController {
 		public ModelAndView search(String movieNm)throws Exception{
 			
 			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
-			String name = "   ";
 			System.out.println(search);
 			
 			Element s_root = connectXML(search);
@@ -119,21 +118,21 @@ public class DataController {
 			
 			int i =0;
 			for(Element m: m_list) {
-				MovieVO vo = new MovieVO();
+				MovieVO m_vo = new MovieVO();
 				
-				vo.setMovieCd(m.getChildText("movieCd"));
-				vo.setMovieNm(m.getChildText("movieNm"));
-				vo.setPrdtYear(m.getChildText("prdtYear"));
-				vo.setOpenDt(m.getChildText("openDt"));
-				vo.setTypeNm(m.getChildText("typeNm"));
-				vo.setPrdtStatNm(m.getChildText("prdtStatNm"));
-				vo.setNationNm(m.getChildText("nationNm"));
-				vo.setGenreNm(m.getChildText("genreAlt"));
-				vo.setNationNm(m.getChildText("repNationNm"));
-				vo.setGenreNm(m.getChildText("repGenreNm"));
-				vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
+				m_vo.setMovieCd(m.getChildText("movieCd"));
+				m_vo.setMovieNm(m.getChildText("movieNm"));
+				m_vo.setPrdtYear(m.getChildText("prdtYear"));
+				m_vo.setOpenDt(m.getChildText("openDt"));
+				m_vo.setTypeNm(m.getChildText("typeNm"));
+				m_vo.setNationNm(m.getChildText("nationNm"));
 				
-				s_ar[i++]= vo;
+				m_vo.setGenreNm(m.getChildText("genreAlt"));
+				m_vo.setNationNm(m.getChildText("repNationNm"));
+				m_vo.setGenreNm(m.getChildText("repGenreNm"));
+				m_vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
+				
+				s_ar[i++]= m_vo;
 			}
 			
 			
@@ -152,22 +151,23 @@ public class DataController {
 		
 	@RequestMapping(value = "/oo.inc",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, MovieVO> Moviedata(String movieCd,String movieNm) throws Exception{
+	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
 
 		// 영화 상세정보
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
-		URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
+		
 		System.out.println(movieCd);
 		MovieVO vo = new MovieVO();
-
+		
 		Element root = connectXML(Weeklyurl);
 	
-		Element movieInfo = root.getChild("movieInfo");		
+		Element movieInfo = root.getChild("movieInfo");	
 		vo.setMovieCd(movieCd);
 		vo.setMovieNm(movieInfo.getChildText("movieNm"));
 		vo.setMovieNmEn(movieInfo.getChildText("movieNmEn"));
 		vo.setShowTm(movieInfo.getChildText("showTm"));
 		vo.setPrdtYear(movieInfo.getChildText("prdtYear"));
+		
 		vo.setOpenDt(movieInfo.getChildText("openDt"));
 		vo.setPrdtStatNm(movieInfo.getChildText("prdtStatNm"));
 		vo.setTypeNm(movieInfo.getChildText("typeNm"));
@@ -176,21 +176,26 @@ public class DataController {
 		
 		Element nations = movieInfo.getChild("nations");		// 제작 국가명
 		List<Element> nation = nations.getChildren("nation");
+		if(nation.size()>0) {
 		vo.setNationNm(nation.get(0).getChildText("nationNm"));
-		
+		}
 		
 		Element genres = movieInfo.getChild("genres");			// 장르명
 		List<Element> genre = genres.getChildren("genre");
+		if(genre.size()>0) {
 		vo.setGenreNm(genre.get(0).getChildText("genreNm"));
-		
+		}
 		
 		Element directors = movieInfo.getChild("directors");
 		List<Element> director = directors.getChildren("director");
+		if(director.size()>0) {
 		vo.setDirectors_peopleNm(director.get(0).getChildText("peopleNm"));
-		vo.setDirectors_peopleNmEn(director.get(0).getChildText("peopleNmEn"));
 		
+		vo.setDirectors_peopleNmEn(director.get(0).getChildText("peopleNmEn"));
+		}
 		Element actors = movieInfo.getChild("actors");
 		List<Element> actor = actors.getChildren("actor");
+		if(actor.size()>0) {
 		ActorsVO[] actor_ar = new ActorsVO[3];
 		
 		int i=0;
@@ -207,22 +212,22 @@ public class DataController {
 				break;
 		}
 		vo.setAvo(actor_ar);
+		}
 		
 		Element companys = movieInfo.getChild("companys");
 		List<Element> company = companys.getChildren("company");
+		if(company.size()>0) {
 		vo.setCompanyCd(company.get(0).getChildText("companyCd"));
 		vo.setCompanyNm(company.get(0).getChildText("companyNm"));
 		vo.setCompanyNmEn(company.get(0).getChildText("companyNmEn"));
-		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));
-		
-		
+		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));		
 		//System.out.println(vo.getMovieCd());
 		//System.out.println(vo.getMovieNm());
 		//System.out.println(vo.getDirectors_peopleNm());
 		
 		//System.out.println(vo.getAvo()[0].getPeopleNm());
 		//System.out.println(vo.getAvo()[0].getCast());
-		
+		}
 		Map<String, MovieVO> map = new HashMap<String, MovieVO>();
 		
 		map.put("vo", vo);
