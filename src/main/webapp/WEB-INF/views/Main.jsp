@@ -1,4 +1,3 @@
-
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -6,7 +5,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%
-	Date date = new Date();
+	Date today = new Date();
+	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
+	String toDay = date.format(today);
+	
+	request.setAttribute("today", toDay);
 %>
 <!DOCTYPE html>
 <html>
@@ -185,11 +188,8 @@
   </div>
   <div id="body">
 	 <!-- 지도영역 -->
-		 <aside id="map">
-          	<div style="width:100px;height:200px;"></div>
-          	<button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button>
-          </aside>    	
-	<jsp:useBean id="today" class="java.util.Date"/>
+		 	
+	<jsp:useBean id="tod1ay" class="java.util.Date"/>
 	
 	<table id="week" class="table table-bordered table-hover">
 	<colgroup>
@@ -200,7 +200,7 @@
 	
 		<thead>
 			<tr>
-				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;금일 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/><label>${ today }</label></th>
+				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;${today } 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/></th>
 			</tr>
 			<tr>
 				<th>순위</th>
@@ -277,26 +277,10 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
 	<script>
 	
-	var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-	   var options = { //지도를 생성할 때 필요한 기본 옵션
-	      center: new kakao.maps.LatLng(37.559765, 126.942225), //지도의 중심좌표.
-	      level: 3 //지도의 레벨(확대, 축소 정도)
-	   };
-
-	   var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-	   
-	   function panTo() {
-	       // 이동할 위도 경도 위치를 생성합니다 
-	       var moveLatLon = new kakao.maps.LatLng(37.556523, 126.940216);
-	       
-	       // 지도 중심을 부드럽게 이동시킵니다
-	       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-	       map.panTo(moveLatLon);            
-	   }        
 	
 	$(function() {
 		
-		day();
+		//day();
 		
 		// 검색 정보
 		$("#ok_btn").bind("click",function(){

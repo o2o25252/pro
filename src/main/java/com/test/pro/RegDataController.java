@@ -27,9 +27,7 @@ public class RegDataController {
 	private ServletContext application;
 	@RequestMapping("/reg.inc")
 	private String reg() {
-
 		return "reg";
-
 	}
 	
 	@RequestMapping("/login.inc")
@@ -66,7 +64,7 @@ public class RegDataController {
 				if(e.getAttributeValue("id").equals(id)) {
 					
 					member_id =e.getAttributeValue("id");
-					System.out.println(member_id);
+					//System.out.println(member_id);
 					Element name = e.getChild("name"); //xml 에 있는 name 
 					member_name =	name.getAttributeValue("name");
 					
@@ -75,7 +73,7 @@ public class RegDataController {
 					break;
 				}
 			}//id _for 끝
-				System.out.println(id_chk);
+				//System.out.println(id_chk);
 			//pw 찾기
 			Element member = root.getChild("member");
 			Element member_pw = member.getChild("pw");
@@ -90,7 +88,7 @@ public class RegDataController {
 					break;
 				}
 			}//id_ for 끝
-				System.out.println(pw_chk);
+				//System.out.println(pw_chk);
 				
 				
 				
@@ -106,7 +104,7 @@ public class RegDataController {
 					mv.addObject("id", id);
 					mv.setViewName("Main");
 				}else {
-					System.out.println("가입된 회원이 없어요");
+					//System.out.println("가입된 회원이 없어요");
 				}
 					
 				
@@ -130,7 +128,7 @@ public class RegDataController {
 		
 		if(file.exists()) { //파일 존재시 회원가입이 한번 은 되었다는 거닌깐 
 			//다음 추가 회원을 작업을 위한곳
-			System.out.println("가입");
+			//System.out.println("가입");
 			SAXBuilder builder = new SAXBuilder();
 
 			doc = builder.build(path);
@@ -143,7 +141,7 @@ public class RegDataController {
 			List<Element> reg_list = root.getChildren();
 			
 			for(Element e: reg_list) {
-				System.out.println(e); //멤버 
+				//System.out.println(e); //멤버 
 				if(e.getAttributeValue("id").equals(id)) {
 					
 					//지금 입력한 id 가 기존에 있는 id 와 같은지 확인 (중복검사)
@@ -152,7 +150,7 @@ public class RegDataController {
 				}
 			}//for 끝
 			
-			System.out.println(chk);
+			//System.out.println(chk);
 			if(!chk) {
 				Element member = new Element("member");
 
@@ -179,7 +177,7 @@ public class RegDataController {
 			}else
 				mv.addObject("chk",chk);
 		}else {//첫 가입시  파일 만들기 
-			System.out.println("첫가입");
+			//System.out.println("첫가입");
 			SAXBuilder builder = new SAXBuilder();
 
 			doc = new Document();//XML 문서 객체 생성 
