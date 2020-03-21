@@ -7,11 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="logo">
-		<a class="logo" href="main.inc">
-				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
-		</a>
-	</div>
+	<jsp:include page="menu.jsp"/>
 	<h3>로그인</h3>
 	<div>
 		<form action="login_ok.inc" method="post">

@@ -34,53 +34,8 @@
 		margin : auto;
 	}
 	
-	#menu_header{
-		margin : auto;
-		border: 1px solid black;
-	}
 	a:hover{text-decoration:none; color:#6cc091}
 
-	ul#menu{
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			font: 15px sans-serif;
-			line-height: 44px;
-			text-align: center;
-			text-decoration: none;
-			background-color: rgba(75, 75, 93, 0.85);
-		}
-	ul#menu>li{
-		display: inline-block;
-		width: 150px;
-		margin: auto;
-		
-	}
-	.li:hover{
-		color: #6cc091;
-	}
-	ul#menu>li>a{
-		color: #efefef;
-		text-decoration: none;	
-	}
-	#logo{
-		width: 100px;
-		height: 70px;
-		float: left;
-	}
-	#logo a{
-		padding: auto;
-	}
-	
-	#high{
-		float: auto;
-		height: 70px;
-		margin: auto;
-	}
-	#as{
-		float: right;
-		padding-top: 20px;
-	}
 	#search_view td,#search_view th{
 		border: 1px solid black;
 		border-collapse: collapse;
@@ -108,51 +63,11 @@
 	#box{
 		height: 40px;
 	}
-	#map{
-		display: inline-block;
-		margin: auto;
-		overflow-y: auto;
-		border: 1px solid black;
-		position: fixed;
-	}
+	
 </style>
 </head>
 <body>
-	<div id="top">
-	<aside id="as">
-		<a href="">로그인</a>&nbsp;
-		<a href="mem.inc">회원가입</a>
-	</aside>
-
-	<div id="logo">
-		<a class="logo" href="main.inc">
-				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
-		</a>
-	</div>
-	<div id="sear">
-		<table id="high">
-		<tbody>
-			<tr>
-				<td>
-					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요" class="form-control"/>	
-				</td>
-				<td> <button type="button" id="ok_btn" class="btn btn-primary">확인</button></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
-	</div>
-	<div id="menu_header" >
-  	<ul id="menu">
-		<li class="li"><a href="#">영화</a></li>
-    	<li class="li"><a href="#">예매</a></li>
-    	<li class="li"><a href="#">극장</a></li>
-    	<li class="li"><a href="#">이벤트</a> </li>
-    	<li class="li"> <a href="#">스토어</a> </li>
-    	<li class="li"> <a href="#">혜택</a> </li>
-  	</ul>
-  </div>
- 
+<jsp:include page="menu.jsp"/>
   <table id="search_view" class="table table-bordered table-hover">
   	<thead>
   		<tr>
@@ -206,48 +121,10 @@
                
          <button type="button" id="close_bt">닫기</button>
    </div>
-    <form method="post" action="search.inc" name="nm">
-      	<input type="hidden" name="movieNm"/>
-      </form>
-    
-   
-  <script src="resources/js/jquery-3.4.1.min.js"></script>
+   <script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>
 	
-	
-		$(function(){
-			$("#ok_btn").bind("click",function(){
-				var movieNm = $("#search").val().trim().replace(/ /g, "%20");
-				
-				if(movieNm==0){
-					alert("입력하세요");
-				}else{
-				
-				document.nm.movieNm.value=movieNm;
-				document.nm.submit();
-				}
-			});
-			$("#search").keydown(function(key){
-				if (key.keyCode == 13) {
-					var movieNm = $("#search").val().trim().replace(/ /g, "%20");
-					
-					if(movieNm==0){
-						alert("입력하세요");
-					}else{
-					
-					document.nm.movieNm.value=movieNm;
-					document.nm.submit();
-					}
-					}
-			});
-			$("#close_bt").bind("click", function() {
-
-		           $("#view_win").dialog("close");
-		        });
-		});
-		
-		
 	function go(frm){
 			
 			var paran = "movieCd="+encodeURIComponent(frm);

@@ -7,12 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<div id="logo">
-		<a class="logo" href="main.inc"> <img
-			src="resources/0000803875_001_20200309142116257.jpg" height="70px">
-		</a>
-	</div>
+	<jsp:include page="menu.jsp"/>
 	<div>
 		<form action="add.inc" method="post">
 			<table class="t1" id="t1">

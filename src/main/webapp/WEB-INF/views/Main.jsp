@@ -22,7 +22,6 @@
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
 <style type="text/css">
 
-
 	#view_win {
 	   display: none;
 	}
@@ -139,56 +138,8 @@
 </style>
 </head>
 <body>
-	<div id="top">
-	
-			<c:if test="${empty ok  }">
-				<aside id="as">
-					<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
-				</aside>
-			</c:if>
-			<!-- 일반회원 로그인 -->
-			<c:if test="${ ok eq 0  }">
-				<aside id="as">
-					<label>${memvo.m_name }님 화영합니다</label> <a href="out.inc">로그아웃</a>
-				</aside>
-			</c:if>
-			<!-- 관리자 로그인 		-->
-			<c:if test="${ ok eq 0 and memvo.m_id eq id }">
-				<aside id="as">
-					<a href="mem.inc">회원관리</a>
-				</aside>
-			</c:if>
-	<div id="logo">
-		<a class="logo" href="main.inc">
-				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
-		</a>
-	</div>
-	<div id="sear">
-		<table id="high">
-		<tbody>
-			<tr>
-				<td>
-					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요" class="form-control"/>	
-				</td>
-				<td> <input type="button" id="ok_btn" value="확인" class="btn btn-primary"/></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
-	</div>
-	<div id="menu_header" >
-  	<ul id="menu">
-		<li class="li"><a href="#">영화</a></li>
-    	<li class="li"><a href="#">예매</a></li>
-    	<li class="li"><a href="kMap.inc">극장찾기</a></li>
-    	<li class="li"><a href="#">이벤트</a> </li>
-    	<li class="li"> <a href="#">스토어</a> </li>
-    	<li class="li"> <a href="#">혜택</a> </li>
-  	</ul>
-  </div>
+	<jsp:include page="menu.jsp"/>
   <div id="body">
-	 <!-- 지도영역 -->
-		 	
 	<jsp:useBean id="tod1ay" class="java.util.Date"/>
 	
 	<table id="week" class="table table-bordered table-hover">
@@ -267,11 +218,7 @@
                
          <button type="button" id="close_bt">닫기</button>
    </div>
-   
-      <form method="post" action="search.inc" name="nm">
-      	<input type="hidden" name="movieNm"/>
-      </form>
-    </div>
+   </div>
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
@@ -280,39 +227,7 @@
 	
 	$(function() {
 		
-		//day();
 		
-		// 검색 정보
-		$("#ok_btn").bind("click",function(){
-			var movieNm = $("#search").val().trim().replace(/ /g, "%20");
-			if(movieNm==0){
-				alert("입력하세요");
-			}else{
-			
-			document.nm.movieNm.value=movieNm;
-			document.nm.submit();
-			}
-		});
-		$("#search").keydown(function(key){
-			if (key.keyCode == 13) {
-				var movieNm = $("#search").val().trim().replace(/ /g, "%20");
-				if(movieNm==0){
-					alert("입력하세요");
-				}else{
-				
-				document.nm.movieNm.value= movieNm;
-				document.nm.submit();
-				}
-			}
-		});
-		
-		$(".asd").bind("click", function() {
-			var seq = $(".asd").val();
-			console.log(seq);
-			$("#seq").val() = seq;
-			document.froms[0].submit();
-		});
-
         $("#open_btn").bind("click", function() {
            $("#view_win").dialog();
            $("#view_win").css("display", "block");

@@ -14,6 +14,7 @@
 </style>
 </head>
 <body>
+	<jsp:include page="menu.jsp"/>
 	<h1>회원 관리 페이지 </h1>
 	<c:forEach var="vo" items="${ar }" >
 		<form>
