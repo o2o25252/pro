@@ -84,12 +84,7 @@
 <body>
 
 	<jsp:include page="menu.jsp"/>
-	<%
-		
-	%>
-	
   <div id="body">
-	<jsp:useBean id="tod1ay" class="java.util.Date"/>
 	
 	<table id="week" class="table table-bordered table-hover">
 	<colgroup>
@@ -101,7 +96,7 @@
 		<thead>
 			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4"><a href="#"  >&lt;</a>&nbsp;&nbsp;${ today } 박스 오피스 순위&nbsp;&nbsp;<a href="javascript:daye(${ nowday+1 })">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+				<th colspan="4" id="date"><a href="javascript:goday('${ nowday }')">&lt;</a>&nbsp;&nbsp;${ today } 박스 오피스 순위&nbsp;&nbsp;<a href="javascript:goday(${ nowday })">&gt;</a><hr/><input type="text" id="datepicker"/></th>
 			
 			</tr>
 			<tr>
@@ -174,9 +169,6 @@
          <button type="button" id="close_bt">닫기</button>
    </div>
    </div>
-    <form method="post" action="search.inc" name="nm">
-      	<input type="hidden" name="movieNm"/>
-      </form>
     
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
@@ -266,8 +258,46 @@
 			
 		});
 		
+		// 이전 선택 시
+		function goday(day) {
+			
+			var date = day -1;
+			
+			var param = "targetDt="+encodeURIComponent(date);
+			
+			
+			
+			$.ajax({
+				url:"last.inc",
+				dataType:"json",
+				data: param,
+				type: "POST"
+			}).done(function(data){
+				if(data.Dailyar != undefined){
+					var code = "";
+					
+					for(var i=0; i<data.Dailyar.length; i++){
+						code += "<tr><td>";
+						code += data.Dailyar[i].rnum;
+						code += "<input type='hidden' value='";
+						code += data.Dailyar[i].movieCd;
+						code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
+						code += data.Dailyar[i].movieNm;
+						code += "</a></td><td>";
+						code += data.Dailyar[i].openDt;
+						code += "</td></tr>";
+					}
+					$("#week>tbody").html(code);
+				}
+			}).fail(function(err){
+				console.log(err);
+			});
+		}
+		
 		// 상세 정보
 		function go(frm){
+				
+			//인비 저블맨 출연진이 안나옴,출연배우들 나오게는 함
 			
 			var paran = "movieCd="+encodeURIComponent(frm);
 			
@@ -318,37 +348,7 @@
 			});
 			
 			
-			function daye(day) {
-
-				console.log(day);
-				var param = "targetDt="+encodeURIComponent(day);
-				
-				$.ajax({
-					url:"last.inc",
-					dataType:"json",
-					data: param,
-					type: "POST"
-				}).done(function(data){
-					if(data.Dailyar != undefined){
-						var code = "";
-						
-						for(var i=0; i<data.Dailyar.length; i++){
-							code += "<tr><td>";
-							code += data.Dailyar[i].rnum;
-							code += "<input type='hidden' value='";
-							code += data.Dailyar[i].movieCd;
-							code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
-							code += data.Dailyar[i].movieNm;
-							code += "</a></td><td>";
-							code += data.Dailyar[i].openDt;
-							code += "</td></tr>";
-						}
-						$("#week>tbody").html(code);
-					}
-				}).fail(function(err){
-					console.log(err);
-				});
-			}
+			
 			
 		}
 	</script>

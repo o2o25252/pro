@@ -150,14 +150,16 @@
 					var info = data.vo.movieNm+"&nbsp;상세보기";
 					$("#info").html(info);	
 					
-				if(data.vo.avo != undefined){
-					for(var i=0; i<data.vo.avo.length; i++){
+					if(data.vo.avo != undefined){
+						var a_people = "배우:";
+						for(var i=0; i<data.vo.avo.length; i++){
+							
+						a_people +=  data.vo.avo[i].peopleNm;
 						
-					var a_people = "배우:"+ data.vo.avo[i].peopleNm;
-					$("#a_people").html(a_people);
-					
+						}
+						
+						$("#a_people").html(a_people);
 					}
-				}
 				}
 				
 			}).fail(function(err){
