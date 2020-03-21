@@ -7,9 +7,12 @@
 <%
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
+	SimpleDateFormat date1 = new SimpleDateFormat("YYYYMMdd");
 	String toDay = date.format(today);
+	String today1 = date1.format(today);
 	
 	request.setAttribute("today", toDay);
+	request.setAttribute("nowday", today1);
 %>
 <!DOCTYPE html>
 <html>
@@ -79,7 +82,12 @@
 </style>
 </head>
 <body>
+
 	<jsp:include page="menu.jsp"/>
+	<%
+		
+	%>
+	
   <div id="body">
 	<jsp:useBean id="tod1ay" class="java.util.Date"/>
 	
@@ -93,7 +101,8 @@
 		<thead>
 			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;${today } 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+				<th colspan="4"><a href="#"  >&lt;</a>&nbsp;&nbsp;${ today } 박스 오피스 순위&nbsp;&nbsp;<a href="javascript:daye(${ nowday+1 })">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+			
 			</tr>
 			<tr>
 				<th>순위</th>
@@ -165,6 +174,10 @@
          <button type="button" id="close_bt">닫기</button>
    </div>
    </div>
+    <form method="post" action="search.inc" name="nm">
+      	<input type="hidden" name="movieNm"/>
+      </form>
+    
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
@@ -173,7 +186,6 @@
 	$(function() {
 		
 		$("#datepicker").datepicker();
-		
 		
 		$("#date").bind("click",function(){
 			$("#date").datepicker();
@@ -194,10 +206,16 @@
 	
 		$(function(){
 			
+			// 금일 박스 오피스에 targetDt 값을 받고 넘길시 최신 api가 아니라서 영화 순위가 없음
+			
+			//var param = "targetDt=${ nowday }";
+			//console.log(param);
+			
 			// 금일 박스 오피스
 			$.ajax({
 				url:"dd.inc",
 				dataType:"json",
+				//data: param,
 				type: "POST"
 			}).done(function(data){
 				if(data.Dailyar != undefined){
@@ -284,12 +302,14 @@
 					$("#info").html(info);	
 					
 				if(data.vo.avo != undefined){
+					var a_people = "배우:";
 					for(var i=0; i<data.vo.avo.length; i++){
 						
-					var a_people = "배우:"+ data.vo.avo[i].peopleNm;
-					$("#a_people").html(a_people);
+					a_people +=  data.vo.avo[i].peopleNm;
 					
 					}
+					
+					$("#a_people").html(a_people);
 				}
 				}
 				
@@ -297,14 +317,21 @@
 				console.log(err);
 			});
 			
-			function day(date) {
+			
+			function daye(day) {
+
+				console.log(day);
+				var param = "targetDt="+encodeURIComponent(day);
+				
 				$.ajax({
-					url:"dd.inc",
+					url:"last.inc",
 					dataType:"json",
+					data: param,
 					type: "POST"
 				}).done(function(data){
 					if(data.Dailyar != undefined){
 						var code = "";
+						
 						for(var i=0; i<data.Dailyar.length; i++){
 							code += "<tr><td>";
 							code += data.Dailyar[i].rnum;

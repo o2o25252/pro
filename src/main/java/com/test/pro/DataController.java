@@ -33,11 +33,11 @@ public class DataController {
 	
 	@RequestMapping(value = "/dd.inc",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> Dailydata() throws Exception{
+	public Map<String, Object> Dailydata(String targetDt) throws Exception{
 		
 		// 금일 박스오피스 순위
 		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200317");
-		
+		//URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
 		Element root = connectXML(Dailyurl);
 		
 		Element dailyBoxOfficeList = root.getChild("dailyBoxOfficeList");
@@ -283,6 +283,47 @@ public class DataController {
 	        return image_s;
 	   }
 
+	// 이전, 다음날 순위 
+	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Dailydata2(String targetDt) throws Exception{
+		System.out.println(targetDt);
+		// 금일 박스오피스 순위
+		//URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200317");
+		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
+		
+		System.out.println(Dailyurl);
+		
+		Element root = connectXML(Dailyurl);
+		
+		Element dailyBoxOfficeList = root.getChild("dailyBoxOfficeList");
+		
+		List<Element> d_list = dailyBoxOfficeList.getChildren("dailyBoxOffice"); 
+		
+		RankVO[] ar = new RankVO[d_list.size()];
+		
+		int i=0;
+		for(Element e : d_list) {
+			RankVO vo = new RankVO();
+			
+			vo.setRnum(e.getChildText("rnum"));			// 순번
+			vo.setMovieCd(e.getChildText("movieCd"));	// 영화 코드
+			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
+			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
+			
+			
+			
+			ar[i++] = vo;
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("Dailyar", ar);
+		return map;
+	}
+	
+	
+	
 	public Element connectXML(URL url) throws Exception{
 		// 연결객체 생성
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
