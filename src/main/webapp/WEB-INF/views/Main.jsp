@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
 <link rel="stylesheet" href="resources/css/custom.css"/>
 <link rel="stylesheet" href="resources/css/styles.css"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
 <style type="text/css">
 
@@ -56,72 +57,12 @@
 	#menu a:hover {
 		color : blue;
 	}
-	.li{
-		color: black;
-		list-style: none;
-		margin : auto;
-	}
-	
 	#menu_header{
 		margin : auto;
 		border: 1px solid black;
 	}
 	a:hover{text-decoration:none; color:#6cc091}
 
-	ul#menu{
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			font: 15px sans-serif;
-			line-height: 44px;
-			text-align: center;
-			text-decoration: none;
-			background-color: rgba(75, 75, 93, 0.85);
-		}
-	ul#menu>li{
-		display: inline-block;
-		width: 150px;
-		margin: auto;
-		
-	}
-	.li:hover{
-		color: #6cc091;
-	}
-	ul#menu>li>a{
-		color: #efefef;
-		text-decoration: none;	
-	}
-	#logo{
-		width: 100px;
-		height: 70px;
-		float: left;
-	}
-	#logo a{
-		padding: auto;
-	}
-	
-	#high{
-		float: auto;
-		height: 70px;
-		margin: auto;
-	}
-	#as{
-		float: right;
-		padding-top: 20px;
-	}
-	#as a{
-		text-align: center;
-		text-decoration: none;
-	}
-	
-	#map{
-		display: inline-block;
-		margin: auto;
-		overflow-y: auto;
-		border: 1px solid black;
-		position: fixed;
-		width: 240px;
-	}
 	.h{
 		border: 3px solid black;
 		width: 500px;
@@ -150,8 +91,9 @@
 	</colgroup>
 	
 		<thead>
+			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;${today } 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/></th>
+				<th colspan="4"><a href="">&lt;</a>&nbsp;&nbsp;${today } 박스 오피스 순위&nbsp;&nbsp;<a href="">&gt;</a><hr/><input type="text" id="datepicker"/></th>
 			</tr>
 			<tr>
 				<th>순위</th>
@@ -174,10 +116,14 @@
 		<col width="*"/>
 		<col width="100px"/>
 	</colgroup>
+	
 		<thead>
-			<tr>
 			
-				<th colspan="3"><a href="">&lt;</a>&nbsp;&nbsp;금주 박스 오피스&nbsp;&nbsp;<a href="">&gt;</a> <hr/><label>${ today }</label></th>
+			<tr>
+				<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
+				<th colspan="3"><a href="">&lt;</a>&nbsp;&nbsp;금주 박스 오피스&nbsp;&nbsp;<a href="">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+			</tr>
+			<tr>
 			</tr>
 			<tr>
 				<th>순위</th>
@@ -224,9 +170,14 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>
 	<script>
 	
-	
 	$(function() {
 		
+		$("#datepicker").datepicker();
+		
+		
+		$("#date").bind("click",function(){
+			$("#date").datepicker();
+		});
 		
         $("#open_btn").bind("click", function() {
            $("#view_win").dialog();

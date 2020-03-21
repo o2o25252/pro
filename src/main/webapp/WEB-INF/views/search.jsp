@@ -25,15 +25,6 @@
 	 #div2 {
 	    display: none;
 	 }
-	#menu a:hover {
-		color : blue;
-	}
-	.li{
-		color: black;
-		list-style: none;
-		margin : auto;
-	}
-	
 	a:hover{text-decoration:none; color:#6cc091}
 
 	#search_view td,#search_view th{
