@@ -112,6 +112,7 @@
                
          <button type="button" id="close_bt">닫기</button>
    </div>
+  
    <script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script>

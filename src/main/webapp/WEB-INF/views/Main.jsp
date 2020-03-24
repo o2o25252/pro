@@ -8,6 +8,40 @@
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
 	SimpleDateFormat date1 = new SimpleDateFormat("YYYYMMdd");
+	
+	
+	SimpleDateFormat year= new SimpleDateFormat("YY");
+	SimpleDateFormat month= new SimpleDateFormat("MM");
+	SimpleDateFormat day= new SimpleDateFormat("DD");
+
+	String yy = year.format(today);
+	String mm = year.format(today);
+	String dd = year.format(today);
+	
+	int yyNum = Integer.parseInt(yy);
+	int mmNum = Integer.parseInt(mm);
+	int ddNum = Integer.parseInt(dd);
+	
+	if(dd.equals("1")){
+		mmNum-=1;
+		if(mmNum == 01| mmNum == 03 || mmNum == 05 || mmNum == 07 || mmNum == 8 || mmNum == 10 || mmNum ==12){
+			ddNum = 31;
+		}else if(mmNum == 2){
+			ddNum = 28;
+		}else{
+			if(yyNum%400==0 || (yyNum%4 ==0 && yyNum%100 != 0)){
+			ddNum = 30;
+			}else{
+				ddNum=29;
+			}
+		}	
+		
+	}
+	
+	if(yy.equals("20")){
+		
+	}
+	
 	String toDay = date.format(today);
 	String today1 = date1.format(today);
 	
@@ -139,8 +173,11 @@
 				
 			</tbody>
 	</table>
+			
 		
-		<div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
+   </div>
+   
+	<div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
         
          <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리"  width="150" height="200">
          <h3 id="info"></h3>
@@ -168,8 +205,6 @@
                
          <button type="button" id="close_bt">닫기</button>
    </div>
-   </div>
-    
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca457fdc328a1fc208d2b810f0523080"></script>

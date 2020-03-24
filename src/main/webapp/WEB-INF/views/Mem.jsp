@@ -40,6 +40,7 @@
 		<input id="del" type="button" value="삭제"/>
 		<hr id="hr1"/>
 	</c:forEach>
+	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	 $(function(){

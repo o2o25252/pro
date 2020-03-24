@@ -30,6 +30,7 @@
         <div id="pagination"></div>
     </div>
 </div>
+
 <form method="POST" action="www.naver.com" name="frm_go"></form>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af03a8ef918b03e2f91f75b93b6fc934&libraries=services"></script>
 <script>

@@ -127,6 +127,9 @@
 	.cal_month{
 		width: 220px;
 	}
+	 #body {
+    background-color: #eee;
+  }
 </style>
 </head>
 <body>
