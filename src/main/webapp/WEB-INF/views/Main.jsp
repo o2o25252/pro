@@ -130,7 +130,7 @@
 		<thead>
 			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4" id="date"><a href="javascript:goday('${ nowday }')">&lt;</a>&nbsp;&nbsp;${ today } 박스 오피스 순위&nbsp;&nbsp;<a href="javascript:goday(${ nowday })">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+				<th colspan="4" id="date">${ today } 박스 오피스 순위<hr/><input type="text" id="datepicker"/><input type="button" onclick="goday()" value="확인"/> </th>
 			
 			</tr>
 			<tr>
@@ -159,7 +159,7 @@
 			
 			<tr>
 				<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-				<th colspan="3"><a href="">&lt;</a>&nbsp;&nbsp;금주 박스 오피스&nbsp;&nbsp;<a href="">&gt;</a><hr/><input type="text" id="datepicker"/></th>
+				<th colspan="3">금주 박스 오피스<hr/><input type="text" id="datepicker1"/><input type="button" onclick="goweek()" value="확인"> </th>
 			</tr>
 			<tr>
 			</tr>
@@ -213,6 +213,23 @@
 	$(function() {
 		
 		$("#datepicker").datepicker();
+		$("#datepicker1").datepicker();
+		$("#datepicker").datepicker({
+			dateFormat: 'dd-mm-yy'
+	    });
+		
+		 $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd'  
+            ,showOtherMonths: true         //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+            ,showMonthAfterYear:true     //년도 먼저 나오고, 뒤에 월 표시
+            ,changeYear: true             //콤보박스에서 년 선택 가능
+            ,changeMonth: true             //콤보박스에서 월 선택 가능         
+            ,yearSuffix: "년"             //달력의 년도 부분 뒤에 붙는 텍스트
+            ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12']                     //달력의 월 부분 텍스트
+            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+            ,dayNamesMin: ['일','월','화','수','목','금','토']                                         //달력의 요일 부분 텍스트
+            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']                 //달력의 요일 부분 Tooltip 텍스트
+	        });                    
 		
 		$("#date").bind("click",function(){
 			$("#date").datepicker();
@@ -294,13 +311,11 @@
 		});
 		
 		// 이전 선택 시
-		function goday(day) {
+		function goday() {
 			
-			var date = day -1;
+			var date = $("#datepicker").val().replace('-', "").replace('-',"");
 			
 			var param = "targetDt="+encodeURIComponent(date);
-			
-			
 			
 			$.ajax({
 				url:"last.inc",
@@ -323,6 +338,41 @@
 						code += "</td></tr>";
 					}
 					$("#week>tbody").html(code);
+				}
+			}).fail(function(err){
+				console.log(err);
+			});
+		}
+		
+		// 금주 달력 선택 시
+		function goweek() {
+			
+			var date2 = $("#datepicker1").val().replace('-', "").replace('-',"");
+			
+			var param = "targetDt="+encodeURIComponent(date2);
+			
+			$.ajax({
+				url:"next.inc",
+				dataType:"json",
+				type: "POST",
+				data: param
+			}).done(function(data){
+				if(data.Weeklyar != undefined){
+					
+					var code = "";
+					for(var i=0; i<data.Weeklyar.length; i++){
+						code += "<tr><td>";
+						code += data.Weeklyar[i].rnum;
+						code += "<input type=hidden value='";
+						code += data.Weeklyar[i].movieCd;
+						code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
+						code += data.Weeklyar[i].movieNm;
+						code += "</a></td><td>";
+						code += data.Weeklyar[i].openDt;
+						code += "</td></tr>";
+					}
+					
+					$("#weekend>tbody").html(code);
 				}
 			}).fail(function(err){
 				console.log(err);
@@ -381,9 +431,6 @@
 			}).fail(function(err){
 				console.log(err);
 			});
-			
-			
-			
 			
 		}
 	</script>

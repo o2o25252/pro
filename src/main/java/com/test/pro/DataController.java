@@ -283,16 +283,16 @@ public class DataController {
 	        return image_s;
 	   }
 
-	// 이전, 다음날 순위 
+	// 금일 달력 순위 
 	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> Dailydata2(String targetDt) throws Exception{
-		System.out.println(targetDt);
+		//System.out.println(targetDt);
 		// 금일 박스오피스 순위
 		//URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200317");
 		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
 		
-		System.out.println(Dailyurl);
+		//System.out.println(Dailyurl);
 		
 		Element root = connectXML(Dailyurl);
 		
@@ -322,7 +322,44 @@ public class DataController {
 		return map;
 	}
 	
+	// 금주 달력
+	@RequestMapping(value = "/next.inc",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Weeklydatanext(String targetDt) throws Exception{
+		//System.out.println(targetDt);
+		// 금주 박스오피스 순위
+		//URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200310");
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
+		//System.out.println(Weeklyurl);
+		
+		Element root = connectXML(Weeklyurl);
 	
+		Element weeklyBoxOfficeList = root.getChild("weeklyBoxOfficeList");
+		
+		List<Element> w_list = weeklyBoxOfficeList.getChildren("weeklyBoxOffice"); 
+		
+		RankVO[] ar = new RankVO[w_list.size()];
+
+		int i=0;
+		for(Element e : w_list) {
+			RankVO vo = new RankVO();
+			
+			vo.setRnum(e.getChildText("rnum"));			// 순번
+			vo.setMovieCd(e.getChildText("movieCd"));	// 영화 코드
+			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
+			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
+			
+			//System.out.println(e.getChildText("movieNm"));
+			//System.out.println(e.getChildText("openDt"));
+
+			ar[i++] = vo;
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("Weeklyar", ar);
+		return map;
+	}
 	
 	public Element connectXML(URL url) throws Exception{
 		// 연결객체 생성
