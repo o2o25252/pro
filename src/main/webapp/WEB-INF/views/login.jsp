@@ -1,53 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/bootstrap.min.css" />
-<link rel="stylesheet" href="resources/css/reg.css" />
+<title>NAVER LOGIN TEST</title>
 </head>
-
 <body>
-<jsp:include page="menu.jsp"/>
-<div class="container">
-    <div class="container">
-    <div class="row">
-      <div class="col-lg-10 col-xl-9 mx-auto">
-        <div class="card card-signin flex-row my-5">
-          <div class="card-img-left d-none d-md-flex">
-             <!-- Background image for card set in CSS! -->
-          </div>
-          <div class="card-body">
-            <h5 class="card-title text-center">로그인</h5>
-            <form class="form-signin">
-             
-              <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
-                <label for="inputEmail">아이디</label>
-              </div>
-              
-              <hr>
+<h1>Login Form</h1>
+<hr>
+<br>
+<center>
+<c:choose>
+<c:when test="${sessionId != null}">
+<h2> 네이버 아이디 로그인 성공하셨습니다!! </h2>
+<h3>'${sessionId}' 님 환영합니다! </h3>
+<h3><a href="logout">로그아웃</a></h3>
+</c:when>
+<c:otherwise>
+<form action="login.userdo" method="post" name="frm" style="width:470px;">
+<h2>로그인</h2>
+<input type="text" name="id" id="id" class="w3-input w3-border" placeholder="아이디" value="${id}"> <br>
+<input type="password" id="pwd" name="pwd" class="w3-input w3-border" placeholder="비밀번호" > <br>
+<input type="submit" value="로그인" onclick="#"> <br>
+</form>
+<br>
+<!-- 네이버 로그인 창으로 이동 -->
+<div id="naver_id_login" style="text-align:center"><a href="${url}">
+<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
+<br>
+</c:otherwise>
+</c:choose>
 
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                <label for="inputPassword">비밀번호</label>
-              </div>
-              <div class="custom-control custom-checkbox mb-3">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label" for="customCheck1">비밀번호 저장</label>
-                </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">로그인</button>
-               <div class="text-center">
-                  <a class="small" href="#">Forgot password?</a></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-<script type="text/javascript" src="resources/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
