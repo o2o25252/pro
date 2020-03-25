@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+		<context:annotation-config/>
+	
+	<!-- src - main - resource까지 인식 -->
+	<context:property-placeholder location="classpath:mybatis/props/jdbc.properties"/>
+	
+	<!-- Apache의 dbcp라이브러리가 제공하는 BasicDataSource를 생성하려고 한다. -->
+	 <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+	 	<property name="driverClassName" value="${jdbc.driver}"/><!-- jdbc.properties에 jdbc.driver이름으로 경로가 들어있다. EL로 표현함 -->
+	 	<property name="url" value="${jdbc.url}"/>
+	 	<property name="username" value="${jdbc.user}"/>
+	 	<property name="password" value="${jdbc.pwd}"/>
+	 	
+	 	<!-- 동시에 사용할 수 있는 최대 커넥션 수 -->
+	 	<property name="maxActive" value="${jdbc.maxActive}"/>
+	 	 
+	 	<!-- 커넥션 풀에 반납할 때 최대로 유지되는 커넥션 수 -->
+	 	<property name="maxIdle" value="${jdbc.maxIdle}"/>
+	 	
+	 	<!-- 커넥션 풀에 반납할 때 최소로 유지되는 커넥션 수 -->
+	 	<property name="minIdle" value="${jdbc.minIdle}"/>
+	 </bean>
+	 
+	 <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<!-- 앞서 생성된 BasicDataSource를 현재 객체의 dataSource라는 변수에 저장해야 한다. -->
+	 	<property name="dataSource" ref="ds"/>
+	 	
+	 	<!-- 맵퍼들의 위치를 통해 모두 가져온다. config.xml하단에 mapper들의 정보를 넣은 것과 같다. -->
+	 	<property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
+	 </bean>
+	 
+	 <!-- setter인젝션으로 만들 수 없다. 생성자 인젝션으로 만들어야 하는데 그것이 팩토리이다. -->
+	 <bean id="ss" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<!-- 기본 생성자가 없으며 생성될 때, 반드시 SqlSessionFactoryBean이 인자로 들어가야 한다. -->
+	 	<constructor-arg ref="factory" index="0"/>
+	 </bean>
+	 
+	 <bean id="userdao" class="mybatis.dao.UserDAO"/>
 </beans>

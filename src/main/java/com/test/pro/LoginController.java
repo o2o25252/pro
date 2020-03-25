@@ -11,7 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.data.vo.UserVO;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+
+import mybatis.dao.UserDAO;
 /**
  * Handles requests for the application home page.
  */
@@ -20,6 +24,10 @@ public class LoginController {
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
+	
+	@Autowired
+	UserDAO u_dao;
+	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
@@ -53,23 +61,37 @@ public class LoginController {
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 		JSONObject jsonObj = (JSONObject) obj;
+		
 		//3. 데이터 파싱
 		//Top레벨 단계 _response 파싱
 		JSONObject response_obj = (JSONObject)jsonObj.get("response");
 		//response의 nickname값 파싱
 		String nickname = (String)response_obj.get("nickname");
 		System.out.println(nickname);
+		String id = (String)response_obj.get("id");
+		System.out.println(id);
+		String name =(String)response_obj.get("name");
+		System.out.println(name);
+		
+		UserVO vo = new UserVO();
+		vo.setId(id);
+		vo.setPw(null);
+		vo.setNickname(nickname);
+		vo.setName(name);
+		
+		u_dao.search(vo);
+		
 		//4.파싱 닉네임 세션으로 저장
-		session.setAttribute("sessionId",nickname); //세션 생성
+		session.setAttribute("userVO",vo); //세션 생성
 		model.addAttribute("result", apiResult);
-		return "login";
+		return "Main";
 	}
 	//로그아웃
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session)throws IOException {
 		System.out.println("여기는 logout");
 		session.invalidate();
-		return "redirect:index.jsp";
+		return "redirect:main.inc";
 	}
 }
 
