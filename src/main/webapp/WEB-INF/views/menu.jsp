@@ -146,7 +146,6 @@
       <input class = "form-control mr-sm-2" type ="text" id="search" placeholder="Search"/>
       <button class = "btn btn-secondary my-2 my-sm-0" type = "button" id="ok_btn"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 검색 </font> </font> </button>
     </div>
-    <%-- 
     <div>
     	<c:if test="${empty ok  }">
 		<aside id="as">
@@ -158,7 +157,6 @@
 	        <input type="button" value="로그아웃" onclick="location.href='/logout'">
 	    </c:if>
     </div>
-    --%>
   </div>
 </nav>
   	<div id="body">
