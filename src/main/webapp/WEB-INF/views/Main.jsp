@@ -7,12 +7,15 @@
 <%
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
+	SimpleDateFormat nowdate = new SimpleDateFormat("YYYYMMdd");
 	SimpleDateFormat dateW = new SimpleDateFormat("YY년 w주차");
 	
 	String toDay = date.format(today);
+	String nowDay = nowdate.format(today);
 	String toWeek = dateW.format(today);
 	
 	request.setAttribute("today", toDay);
+	request.setAttribute("nowday", nowDay);
 	request.setAttribute("toweek", toWeek);
 %>
 <!DOCTYPE html>
@@ -98,7 +101,7 @@
 		<thead>
 			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4" id="date"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker" value=" ${ today }"/> 박스 오피스 순위<hr/><%-- <input type="text" id="datepicker" name="name" autocomplete="input"/><input type="button" onclick="goday()" value="확인"/>--%> </th>
+				<th colspan="4" id="date"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker" value="${ today }"/> 박스 오피스 순위<hr/><%-- <input type="text" id="datepicker" name="name" autocomplete="input"/><input type="button" onclick="goday()" value="확인"/>--%> </th>
 			
 			</tr>
 			<tr>
@@ -217,15 +220,19 @@
 	
 		$(function(){
 			
-			// 처음 페이지 로딩 시 금일 박스 오피스
+			var date = $("#datepicker").val().replace('-', "").replace('-',"");
+			
+			var param = "targetDt="+${nowday};
+			
 			$.ajax({
-				url:"dd.inc",
+				url:"last.inc",
 				dataType:"json",
-				//data: param,
+				data: param,
 				type: "POST"
 			}).done(function(data){
 				if(data.Dailyar != undefined){
 					var code = "";
+					
 					for(var i=0; i<data.Dailyar.length; i++){
 						code += "<tr><td>";
 						code += data.Dailyar[i].rnum;
@@ -243,10 +250,15 @@
 				console.log(err);
 			});
 			
+			
 			// 처음 페이지 로딩 시 금주 박스 오피스
+			
+			var param = "targetDt="+${nowday};
+			
 			$.ajax({
 				url:"weekly.inc",
 				dataType:"json",
+				data: param,
 				type: "POST"
 			}).done(function(data){
 				if(data.Weeklyar != undefined){
@@ -276,7 +288,7 @@
 		function goday() {
 			
 			var date = $("#datepicker").val().replace('-', "").replace('-',"");
-
+			
 			var param = "targetDt="+encodeURIComponent(date);
 			
 			var yy = date.substring(2, 4);
