@@ -149,7 +149,7 @@
     <div>
     	<c:if test="${empty ok  }">
 		<aside id="as">
-			<a href="https://kauth.kakao.com/oauth/authorize?client_id=3893d1bf958b0f76562256b6cd4f963e&redirect_uri=http://localhost:9090/pro/main.inc&response_type=code">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
+			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
 		</aside>
 		</c:if>
 		<c:if test="${userId ne null}">
