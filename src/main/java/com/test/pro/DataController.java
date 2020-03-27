@@ -26,9 +26,9 @@ public class DataController {
 	
 	@RequestMapping("realmain.inc")
 	public String Gorealmain() {
-		
 	
-		return	"realmain";
+	
+		return	"realMain";
 	}
 	
 	@RequestMapping("main.inc")

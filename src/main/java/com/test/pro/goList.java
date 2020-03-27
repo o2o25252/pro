@@ -10,4 +10,5 @@ public class goList {
 	public String gomap() {
 		return "kMap";
 	}
+	
 }

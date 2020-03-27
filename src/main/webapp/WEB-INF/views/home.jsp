@@ -11,7 +11,7 @@
 <form method="post"></form>
 </body>
 <script type="text/javascript">
-	document.forms[0].action = "main.inc"
+	document.forms[0].action = "realmain.inc"
 	document.forms[0].submit();
 </script>
 </html>
