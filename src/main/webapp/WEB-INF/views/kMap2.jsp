@@ -5,12 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="resources/css/mapCss.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
-<link rel="stylesheet" href="resources/css/bootstrap.min.css" />
+<link href="resources/css/map1.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<jsp:include page="menu.jsp"/>
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
     <ul id="category">

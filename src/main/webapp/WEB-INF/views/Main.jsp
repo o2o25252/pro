@@ -7,46 +7,13 @@
 <%
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
-	SimpleDateFormat date1 = new SimpleDateFormat("YYYYMMdd");
-	
-	
-	SimpleDateFormat year= new SimpleDateFormat("YY");
-	SimpleDateFormat month= new SimpleDateFormat("MM");
-	SimpleDateFormat day= new SimpleDateFormat("DD");
-
-	String yy = year.format(today);
-	String mm = year.format(today);
-	String dd = year.format(today);
-	
-	int yyNum = Integer.parseInt(yy);
-	int mmNum = Integer.parseInt(mm);
-	int ddNum = Integer.parseInt(dd);
-	
-	if(dd.equals("1")){
-		mmNum-=1;
-		if(mmNum == 01| mmNum == 03 || mmNum == 05 || mmNum == 07 || mmNum == 8 || mmNum == 10 || mmNum ==12){
-			ddNum = 31;
-		}else if(mmNum == 2){
-			ddNum = 28;
-		}else{
-			if(yyNum%400==0 || (yyNum%4 ==0 && yyNum%100 != 0)){
-			ddNum = 30;
-			}else{
-				ddNum=29;
-			}
-		}	
-		
-	}
-	
-	if(yy.equals("20")){
-		
-	}
+	SimpleDateFormat dateW = new SimpleDateFormat("YY년 w주차");
 	
 	String toDay = date.format(today);
-	String today1 = date1.format(today);
+	String toWeek = dateW.format(today);
 	
 	request.setAttribute("today", toDay);
-	request.setAttribute("nowday", today1);
+	request.setAttribute("toweek", toWeek);
 %>
 <!DOCTYPE html>
 <html>
@@ -56,19 +23,18 @@
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
 <link rel="stylesheet" href="resources/css/custom.css"/>
 <link rel="stylesheet" href="resources/css/styles.css"/>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
 <style type="text/css">
 
 	#view_win {
 	   display: none;
+	  
 	}
-	#view_win h3 {
+	#view_win h3,#view_win i1 {
 	   margin-left: 40px;
 	}
-	#view_win i1 {
-	   margin-left: 40px;
-	}
+	
 	 #div1 {
 	    display: none;
 	 }
@@ -116,8 +82,10 @@
 </style>
 </head>
 <body>
-
-	<jsp:include page="menu.jsp"/>
+	<div>
+		<jsp:include page="menu.jsp"/>
+	</div>
+	
   <div id="body">
 	
 	<table id="week" class="table table-bordered table-hover">
@@ -130,7 +98,7 @@
 		<thead>
 			<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 			<tr>
-				<th colspan="4" id="date">${ today } 박스 오피스 순위<hr/><input type="text" id="datepicker"/><input type="button" onclick="goday()" value="확인"/> </th>
+				<th colspan="4" id="date"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker" value=" ${ today }"/> 박스 오피스 순위<hr/><%-- <input type="text" id="datepicker" name="name" autocomplete="input"/><input type="button" onclick="goday()" value="확인"/>--%> </th>
 			
 			</tr>
 			<tr>
@@ -159,7 +127,7 @@
 			
 			<tr>
 				<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-				<th colspan="3">금주 박스 오피스<hr/><input type="text" id="datepicker1"/><input type="button" onclick="goweek()" value="확인"> </th>
+				<th colspan="3"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker1" value="${ toweek }">박스 오피스<hr/></th>
 			</tr>
 			<tr>
 			</tr>
@@ -177,7 +145,7 @@
 		
    </div>
    
-	<div  id="view_win" title="영화상세"  style="overflow:auto; width:500px height:250px;">
+	<div id="view_win" title="영화상세">
         
          <img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리"  width="150" height="200">
          <h3 id="info"></h3>
@@ -199,9 +167,10 @@
          <hr/>
                <label id="a_people"></label><br/>
          <hr/>
+         	  <label></label>
          <hr/>
-            
-               
+          
+         <jsp:include page="kMap2.jsp"/>        
                
          <button type="button" id="close_bt">닫기</button>
    </div>
@@ -211,12 +180,13 @@
 	<script>
 	
 	$(function() {
+		$("#datepicker").datepicker({onSelect: function (dateText, inst) {
+			goday();
+		}});
 		
-		$("#datepicker").datepicker();
-		$("#datepicker1").datepicker();
-		$("#datepicker").datepicker({
-			dateFormat: 'dd-mm-yy'
-	    });
+		$("#datepicker1").datepicker({onSelect: function (dateText, inst) {
+			goweek();
+		}});
 		
 		 $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd'  
@@ -236,13 +206,10 @@
 		});
 		
         $("#open_btn").bind("click", function() {
-           $("#view_win").dialog();
-           $("#view_win").css("display", "block");
-
+        	$("#view_win").dialog("option", "width", 8100 );
         });
 
         $("#close_bt").bind("click", function() {
-
            $("#view_win").dialog("close");
         });
         
@@ -250,12 +217,7 @@
 	
 		$(function(){
 			
-			// 금일 박스 오피스에 targetDt 값을 받고 넘길시 최신 api가 아니라서 영화 순위가 없음
-			
-			//var param = "targetDt=${ nowday }";
-			//console.log(param);
-			
-			// 금일 박스 오피스
+			// 처음 페이지 로딩 시 금일 박스 오피스
 			$.ajax({
 				url:"dd.inc",
 				dataType:"json",
@@ -281,7 +243,7 @@
 				console.log(err);
 			});
 			
-			// 금주 박스 오피스
+			// 처음 페이지 로딩 시 금주 박스 오피스
 			$.ajax({
 				url:"weekly.inc",
 				dataType:"json",
@@ -310,12 +272,18 @@
 			
 		});
 		
-		// 이전 선택 시
+		// 금일 날짜 선택 시
 		function goday() {
 			
 			var date = $("#datepicker").val().replace('-', "").replace('-',"");
-			
+
 			var param = "targetDt="+encodeURIComponent(date);
+			
+			var yy = date.substring(2, 4);
+			var mm = date.substring(4, 6);
+			var dd = date.substring(6);
+			
+			$("#datepicker").val(yy+"년"+mm+"월"+dd+"일");
 			
 			$.ajax({
 				url:"last.inc",
@@ -342,6 +310,7 @@
 			}).fail(function(err){
 				console.log(err);
 			});
+			
 		}
 		
 		// 금주 달력 선택 시
@@ -371,8 +340,9 @@
 						code += data.Weeklyar[i].openDt;
 						code += "</td></tr>";
 					}
-					
 					$("#weekend>tbody").html(code);
+					
+					$("#datepicker1").val(data.ywt_Y+"년 "+data.ywt_W+"주차");
 				}
 			}).fail(function(err){
 				console.log(err);
@@ -381,9 +351,8 @@
 		
 		// 상세 정보
 		function go(frm){
-				
-			//인비 저블맨 출연진이 안나옴,출연배우들 나오게는 함
 			
+			//인비 저블맨 출연진이 안나옴,출연배우들 나오게는 함
 			var paran = "movieCd="+encodeURIComponent(frm);
 			
 			$.ajax({

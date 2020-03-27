@@ -8,21 +8,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
-<link rel="stylesheet" href="resources/css/custom.css"/>
-<link rel="stylesheet" href="resources/css/styles.css"/>
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
 <style type="text/css">
 
-
-	#view_win {
-	   display: none;
-	}
-	#view_win h3 {
-	   margin-left: 40px;
-	}
-	#view_win i1 {
-	   margin-left: 40px;
-	}
 	 #div1 {
 	    display: none;
 	 }
@@ -133,50 +120,48 @@
 </style>
 </head>
 <body>
-	<div id="top">
-	
-			<c:if test="${empty sessionScope.userVO.nickname }">
-				<aside id="as">
-					<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
-				</aside>
-			</c:if>
-			<!--  로그인 -->
-			<c:if test="${!empty sessionScope.userVO.nickname }">
-				<aside id="as">
-					<label>${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
-				</aside>
-			</c:if>
-			
-	<div id="logo">
-		<a class="logo" href="main.inc">
-				<img src="resources/0000803875_001_20200309142116257.jpg" height="70px">
-		</a>
-	</div>
-	<div id="sear">
-		<table id="high">
-		<tbody>
-			<tr>
-				<td>
-					<input type="text" id="search" name="search" placeholder="영화제목을 입력하세요" class="form-control"/>	
-				</td>
-				<td> <input type="button" id="ok_btn" value="확인" class="btn btn-primary"/></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
-	</div>
-	<div id="menu_header" >
-  	<ul id="menu">
-		<li class="li"><a href="#">영화</a></li>
-    	<li class="li"><a href="#">예매</a></li>
-    	<li class="li"><a href="kMap.inc">극장찾기</a></li>
-    	<li class="li"><a href="#">이벤트</a> </li>
-    	<li class="li"> <a href="#">스토어</a> </li>
-    	<li class="li"> <a href="#">혜택</a> </li>
-  	</ul>
+	<nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+ 	 <a class="navbar-brand" href="main.inc"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 로고 </font> </font> </a>
+  <button class = "navbar-toggler"type = "button"data-toggle = "collapse"data-target = "# navbarColor02"aria-controls = "navbarColor02"aria-expanded = "false"aria-label = "탐색 ">
+    <span class = "navbar-toggler-icon"> </span>
+  </button>
+
+  <div class = "collapse navbar-collapse"id = "navbarColor02">
+    <ul class = "navbar-nav mr-auto">
+      <li class = "nav-item active">
+        <a class="nav-link" href="main.inc"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 홈 </font></font> <span class = "sr-only"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> (현재) </font> </font> </span></a>
+      </li>
+      <li class = "nav-item">
+        <a class="nav-link" href="kMap.inc"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 지도 </font></font></a>
+      </li>
+      <li class = "nav-item">
+        <a class="nav-link" href=""> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 순위 </font></font></a>
+      </li>
+      
+      <li class = "nav-item">
+        <a class="nav-link" href="#"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 약 </font></font></a>
+      </li>
+    </ul>
+    <div class = "form-inline my-2 my-lg-0">
+      <input class = "form-control mr-sm-2" type ="text" id="search" placeholder="Search"/>
+      <button class = "btn btn-secondary my-2 my-sm-0" type = "button" id="ok_btn"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 검색 </font> </font> </button>
+    </div>
+    <%-- 
+    <div>
+    	<c:if test="${empty ok  }">
+		<aside id="as">
+			<a href="https://kauth.kakao.com/oauth/authorize?client_id=3893d1bf958b0f76562256b6cd4f963e&redirect_uri=http://localhost:9090/pro/main.inc&response_type=code">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
+		</aside>
+		</c:if>
+		<c:if test="${userId ne null}">
+	        <h1>${nickname} 환영합니다</h1>
+	        <input type="button" value="로그아웃" onclick="location.href='/logout'">
+	    </c:if>
+    </div>
+    --%>
   </div>
-  <div id="body">
-	 
+</nav>
+  	<div id="body">
       <form method="post" action="search.inc" name="nm">
       	<input type="hidden" name="movieNm"/>
       </form>
@@ -198,13 +183,14 @@
 			document.nm.submit();
 			}
 		});
+		
 		$("#search").keydown(function(key){
 			if (key.keyCode == 13) {
 				var movieNm = $("#search").val().trim().replace(/ /g, "%20");
+				
 				if(movieNm==0){
 					alert("입력하세요");
 				}else{
-				
 				document.nm.movieNm.value= movieNm;
 				document.nm.submit();
 				}
