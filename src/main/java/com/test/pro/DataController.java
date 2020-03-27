@@ -24,6 +24,13 @@ import com.data.vo.RankVO;
 @Controller
 public class DataController {
 	
+	@RequestMapping("realmain.inc")
+	public String Gorealmain() {
+		
+	
+		return	"realmain";
+	}
+	
 	@RequestMapping("main.inc")
 	public String Gomain() {
 		
@@ -71,7 +78,7 @@ public class DataController {
 	public Map<String, Object> Weeklydata() throws Exception{
 		
 		// 금주 박스오피스 순위
-		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200310");
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&weekGb=0&targetDt=20200310");
 		
 		Element root = connectXML(Weeklyurl);
 	
@@ -106,6 +113,7 @@ public class DataController {
 		@RequestMapping("/search.inc")
 		public ModelAndView search(String movieNm)throws Exception{
 			
+			System.out.println(movieNm);
 			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
 			//System.out.println(search);
 			
@@ -172,13 +180,31 @@ public class DataController {
 		vo.setPrdtStatNm(movieInfo.getChildText("prdtStatNm"));
 		vo.setTypeNm(movieInfo.getChildText("typeNm"));
 		
-		vo.setPostURL(getPost(vo.getMovieNm(), vo.getPrdtYear()));	// 영화 썸네일
-		
 		Element nations = movieInfo.getChild("nations");		// 제작 국가명
 		List<Element> nation = nations.getChildren("nation");
 		if(nation.size()>0) {
-		vo.setNationNm(nation.get(0).getChildText("nationNm"));
+			vo.setNationNm(nation.get(0).getChildText("nationNm"));
 		}
+		
+		String nationEE;
+		
+		if(vo.getNationNm().equals("한국")) {
+			nationEE = "KR";
+		}else if(vo.getNationNm().equals("미국")) {
+			nationEE = "US";
+		}else if(vo.getNationNm().equals("일본")) {
+			nationEE = "JP";
+		}else if(vo.getNationNm().equals("홍콩")) {
+			nationEE = "HK";
+		}else if(vo.getNationNm().equals("영국")) {
+			nationEE = "GB";
+		}else if(vo.getNationNm().equals("프랑스")) {
+			nationEE = "FR";
+		}else {
+			nationEE = "ETC";
+		}
+		
+		vo.setPostURL(getPost(vo.getMovieNm(), vo.getPrdtYear(), nationEE));	// 영화 썸네일
 		
 		Element genres = movieInfo.getChild("genres");			// 장르명
 		List<Element> genre = genres.getChildren("genre");
@@ -234,15 +260,16 @@ public class DataController {
 		return map;
 	}
 
-	public String getPost(String movieNm, String prdtYear) throws Exception{
+	public String getPost(String movieNm, String prdtYear, String nationEE) throws Exception{
 	      // 영화 포스터 가져오기
-	      //System.out.println(movieNm);
+	      
+			System.out.println(prdtYear);
 	      
 	        String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
 	        String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
 	        
 	        String mv_name = URLEncoder.encode(movieNm, "UTF-8");
-	        URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom"+prdtYear+"&yearto"+prdtYear); 
+	        URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom="+prdtYear+"&yearto="+prdtYear+"&country="+nationEE); 
 	        
 	        URLConnection urlConn = url.openConnection(); //openConnection 해당 요청에 대해서 쓸 수 있는 connection 객체 
 	        
@@ -311,8 +338,6 @@ public class DataController {
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
 			
-			
-			
 			ar[i++] = vo;
 		}
 		
@@ -329,7 +354,7 @@ public class DataController {
 		//System.out.println(targetDt);
 		// 금주 박스오피스 순위
 		//URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200310");
-		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&weekGb=0&targetDt="+targetDt);
 		//System.out.println(Weeklyurl);
 		
 		Element root = connectXML(Weeklyurl);
@@ -355,9 +380,15 @@ public class DataController {
 			ar[i++] = vo;
 		}
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		String yearWeekTime = root.getChildText("yearWeekTime");
 		
+		String ywt_Y = yearWeekTime.substring(2, 4);
+		String ywt_W = yearWeekTime.substring(4);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Weeklyar", ar);
+		map.put("ywt_Y", ywt_Y);
+		map.put("ywt_W", ywt_W);
 		return map;
 	}
 	
