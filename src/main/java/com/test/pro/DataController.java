@@ -24,20 +24,6 @@ import com.data.vo.RankVO;
 @Controller
 public class DataController {
 	
-	@RequestMapping("realmain.inc")
-	public String Gorealmain() {
-	
-	
-		return	"realMain";
-	}
-	
-	@RequestMapping("main.inc")
-	public String Gomain() {
-		
-	
-		return	"Main";
-	}
-	
 	// 검색하기
 		@RequestMapping("/search.inc")
 		public ModelAndView search(String movieNm)throws Exception{
