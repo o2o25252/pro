@@ -13,7 +13,7 @@ public class goList {
 	}
 	
 	// 홈 메인 화면 전환
-	@RequestMapping("realmain.inc")
+	@RequestMapping("/realmain.inc")
 	public String Gorealmain() {
 	
 	
@@ -21,7 +21,7 @@ public class goList {
 	}
 	
 	// 차트 화면 전환
-	@RequestMapping("main.inc")
+	@RequestMapping("/main.inc")
 	public String Gomain() {
 		
 	
