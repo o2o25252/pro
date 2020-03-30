@@ -89,10 +89,6 @@ searchPlaces();
 
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces(keyword) {
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
-        return false;
-    }
 	
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch( keyword, placesSearchCB); 

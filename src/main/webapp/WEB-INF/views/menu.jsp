@@ -145,13 +145,13 @@
       <button class = "btn btn-secondary my-2 my-sm-0" type = "button" id="ok_btn"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 검색 </font> </font> </button>
     </div>
     <div>
-    	<c:if test="${empty ok  }">
+    	<c:if test="${empty userId  }">
 		<aside id="as">
 			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
 		</aside>
 		</c:if>
-		<c:if test="${userId ne null}">
-	        <h1>${nickname} 환영합니다</h1>
+		<c:if test="${ userId ne null}">
+	        <h1>${nickname}님 환영합니다</h1>
 	        <input type="button" value="로그아웃" onclick="location.href='/logout'">
 	    </c:if>
     </div>

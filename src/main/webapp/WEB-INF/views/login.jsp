@@ -30,6 +30,13 @@
 						value="로그인" onclick="#"> <br>
 				</form>
 				<br>
+				
+				<!-- 카카오 -->
+				<a href="https://kauth.kakao.com/oauth/authorize?client_id=3893d1bf958b0f76562256b6cd4f963e&redirect_uri=http://localhost:9090/pro/kakaologin.inc&response_type=code">
+	            <img src="resources/kakao_account_login_btn_medium_narrow.png">
+	        	</a>
+				
+				<br/>
 				<!-- 구글  -->
 				<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=http%3a%2f%2flocalhost%3a9090%2fpro%2flogin.inc&client_id=959152787145-hum5jhsftmkgp03ouofpnrj4jjqinjjs.apps.googleusercontent.com">google login</a>
 
@@ -41,3 +48,13 @@
 				<br>
 			</c:otherwise>
 		</c:choose>
+		
+		</center>
+		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		</body>
+		
+</html>
+		
+		
+		
+		
