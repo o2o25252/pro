@@ -130,7 +130,8 @@
   <div class="container">
 
     <h1 class="my-4">Welcome to Modern Business</h1>
-
+ 
+ 
     <!-- Marketing Icons Section -->
     <div class="row">
       <div class="col-lg-4 mb-4">
@@ -327,8 +328,8 @@
 		
 		var date = $("#datepicker").val().replace('-', "").replace('-',"");
 		
-		var param = "targetDt=20200326";
-		//var param = "targetDt="+${nowday};
+		//var param = "targetDt=20200326";
+		var param = "targetDt="+${nowday-1};
 		
 		$.ajax({
 			url:"last.inc",
@@ -359,7 +360,7 @@
 		
 		// 처음 페이지 로딩 시 금주 박스 오피스
 		
-		var param = "targetDt="+${nowday};
+		var param = "targetDt="+${nowday-8};
 		
 		$.ajax({
 			url:"weekly.inc",
@@ -443,7 +444,6 @@
 				a_people +=  data.vo.avo[i].peopleNm;
 				
 				}
-				
 				$("#a_people").html(a_people);
 			}
 			}

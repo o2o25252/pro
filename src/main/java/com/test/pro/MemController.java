@@ -26,7 +26,6 @@ public class MemController {
 	
 	@RequestMapping("/mem.inc")
 	private ModelAndView gothe()throws Exception {
-		System.out.println("와쩌염 뿌우");
 		ModelAndView mv = new ModelAndView();
 		String path = application.getRealPath(f_path); //절대 경로
 		//System.out.println(path);
@@ -72,13 +71,6 @@ public class MemController {
 				
 				ar[i++] = vo;
 			}
-			
-			for(int x= 0; x< ar.length; x++) {
-				System.out.println("for문 돌림");
-				System.out.println(ar[x].getM_id());
-				System.out.println(ar[x].getM_name());
-			}
-			
 				mv.addObject("ar", ar);
 				mv.addObject("vo", vo);
 				mv.setViewName("Mem");

@@ -28,10 +28,8 @@ public class DataController {
 		@RequestMapping("/search.inc")
 		public ModelAndView search(String movieNm)throws Exception{
 			
-			System.out.println(movieNm);
 			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
-			//System.out.println(search);
-			
+
 			Element s_root = connectXML(search);
 			
 			Element movieList = s_root.getChild("movieList");
@@ -58,12 +56,6 @@ public class DataController {
 				s_ar[i++]= m_vo;
 			}
 			
-			
-			
-			//Map<String, Object> map = new HashMap<String, Object>();
-			
-			//map.put("search", ar);
-			
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("search", s_ar);
 			mv.setViewName("search");
@@ -79,7 +71,6 @@ public class DataController {
 		// 영화 상세정보
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
 		
-		//System.out.println(movieCd);
 		MovieVO vo = new MovieVO();
 		
 		Element root = connectXML(Weeklyurl);
@@ -161,13 +152,7 @@ public class DataController {
 		vo.setCompanyCd(company.get(0).getChildText("companyCd"));
 		vo.setCompanyNm(company.get(0).getChildText("companyNm"));
 		vo.setCompanyNmEn(company.get(0).getChildText("companyNmEn"));
-		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));		
-		//System.out.println(vo.getMovieCd());
-		//System.out.println(vo.getMovieNm());
-		//System.out.println(vo.getDirectors_peopleNm());
-		
-		//System.out.println(vo.getAvo()[0].getPeopleNm());
-		//System.out.println(vo.getAvo()[0].getCast());
+		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));
 		}
 		Map<String, MovieVO> map = new HashMap<String, MovieVO>();
 		
@@ -220,8 +205,6 @@ public class DataController {
 	         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
 	      }
 	      
-	      //System.out.println("썸네일 : " + image_s);
-	        
 	        return image_s;
 	   }
 
@@ -229,12 +212,9 @@ public class DataController {
 	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> Dailydata2(String targetDt) throws Exception{
-		//System.out.println(targetDt);
+
 		// 금일 박스오피스 순위
-		//URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200317");
 		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
-		
-		//System.out.println(Dailyurl);
 		
 		Element root = connectXML(Dailyurl);
 		
@@ -266,11 +246,9 @@ public class DataController {
 	@RequestMapping(value = "/next.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> Weeklydatanext(String targetDt) throws Exception{
-		//System.out.println(targetDt);
+
 		// 금주 박스오피스 순위
-		//URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt=20200310");
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&weekGb=0&targetDt="+targetDt);
-		//System.out.println(Weeklyurl);
 		
 		Element root = connectXML(Weeklyurl);
 	
@@ -289,9 +267,6 @@ public class DataController {
 			vo.setMovieNm(e.getChildText("movieNm"));	// 영화 이름
 			vo.setOpenDt(e.getChildText("openDt"));		// 개봉일
 			
-			//System.out.println(e.getChildText("movieNm"));
-			//System.out.println(e.getChildText("openDt"));
-
 			ar[i++] = vo;
 		}
 		
@@ -325,6 +300,4 @@ public class DataController {
 		// 루트 반환
 		return doc.getRootElement();
 	}
-	
-	
 }
