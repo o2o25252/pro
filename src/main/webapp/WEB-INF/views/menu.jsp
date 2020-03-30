@@ -145,6 +145,7 @@
       <button class = "btn btn-secondary my-2 my-sm-0" type = "button" id="ok_btn"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 검색 </font> </font> </button>
     </div>
     <div>
+    <!-- 카카오 안할 시 변경해야 함 -->
     	<c:if test="${empty userId  }">
 		<aside id="as">
 			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
@@ -152,7 +153,7 @@
 		</c:if>
 		<c:if test="${ userId ne null}">
 	        <h1>${nickname}님 환영합니다</h1>
-	        <input type="button" value="로그아웃" onclick="location.href='/logout'">
+	        <input type="button" value="로그아웃" onclick="location.href='logout.inc'">
 	    </c:if>
     </div>
   </div>

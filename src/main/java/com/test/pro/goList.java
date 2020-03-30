@@ -51,7 +51,7 @@ public class goList {
 	}
 	
 	// 카카오 로그인
- @RequestMapping(value="/kakaologin.inc")
+	@RequestMapping(value="/kakaologin.inc")
     public String login(@RequestParam("code") String code) {
 	 String access_Token = kakao.getAccessToken(code);
 	    HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
@@ -63,7 +63,17 @@ public class goList {
 	        session.setAttribute("access_Token", access_Token);
 	        
 	    }
-    return "main";
+	    return "main";
     }
+	
+	// 카카오 로그아웃
+	@RequestMapping(value="/logout.inc")
+	public String logout(HttpSession session) {
+	    kakao.kakaoLogout((String)session.getAttribute("access_Token"));
+	    session.removeAttribute("access_Token");
+	    session.removeAttribute("userId");
+	    return "main";
+	}
+
 	
 }
