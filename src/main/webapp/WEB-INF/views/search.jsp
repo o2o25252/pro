@@ -109,7 +109,7 @@
                <label id="a_people"></label><br/>
          <hr/>
          <hr/> 
-               
+               <jsp:include page="kMap2.jsp"/> 
          <button type="button" id="close_bt">닫기</button>
    </div>
   

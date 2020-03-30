@@ -83,32 +83,32 @@
         <!-- Slide Two - Set the background image for this slide in the line below -->
         <div class="carousel-item" style="background:gray">
          	<table id="weekend" class="table table-bordered table-hover">
-	
-				<colgroup>
-					<col width="50px"/>
-					<col width="*"/>
-					<col width="100px"/>
-				</colgroup>
-				
-					<thead>
-						
-						<tr>
-							<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-							<th colspan="3"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker1" value="${ toweek }">박스 오피스<hr/></th>
-						</tr>
-						<tr>
-						</tr>
-						<tr>
-							<th>순위</th>
-							<th>제목</th>
-							<th>개봉일</th>
-						</tr>
-					</thead>
-						<tbody>
-							
-						</tbody>
-				</table>
-						
+
+			<colgroup>
+				<col width="50px"/>
+				<col width="*"/>
+				<col width="100px"/>
+			</colgroup>
+			
+				<thead>
+					
+					<tr>
+						<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
+						<th colspan="3"><input type="button" style="background-color:transparent;  border:0px transparent solid;" id="datepicker1" value="${ toweek }">박스 오피스<hr/></th>
+					</tr>
+					<tr>
+					</tr>
+					<tr>
+						<th>순위</th>
+						<th>제목</th>
+						<th>개봉일</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+					
 				
 		   </div>
          
@@ -312,9 +312,7 @@
          <hr/>
          	  <label></label>
          <hr/>
-          
-         <jsp:include page="kMap2.jsp"/>        
-               
+          	<jsp:include page="kMap2.jsp"/> 
          <button type="button" id="close_bt">닫기</button>
    </div>
 
@@ -328,7 +326,6 @@
 		
 		var date = $("#datepicker").val().replace('-', "").replace('-',"");
 		
-		//var param = "targetDt=20200326";
 		var param = "targetDt="+${nowday-1};
 		
 		$.ajax({
@@ -360,10 +357,10 @@
 		
 		// 처음 페이지 로딩 시 금주 박스 오피스
 		
-		var param = "targetDt="+${nowday-8};
+		var param = "targetDt="+${nowday-7};
 		
 		$.ajax({
-			url:"weekly.inc",
+			url:"next.inc",
 			dataType:"json",
 			data: param,
 			type: "POST"

@@ -25,36 +25,35 @@ import com.data.vo.RankVO;
 public class DataController {
 	
 	// 검색하기
-		@RequestMapping("/search.inc")
-		public ModelAndView search(String movieNm)throws Exception{
-			
-			URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
+	@RequestMapping("/search.inc")
+	public ModelAndView search(String movieNm)throws Exception{
+		URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
 
-			Element s_root = connectXML(search);
+		Element s_root = connectXML(search);
+		
+		Element movieList = s_root.getChild("movieList");
+		
+		List<Element> m_list = movieList.getChildren("movie");
+		MovieVO[] s_ar = new MovieVO[m_list.size()];
+		
+		int i =0;
+		for(Element m: m_list) {
+			MovieVO m_vo = new MovieVO();
 			
-			Element movieList = s_root.getChild("movieList");
+			m_vo.setMovieCd(m.getChildText("movieCd"));
+			m_vo.setMovieNm(m.getChildText("movieNm"));
+			m_vo.setPrdtYear(m.getChildText("prdtYear"));
+			m_vo.setOpenDt(m.getChildText("openDt"));
+			m_vo.setTypeNm(m.getChildText("typeNm"));
+			m_vo.setNationNm(m.getChildText("nationNm"));
 			
-			List<Element> m_list = movieList.getChildren("movie");
-			MovieVO[] s_ar = new MovieVO[m_list.size()];
+			m_vo.setGenreNm(m.getChildText("genreAlt"));
+			m_vo.setNationNm(m.getChildText("repNationNm"));
+			m_vo.setGenreNm(m.getChildText("repGenreNm"));
+			m_vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
 			
-			int i =0;
-			for(Element m: m_list) {
-				MovieVO m_vo = new MovieVO();
-				
-				m_vo.setMovieCd(m.getChildText("movieCd"));
-				m_vo.setMovieNm(m.getChildText("movieNm"));
-				m_vo.setPrdtYear(m.getChildText("prdtYear"));
-				m_vo.setOpenDt(m.getChildText("openDt"));
-				m_vo.setTypeNm(m.getChildText("typeNm"));
-				m_vo.setNationNm(m.getChildText("nationNm"));
-				
-				m_vo.setGenreNm(m.getChildText("genreAlt"));
-				m_vo.setNationNm(m.getChildText("repNationNm"));
-				m_vo.setGenreNm(m.getChildText("repGenreNm"));
-				m_vo.setDirectors_peopleNm(m.getChildText("peopleNm"));
-				
-				s_ar[i++]= m_vo;
-			}
+			s_ar[i++]= m_vo;
+		}
 			
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("search", s_ar);
@@ -161,52 +160,52 @@ public class DataController {
 	}
 
 	public String getPost(String movieNm, String prdtYear, String nationEE) throws Exception{
-	      // 영화 포스터 가져오기
-	      
-			System.out.println(prdtYear);
-	      
-	        String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
-	        String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
-	        
-	        String mv_name = URLEncoder.encode(movieNm, "UTF-8");
-	        URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom="+prdtYear+"&yearto="+prdtYear+"&country="+nationEE); 
-	        
-	        URLConnection urlConn = url.openConnection(); //openConnection 해당 요청에 대해서 쓸 수 있는 connection 객체 
-	        
-	        urlConn.setRequestProperty("X-Naver-Client-ID", clientID);
-	        urlConn.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-	        
-	        SAXBuilder builder = new SAXBuilder();
-	        Document doc = builder.build(urlConn.getInputStream());
-	/*        
-	        String f_path = "resources/movieInfo.xml";
-	        String path = application.getRealPath(f_path);
-	        
-	        //쓰기를 하기 위해 필요한 객체
-	      XMLOutputter xo = new XMLOutputter();
-	      
-	      //출력형식 설정
-	      Format frm = xo.getFormat();
-	      frm.setIndent("  ");
-	      frm.setLineSeparator("\r\n");
-	      frm.setTextMode(Format.TextMode.TRIM);
-	      
-	      xo.setFormat(frm);
-	      xo.output(doc, new FileWriter(path));
-	*/
-	        Element root = doc.getRootElement();
-	        Element channel = root.getChild("channel");
+      // 영화 포스터 가져오기
+      
+		System.out.println(prdtYear);
+      
+        String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
+        String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
+        
+        String mv_name = URLEncoder.encode(movieNm, "UTF-8");
+        URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom="+prdtYear+"&yearto="+prdtYear+"&country="+nationEE); 
+        
+        URLConnection urlConn = url.openConnection(); //openConnection 해당 요청에 대해서 쓸 수 있는 connection 객체 
+        
+        urlConn.setRequestProperty("X-Naver-Client-ID", clientID);
+        urlConn.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+        
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build(urlConn.getInputStream());
+/*        
+        String f_path = "resources/movieInfo.xml";
+        String path = application.getRealPath(f_path);
+        
+        //쓰기를 하기 위해 필요한 객체
+      XMLOutputter xo = new XMLOutputter();
+      
+      //출력형식 설정
+      Format frm = xo.getFormat();
+      frm.setIndent("  ");
+      frm.setLineSeparator("\r\n");
+      frm.setTextMode(Format.TextMode.TRIM);
+      
+      xo.setFormat(frm);
+      xo.output(doc, new FileWriter(path));
+*/
+        Element root = doc.getRootElement();
+        Element channel = root.getChild("channel");
 
-	      List<Element> item = channel.getChildren("item");
-	      String image_s = null;
-	      if(item.size() != 0) {
-	         image_s = item.get(0).getChildText("image");         
-	      }else {
-	         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
-	      }
-	      
-	        return image_s;
-	   }
+      List<Element> item = channel.getChildren("item");
+      String image_s = null;
+      if(item.size() != 0) {
+         image_s = item.get(0).getChildText("image");         
+      }else {
+         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
+      }
+      
+        return image_s;
+   }
 
 	// 금일 달력 순위 
 	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)
@@ -246,7 +245,7 @@ public class DataController {
 	@RequestMapping(value = "/next.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> Weeklydatanext(String targetDt) throws Exception{
-
+		
 		// 금주 박스오피스 순위
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&weekGb=0&targetDt="+targetDt);
 		

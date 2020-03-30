@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +12,18 @@
 <body>
 <jsp:include page="menu.jsp"/>
 <div class="map_wrap">
+    <c:if test="${not empty kAddr }">
+		<input type="hidden" value="javascript:searchPlaces('${kAddr}')">
+	</c:if> 
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
     <ul id="category">
         <li id="CGV" onclick="searchPlaces('광명시 CGV')"> 
-            <!-- <span class="category_bg bank"></span> -->
             CGV
         </li>       
         <li id="LOT" onclick="searchPlaces('광명시 롯데시네마')"> 
-            <!-- <span class="category_bg mart"></span> -->
             롯데
         </li>  
         <li id="MEG" onclick="searchPlaces('광명시 메가박스')"> 
-            <!-- <span class="category_bg pharmacy"></span> -->
             메가
         </li>   
     </ul>
@@ -31,11 +31,41 @@
         <ul id="placesList"></ul>
         <div id="pagination"></div>
     </div>
+    
+    <form action="kaj.inc" name="frm">
+    	<input type="hidden" name="fr" id="fr" value="${ kAddr }"/>
+    </form>
 </div>
-
 <form method="POST" action="www.naver.com" name="frm_go"></form>
+
+<script src="resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af03a8ef918b03e2f91f75b93b6fc934&libraries=services"></script>
 <script>
+
+$(function(){
+	var addr = $("#fr").val();
+	 console.log(addr);
+	 console.log(addr);
+	 console.log(addr);
+	 console.log(addr);
+	 console.log(addr);
+	 
+	 var param = "dt="+encodeURIComponent(addr);
+	 
+	 $.ajax({
+		 url: "kaj.inc",
+		 type: "post",
+		 data:param,
+		 dataType:"json"
+	 }).done(function(data){
+		 if(data.addr!= null){
+			 searchPlaces('${kAddr}');
+		 }
+	 }).fail(function(err){
+		 console.log(err);
+	 });
+ });
+
 // 마커를 담을 배열입니다
 var markers = [];
 
@@ -59,12 +89,11 @@ searchPlaces();
 
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces(keyword) {
-
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
         alert('키워드를 입력해주세요!');
         return false;
     }
-
+	
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch( keyword, placesSearchCB); 
 }
@@ -136,85 +165,85 @@ function displayPlaces(places) {
                 switch (title) {
                 
 			// CGV ------- ---------------------------------------------
-					case "CGV 구로점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0010', '_blank');
-						break;
-						
-					case "CGV 영등포점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0059', '_blank');
-						break;
-						
-					case "CGV 역곡점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0029', '_blank');
-						break;
-						
-					case "CGV 목동점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0011', '_blank');
-						break;
-						
-					case "CGV 여의도점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0112', '_blank');
-						break;
-						
-					case "CGV 시흥점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0073', '_blank');
-						break;
-						
-					case "CGV 부천역점":
-						window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0194', '_blank');
-						break;
-						
+			case "CGV 구로점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0010', '_blank');
+				break;
+				
+			case "CGV 영등포점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0059', '_blank');
+				break;
+				
+			case "CGV 역곡점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0029', '_blank');
+				break;
+				
+			case "CGV 목동점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0011', '_blank');
+				break;
+				
+			case "CGV 여의도점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0112', '_blank');
+				break;
+				
+			case "CGV 시흥점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0073', '_blank');
+				break;
+				
+			case "CGV 부천역점":
+				window.open('http://www.cgv.co.kr/common/showtimes/iframeTheater.aspx?theatercode=0194', '_blank');
+				break;
+					
 			//	롯데시네마 ---------------------------------------------
 					
-					case "롯데시네마 광명":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=3027', '_blank');
-						break;
+			case "롯데시네마 광명":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=3027', '_blank');
+				break;
 
-					case "롯데시네마 광명아울렛":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=3025', '_blank');
-						break;
-						
-					case "롯데시네마 가산디지털":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1013', '_blank');
-						break;
-						
-					case "롯데시네마 독산":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1017', '_blank');
-						break;
-						
-					case "롯데시네마 신도림":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1015', '_blank');
-						break;
-						
-					case "롯데시네마 영등포":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1002', '_blank');
-						break;
-
-					case "롯데시네마 신림":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1007', '_blank');
-						break;
-						
-					case "롯데시네마 부천역":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=9054', '_blank');
-						break;
-						
-					case "롯데시네마 서울대입구":
-						window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1012', '_blank');
-						break;
-
-				//	메가박스 -----------------------------------------------
+			case "롯데시네마 광명아울렛":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=3025', '_blank');
+				break;
 				
-					case "메가박스 목동점":
-						window.open('https://www.megabox.co.kr/theater/time?brchNo=1581', '_blank');
-						break;
-						
-					case "메가박스 부천스타필드시티":
-						window.open('https://www.megabox.co.kr/theater/time?brchNo=4221', '_blank');
-						break;
+			case "롯데시네마 가산디지털":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1013', '_blank');
+				break;
 				
-					case "메가박스 화곡점":
-						window.open('https://www.megabox.co.kr/theater/time?brchNo=1571', '_blank');
-						break;
+			case "롯데시네마 독산":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1017', '_blank');
+				break;
+				
+			case "롯데시네마 신도림":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1015', '_blank');
+				break;
+				
+			case "롯데시네마 영등포":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1002', '_blank');
+				break;
+
+			case "롯데시네마 신림":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1007', '_blank');
+				break;
+				
+			case "롯데시네마 부천역":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=9054', '_blank');
+				break;
+				
+			case "롯데시네마 서울대입구":
+				window.open('https://www.lottecinema.co.kr/NLCHS/Cinema/Detail?cinemaID=1012', '_blank');
+				break;
+
+		//	메가박스 -----------------------------------------------
+		
+			case "메가박스 목동점":
+				window.open('https://www.megabox.co.kr/theater/time?brchNo=1581', '_blank');
+				break;
+				
+			case "메가박스 부천스타필드시티":
+				window.open('https://www.megabox.co.kr/theater/time?brchNo=4221', '_blank');
+				break;
+		
+			case "메가박스 화곡점":
+				window.open('https://www.megabox.co.kr/theater/time?brchNo=1571', '_blank');
+				break;
 				}
             });
 
@@ -337,6 +366,9 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+ 
+
+ 
 </script>
 </body>
 </html>

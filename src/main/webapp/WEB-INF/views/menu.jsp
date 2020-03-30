@@ -128,9 +128,7 @@
 
   <div class = "collapse navbar-collapse"id = "navbarColor02">
     <ul class = "navbar-nav mr-auto">
-      <li class = "nav-item active">
-        <a class="nav-link" href="main.inc"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 홈 </font></font> <span class = "sr-only"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> (현재) </font> </font> </span></a>
-      </li>
+     
       <li class = "nav-item">
         <a class="nav-link" href="kMap.inc"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 지도 </font></font></a>
       </li>
