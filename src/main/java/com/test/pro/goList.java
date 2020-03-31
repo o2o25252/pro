@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class goList {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private HttpServletRequest request;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	
@@ -63,7 +67,7 @@ public class goList {
 	        session.setAttribute("access_Token", access_Token);
 	        
 	    }
-	    return "main";
+	    return "redirect:/main.inc";
     }
 	
 	// 카카오 로그아웃
@@ -71,8 +75,15 @@ public class goList {
 	public String logout(HttpSession session) {
 	    kakao.kakaoLogout((String)session.getAttribute("access_Token"));
 	    session.removeAttribute("access_Token");
+	    //session.removeAttribute("refresh_token");
 	    session.removeAttribute("userId");
-	    return "main";
+	    //request.removeAttribute("code");
+		//session.removeAttribute("userId");
+		//session.removeAttribute("nickname");
+	    session.invalidate();
+	    
+	    
+	    return "redirect:/main.inc";
 	}
 
 	

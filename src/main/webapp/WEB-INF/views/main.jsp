@@ -31,8 +31,6 @@
 
   <title>Modern Business - Start Bootstrap Template</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="resources/css/modern-business.css" rel="stylesheet">
@@ -44,10 +42,22 @@
   	#view_win {
 	   display: none;
 	}
-	#week a:hover,#weekend a:hover {
-		background-image: ${postURL};
+	#week a,#weekend a{
+		color : black;
   	}
-	
+  	#week{
+  		float: center;
+  	}
+  	
+	#show{
+		border: 1px solid black;
+		float: left;
+	}
+	/*
+	.elice:hover{
+		background: red;
+	}
+	*/
   </style>
 </head>
 <body>
@@ -62,6 +72,11 @@
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
         <div class="carousel-item active" style="background:gray">
+        	<table id="show">
+        		<tbody>
+        			
+        		</tbody>
+        	</table>
         	<table id="week" class="table table-bordered table-hover">
 			<colgroup>
 				<col width="50px"/>
@@ -327,10 +342,8 @@
   <script src="resources/js/jquery.min.js"></script>
   <script src="resources/js/jquery-ui.min.js"></script>
   <script type="text/javascript">
+  
   $(function(){
-		
-		var date = $("#datepicker").val().replace('-', "").replace('-',"");
-		
 		var param = "targetDt="+${nowday-1};
 		
 		$.ajax({
@@ -343,13 +356,13 @@
 				var code = "";
 				
 				for(var i=0; i<data.Dailyar.length; i++){
-					code += "<tr><td>";
+					code += "<tr><td class='elice'>";
 					code += data.Dailyar[i].rnum;
 					code += "<input type='hidden' value='";
 					code += data.Dailyar[i].movieCd;
-					code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
+					code += "'></td><td class='elice'><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
 					code += data.Dailyar[i].movieNm;
-					code += "</a></td><td>";
+					code += "</a></td><td class='elice'>";
 					code += data.Dailyar[i].openDt;
 					code += "</td></tr>";
 				}
@@ -361,7 +374,6 @@
 		
 		
 		// 처음 페이지 로딩 시 금주 박스 오피스
-		
 		var param = "targetDt="+${nowday-7};
 		
 		$.ajax({
@@ -374,13 +386,13 @@
 				
 				var code = "";
 				for(var i=0; i<data.Weeklyar.length; i++){
-					code += "<tr><td>";
+					code += "<tr><td class='elice'>";
 					code += data.Weeklyar[i].rnum;
 					code += "<input type=hidden value='";
 					code += data.Weeklyar[i].movieCd;
-					code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
+					code += "'/></td><td class='elice'><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
 					code += data.Weeklyar[i].movieNm;
-					code += "</a></td><td>";
+					code += "</a></td><td class='elice'>";
 					code += data.Weeklyar[i].openDt;
 					code += "</td></tr>";
 				}
@@ -390,6 +402,14 @@
 		}).fail(function(err){
 			console.log(err);
 		});
+		
+		$('.elice').mouseenter(function (){
+		    console.log("안녕");
+		    console.log("안녕");
+		    console.log("안녕");
+		    console.log("안녕");
+		    console.log("안녕");
+		  });
 		
 	});
   
@@ -403,6 +423,11 @@
       });
        
   });
+  
+  $(function(){
+
+	  
+  })
   
   function go(frm){
 		

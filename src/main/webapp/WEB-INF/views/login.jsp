@@ -51,6 +51,10 @@
 		
 		</center>
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		<script src="YOUR SDK FILE PATH"></script>
+		<script>
+		
+		</script>
 		</body>
 		
 </html>

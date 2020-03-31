@@ -9,7 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class kakaoAPI {
     
 	@Autowired
 	private HttpServletRequest request;
+	
+	@Autowired
+	private HttpSession session;
 	
 	// 기본 베이스
     public String getAccessToken (String authorize_code) {
@@ -63,7 +68,7 @@ public class kakaoAPI {
             }
             System.out.println("response body : " + result);
             
-            //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            //    Json 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             
@@ -99,7 +104,7 @@ public class kakaoAPI {
             
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
-            
+            session.setAttribute("responseCode", responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             
             String line = "";
@@ -126,6 +131,7 @@ public class kakaoAPI {
             userInfo.put("email", email);
             
             request.setAttribute("nickname",nickname);
+            session.setAttribute("nickname", nickname);
             
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -147,11 +153,18 @@ public class kakaoAPI {
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
             
+            session.removeAttribute("conn");
+            session.setAttribute("responseCode", responseCode);
+            
+            System.out.println("요기");
+            
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             
             String result = "";
             String line = "";
             
+            
+            System.out.println("여기");
             while ((line = br.readLine()) != null) {
                 result += line;
             }

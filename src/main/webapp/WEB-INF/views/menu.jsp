@@ -146,7 +146,7 @@
     </div>
     <div>
     <!-- 카카오 안할 시 변경해야 함 -->
-    	<c:if test="${empty userId  }">
+    	<c:if test="${empty userId }">
 		<aside id="as">
 			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
 		</aside>
