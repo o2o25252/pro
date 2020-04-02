@@ -1,8 +1,11 @@
 package mybatis.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.data.vo.StarVO;
 import com.data.vo.UserVO;
 
 
@@ -32,7 +35,7 @@ public class UserDAO {
 			insertMem(vo);
 		}
 		
-		return chk;
+		return chk; 
 	}
 
 	private void insertMem(UserVO vo) {
@@ -40,5 +43,31 @@ public class UserDAO {
 		int cnt2 = ss.insert("user.n_add", vo);
 		
 	}
+	//★★★★★★★★★★별점 DAO 
+		//별점 추가 
+		public boolean staradd(StarVO svo) {
+			boolean chk = false;
+			
+			int cnt =ss.insert("star.star_add", svo);
+			if(cnt > 0) {
+				chk =true;
+			}
+			
+			return chk;
+		}
+		
+		//별점 평균 보기 
+		public double avg(String moviecd) {
+			double avgr =ss.selectOne("star.avg_r",moviecd);
+			return avgr;
+		}
+		
+		public List<StarVO> getList(String moviecd) {
+		
+			List<StarVO> s_list = ss.selectList("star.list", moviecd);
+			
+			return s_list;
+		}
+	
 	
 }

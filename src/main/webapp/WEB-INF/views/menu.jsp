@@ -137,7 +137,7 @@
       </li>
       
       <li class = "nav-item">
-        <a class="nav-link" href="#"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 약 </font></font></a>
+        <a class="nav-link" href="notice.inc"> <font style = "vertical-align : inherit;"><font style = "vertical-align : inherit;"> 공지 </font></font></a>
       </li>
     </ul>
     <div class = "form-inline my-2 my-lg-0">
@@ -146,7 +146,7 @@
     </div>
     <div>
     <!-- 카카오 안할 시 변경해야 함 -->
-    	<c:if test="${empty userId }">
+    	<c:if test="${empty userId  }">
 		<aside id="as">
 			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
 		</aside>

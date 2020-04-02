@@ -1,5 +1,5 @@
 package com.test.pro;
-
+ 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,6 +11,7 @@ import java.util.Map;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,9 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.data.vo.ActorsVO;
 import com.data.vo.MovieVO;
 import com.data.vo.RankVO;
+import com.data.vo.StarVO;
+
+import mybatis.dao.UserDAO;
 
 @Controller
 public class DataController {
+	
+	
+	@Autowired
+	UserDAO u_dao;
 	
 	// 검색하기
 	@RequestMapping("/search.inc")
@@ -62,7 +70,6 @@ public class DataController {
 			return mv;
 		}
 	
-		
 	@RequestMapping(value = "/oo.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
@@ -90,6 +97,7 @@ public class DataController {
 		if(nation.size()>0) {
 			vo.setNationNm(nation.get(0).getChildText("nationNm"));
 		}
+		
 		
 		String nationEE;
 		
@@ -124,35 +132,44 @@ public class DataController {
 		
 		vo.setDirectors_peopleNmEn(director.get(0).getChildText("peopleNmEn"));
 		}
-		Element actors = movieInfo.getChild("actors");
-		List<Element> actor = actors.getChildren("actor");
-		if(actor.size()>0) {
-		ActorsVO[] actor_ar = new ActorsVO[3];
 		
-		int i=0;
-		for(Element e : actor) {
-			ActorsVO avo = new ActorsVO();
-			
-			avo.setPeopleNm(e.getChildText("peopleNm"));	// 배우명
-			avo.setPeopleNmEn(e.getChildText("peopleNmEn"));	// 배우명 영문
-			avo.setCast(e.getChildText("cast"));			// 배역명
-			avo.setCastEn(e.getChildText("castEn"));		// 배역명 영문
-			
-			actor_ar[i++] = avo;
-			if(i == 3)
-				break;
-		}
-		vo.setAvo(actor_ar);
-		}
+		Element actors = movieInfo.getChild("actors");
+	      List<Element> actor = actors.getChildren("actor");
+	      if(actor.size()>0) {
+	         
+	         ActorsVO[] actor_ar = null;
+	         
+	         if(actor.size() > 3) {
+	            actor_ar = new ActorsVO[3];
+	         }else {
+	            actor_ar = new ActorsVO[actor.size()];
+	         }
+	         
+	         int i=0;
+	         for(Element e : actor) {
+	            ActorsVO avo = new ActorsVO();
+	            
+	            avo.setPeopleNm(e.getChildText("peopleNm"));   // 배우명
+	            // avo.setPeopleNmEn(e.getChildText("peopleNmEn"));   // 배우명 영문
+	            // avo.setCast(e.getChildText("cast"));         // 배역명
+	            // avo.setCastEn(e.getChildText("castEn"));      // 배역명 영문
+	            actor_ar[i++] = avo;
+	            
+	            if(i == actor_ar.length)
+	               break;
+	         }
+	         vo.setAvo(actor_ar);
+	      }
 		
 		Element companys = movieInfo.getChild("companys");
 		List<Element> company = companys.getChildren("company");
 		if(company.size()>0) {
-		vo.setCompanyCd(company.get(0).getChildText("companyCd"));
-		vo.setCompanyNm(company.get(0).getChildText("companyNm"));
-		vo.setCompanyNmEn(company.get(0).getChildText("companyNmEn"));
-		vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));
+			vo.setCompanyCd(company.get(0).getChildText("companyCd"));
+			vo.setCompanyNm(company.get(0).getChildText("companyNm"));
+			vo.setCompanyNmEn(company.get(0).getChildText("companyNmEn"));
+			vo.setCompanyPartNm(company.get(0).getChildText("companyPartNm"));
 		}
+		
 		Map<String, MovieVO> map = new HashMap<String, MovieVO>();
 		
 		map.put("vo", vo);
@@ -177,22 +194,7 @@ public class DataController {
         
         SAXBuilder builder = new SAXBuilder();
         Document doc = builder.build(urlConn.getInputStream());
-/*        
-        String f_path = "resources/movieInfo.xml";
-        String path = application.getRealPath(f_path);
-        
-        //쓰기를 하기 위해 필요한 객체
-      XMLOutputter xo = new XMLOutputter();
-      
-      //출력형식 설정
-      Format frm = xo.getFormat();
-      frm.setIndent("  ");
-      frm.setLineSeparator("\r\n");
-      frm.setTextMode(Format.TextMode.TRIM);
-      
-      xo.setFormat(frm);
-      xo.output(doc, new FileWriter(path));
-*/
+
         Element root = doc.getRootElement();
         Element channel = root.getChild("channel");
 
@@ -206,6 +208,53 @@ public class DataController {
       
         return image_s;
    }
+	
+	//댓글표현
+	@RequestMapping(value ="/getComm.inc",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getComm(String movieCd) {
+		
+		List<StarVO> commList =  u_dao.getList(movieCd);
+		
+		StarVO[] commAr = null;
+		
+		if(commList.size() != 0) {
+			commAr = new StarVO[commList.size()];
+			commList.toArray(commAr);			// commlist 를 ar로 변환
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("commAr", commAr);
+		
+		return map;
+	}
+	
+		//댓글등록
+		@RequestMapping(value ="/coco.inc",method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> staradd(String movieCd, String
+		 rating, String content) {
+			
+			//StarVO 에 인자 값 온거 넣기
+			StarVO vo = new StarVO();
+			vo.setMovieCd(movieCd);
+			vo.setRating(rating);
+			vo.setContent(content);
+			
+			String writer = "작성자";
+			vo.setWriter(writer);
+			
+			System.out.println(vo.getContent());
+			System.out.println(vo.getWriter());
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			//vo 를 DB에 넣기 
+			if(u_dao.staradd(vo)) {
+				map.put("svo", vo);
+			}
+			return map;
+		}
 
 	// 금일 달력 순위 
 	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)

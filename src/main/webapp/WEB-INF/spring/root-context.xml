@@ -42,5 +42,6 @@
 	 	<constructor-arg ref="factory" index="0"/>
 	 </bean>
 	 
-	 <bean id="userdao" class="mybatis.dao.UserDAO"/>
+	 <bean class="mybatis.dao.UserDAO"/>
+	 <bean class="mybatis.dao.BbsDAO"/>
 </beans>

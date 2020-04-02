@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="star">
+
+	<!-- 별점 넣기 -->
+	<insert id="star_add" parameterType="com.data.vo.StarVO">
+		insert into star_t(s_idx, movieCd, rating, writer, content) 
+		values (index_SEQ.NEXTVAL, #{movieCd}, #{rating}, #{writer}, #{content})
+	</insert>
+	
+	<!-- 영화의 평균 별점 -->
+	<select id="avg_r" parameterType="String" resultType="double">
+		select AVG(rating)
+		from star_t 
+		where movieCd=#{movieCd}
+	</select>
+	 
+	<select id="list" parameterType="String" resultType="com.data.vo.StarVO">
+		select * from star_t
+		where movieCd = #{movieCd}
+	</select>
+</mapper>

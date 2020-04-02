@@ -1,5 +1,7 @@
 package com.data.vo;
 
+import java.util.List;
+
 public class MovieVO {
 	private String movieCd,				// 영화코드를 출력합니다.
 				   movieNm,				// 영화명(국문)을 출력합니다.
@@ -23,6 +25,16 @@ public class MovieVO {
 				   companyPartNm,		// 참여 영화사 분야명을 출력합니다.
 				   postURL;				// 영화 포스터 썸네일 URL
 	
+	List<StarVO> s_list; 
+	
+	public List<StarVO> getS_list() {
+		return s_list;
+	}
+
+	public void setS_list(List<StarVO> s_list) {
+		this.s_list = s_list;
+	}
+
 	public String getPostURL() {
 		return postURL;
 	}

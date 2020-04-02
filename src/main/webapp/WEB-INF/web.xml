@@ -40,6 +40,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>	
 		
+	<!-- 파일 다운로드 서블릿 등록 -->
+	<servlet>
+		<servlet-name>download</servlet-name>
+		<servlet-class>spring.util.FileDownload</servlet-class>
+	</servlet>
+	<!-- 서블릿 호출  /FileDownload 라는걸 부르면 호출  그래서 부르면 download 라는걸 부루는구나 하고spring.util.FileDownload 간다 -->	
+	<servlet-mapping>
+		<servlet-name>download</servlet-name>
+		<url-pattern>/FileDownload</url-pattern>
+	</servlet-mapping>	
+		
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
@@ -47,3 +58,4 @@
 	</servlet-mapping>
 
 </web-app>
+

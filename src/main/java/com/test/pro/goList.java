@@ -22,10 +22,10 @@ public class goList {
     private kakaoAPI kakao;
 	
 	@Autowired
-	private HttpSession session;
+	private HttpServletRequest request;
 	
 	@Autowired
-	private HttpServletRequest request;
+	private HttpSession session;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	
@@ -33,7 +33,7 @@ public class goList {
 		
 		return "home";
 	}
-
+ 
 	// 지도 화면 전환하기
 	@RequestMapping("/kMap.inc")
 	public String gomap() {
@@ -67,7 +67,7 @@ public class goList {
 	        session.setAttribute("access_Token", access_Token);
 	        
 	    }
-	    return "redirect:/main.inc";
+	    return "main";
     }
 	
 	// 카카오 로그아웃
@@ -75,15 +75,8 @@ public class goList {
 	public String logout(HttpSession session) {
 	    kakao.kakaoLogout((String)session.getAttribute("access_Token"));
 	    session.removeAttribute("access_Token");
-	    //session.removeAttribute("refresh_token");
 	    session.removeAttribute("userId");
-	    //request.removeAttribute("code");
-		//session.removeAttribute("userId");
-		//session.removeAttribute("nickname");
-	    session.invalidate();
-	    
-	    
-	    return "redirect:/main.inc";
+	    return "main";
 	}
 
 	

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs"> <!-- namespace는 폴더개념 // root는 한개므로 얘는 한개 -->
+   
+   
+   <!-- 전체 게시물 행번호 부여 & 목록  -->
+   <select id="bbslist" parameterType="java.util.Map" resultMap="map1">
+	 select * from(
+		 select rownum r_num, a.* from (   		 
+									      select * from bbs_t
+									      where status = 0 
+									      order by b_idx 	desc
+								      	) a
+      ) where r_num between #{begin} and #{end} 
+   </select>
+	
+	<!-- 총 게시물 수 구하기  -->
+   <select id="totalCount" resultType="int">
+      select count(*) from bbs_t
+      where status = 0 
+   </select>
+   
+	 
+	<!-- 클릭한 게시물 보기 기능 -->
+	<select id="get_bbs" parameterType="String" resultMap="map1">
+		select * from bbs_t
+		where b_idx = #{b_idx}
+	</select>
+   
+   <!-- 해당 게시물의 댓글 불러오는 result Map -->
+   <resultMap id="map1" type="com.data.vo.BbsVO">
+   		<id column="b_idx" property="b_idx" />
+   		<collection property="c_list" ofType="mybatis.vo.CommVO" select="commList" column="b_idx"/>
+   </resultMap>
+   
+   <select id="commList" resultType="com.data.vo.CommVO" parameterType="String">
+   		select * from comment_t
+   		where b_idx = #{b_idx}
+   </select>
+ 
+ 	<!-- 게시물 등록 -->
+ 	<insert id="add" parameterType="com.data.vo.BbsVO">
+ 		insert into bbs_t(b_idx, subject, writer, content, file_name,  pwd, write_date, ip, hit, status)
+ 		values (bbs_t_seq.NEXTVAL, #{subject}, #{writer}, #{content}, #{file_name}, #{pwd}, sysdate, #{ip}, 0, 0)
+ 	</insert>
+ 	
+ 	<!-- 게시물 보기 -->
+	<select id="getBbs" parameterType="String" resultType="com.data.vo.BbsVO"> 
+	SELECT * FROM bbs_t WHERE b_idx = #{no} 
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

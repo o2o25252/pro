@@ -144,7 +144,6 @@
 			<version>1.2</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
