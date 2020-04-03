@@ -30,6 +30,7 @@ public class FileDownload extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String filename = request.getParameter("f_name");
 		String dir = request.getParameter("dir"); //dir=/resources/upload
 		

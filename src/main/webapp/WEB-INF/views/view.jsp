@@ -59,10 +59,10 @@
 					<tr>
 						<th>첨부 파일:</th>
 						<td colspan="3">
-							<c:if test="${ vo.file_name != null and fn:length(file_name) >4 }">
-								<a href="javascript: fDown('${vo.file_name }')">
+							<c:if test="${ vo.file_name != null and fn:length(vo.file_name) >4 }">
+								<a href="javascript: download('${vo.file_name }')">
 									${vo.file_name }
-									(${vo.ori_name })
+									클릭시 다운로드
 								</a>
 							</c:if>
 						</td>
@@ -85,19 +85,29 @@
 				</tbody>
 			</table>
 		</form>
-		<form action="control" name="frm" method="post">
+		
+		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
 			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }">
 		</form>
+		
 	</div>
 	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript">
+	//목록
 		function list_go(){
 
 			document.frm.action = "notice.inc";
 			document.frm.submit();
+			
+		}
+	//다운로드 서블릿 이동	
+		function download(fname){
+			console.log(fname);
+			location.href="FileDownload?dir=/resources/upload&f_name="+fname;
+			
 		}
 		
 	</script>
