@@ -171,4 +171,17 @@ public class ListAction  {
 		
 		return mv;
 	}
+	
+	// 수정 화면 전환
+	@RequestMapping("/editgo.inc")
+	public ModelAndView goedit(String b_idx, String nowPage) {
+		BbsVO vo = b_dao.getview(b_idx);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("vo", vo);
+		mv.setViewName("edit");
+		
+		return mv;
+	}
 }

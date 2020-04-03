@@ -110,6 +110,13 @@
 			
 		}
 		
+	
+	// 수정 화면 전환
+		function edit(){
+			document.frm.action = "editgo.inc";
+			document.frm.submit();
+		
+	}
 	</script>
 	
 </body>

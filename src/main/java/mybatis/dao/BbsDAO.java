@@ -66,5 +66,16 @@ public class BbsDAO {
 		
 	}
 	
+	// 게시물 수정 
+	public boolean edit(BbsVO vo) {
+		boolean value = false;
+		
+		int cnt = template.update("bbs.edit",vo);
+		
+		if(cnt > 0)
+			value = true;
+		
+		return value;
+	}
 	
 }

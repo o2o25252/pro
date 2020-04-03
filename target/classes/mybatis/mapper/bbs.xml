@@ -50,6 +50,15 @@
 	<select id="getBbs" parameterType="String" resultType="com.data.vo.BbsVO"> 
 	SELECT * FROM bbs_t WHERE b_idx = #{no} 
 	</select>
+	
+	<!-- 게시물 수정 -->
+	<update id="edit" parameterType="com.data.vo.BbsVO">
+		UPDATE bbs_t SET subject = #{subject}, content = #{content},
+		<if test="fname != null">
+			,file_name =#{file_name}
+		</if>
+		WHERE b_idx = #{b_idx} AND pwd = #{pwd}
+	</update>
 </mapper>
 
 
