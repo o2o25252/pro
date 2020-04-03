@@ -40,6 +40,10 @@
 		margin: auto;
 		height: 90px;
 	}
+	#del_win{
+		display: none;
+	}
+	
 </style>
 
 </head>
@@ -78,24 +82,72 @@
 					<tr>
 						<td colspan="4" >
 							<button type="button" onclick="edit()">수정</button>
-							<button type="button" onclick="del()">삭제</button>
+							<button type="button" id="del_btn" >삭제</button>
 							<button type="button" onclick="list_go()">목록</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
+		<!-- 댓글 입력란 -->
+		<hr/>
+		
+			<form action="" method="post">
+				<div>
+					<input type="hidden" id="b_idx" name="b_idx" value="${vo.b_idx }">
+					<table>
+						<tbody>
+							<tr>
+								<td><label for="c_writer">작성자:</label></td>
+								<td><input type="text"  id="c_writer" name="c_writer"/> </td>
+							</tr>
+							<tr>
+								<td><label for="c_content">내용:</label></td>
+								<td><textarea cols="" rows="" id="c_content" name="c_content"></textarea> </td>
+							</tr>
+							<tr>
+								<td><label for="c_pwd">비밀번호:</label></td>
+								<td><input type="password" id="c_pwd" name="c_pwd"/></td>
+							</tr>
+							<tr>
+								<td><input type="button" value="저장" onclick="add_coment()"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		
+		<!-- 댓글 출력란 -->
+				<div id="comm_add">
+					
+				</div>
 		
 		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
 			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }">
 		</form>
 		
+		
 	</div>
+	<div id="del_win">
+         <form>
+               <input type="hidden" name="b_idx" id="b_idx"
+                  value="${vo.b_idx }"/>
+               <label for="b_pw">비밀번호:</label>
+               <input type="password" id="b_pw" name="b_pw"/>
+               <br/>
+               <button type="button" id="delete_bt">삭제</button>
+               <button type="button" id="close_bt">닫기</button>
+               <input type="hidden" name="nowPage" value="${param.nowPage }">
+         </form>
+   </div>
+	
 	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript">
+	var b_idx =$("#b_idx").val();
+	
 	//목록
 		function list_go(){
 
@@ -117,6 +169,121 @@
 			document.frm.submit();
 		
 	}
+
+	$(function () {
+		
+		view_coment();
+		
+		// 삭제 다이어로그 
+		$("#del_btn").bind("click",function(){
+			$("#del_win").css("display", "block");
+			$("#del_win").dialog();
+		});
+		
+		$("#close_bt").bind("click",function(){
+			$("#del_win").dialog("close");
+		});
+		
+		$("#delete_bt").bind("click",function(){
+			// pw
+			var b_idx =$("#b_idx").val();
+			var pw =$("#b_pw").val();
+			
+			console.log(pw);
+			
+			var param = "b_idx="+encodeURIComponent(b_idx)
+			+"&pw="+encodeURIComponent(pw);
+			
+			
+			$.ajax({
+				url: "del.inc",
+				data: param,
+				type:"post",
+				dataType:"json"
+			}).done(function(data){
+				$("#dwl_win").dialog("close");
+				
+				if(data.chk){
+					alert("삭제성공");					
+					location.href="notice.inc?nowPage=${param.nowPage}";
+				}else
+					alert("비밀번호가 틀렸어요 확인해보세요");
+				
+							
+			}).fail(function(err){
+				console.log("실패");
+				alert(err);
+			});
+			
+		});
+		
+	});
+	//댓글 등록 함수
+	function add_coment(){
+		var c_writer =$("#c_writer").val();
+		var c_pwd = $("#c_pwd").val();
+		var c_content = $("#c_content").val();
+		console.log(c_writer);
+		
+		//등록후 초기화
+		$("#c_writer").val("");
+		$("#c_pwd").val("");
+		$("#c_content").val("");
+		
+		var c_info = "b_idx="+encodeURIComponent(b_idx)+"&c_writer="+encodeURIComponent(c_writer)+
+		"&c_pwd="+encodeURIComponent(c_pwd)+"&c_content="+encodeURIComponent(c_content);
+		
+		$.ajax({
+			url: "add_coment.inc",
+			data: c_info,
+			type:"post",
+			dataType:"json"
+		}).done(function(data){
+			
+			view_coment();		// 댓글 표현
+			
+		}).fail(function(err){
+			console.log("실패");
+			alert(err);
+		});
+	}
+	//댓글 표현 함수 
+	function view_coment() {
+		
+		var view_cinfo ="b_idx="+encodeURIComponent(b_idx);
+		
+		$.ajax({
+			url: "view_comm.inc",
+			data: view_cinfo,
+			type:"post",
+			dataType:"json"
+		}).done(function(data){
+			if(data.c_ar != undefined){
+				
+				console.log(data);
+				
+				var code ="";
+				for(var i =0; i<data.c_ar.length; i++){
+					code += "<hr/><label>작성자 : </label>";
+					code += "<label>";
+					code += data.c_ar[i].writer;
+					code += "</label>";
+					code += "<br/>";
+					code += "<label>내용 : </label>";
+					code += "<label>";
+					code += data.c_ar[i].content;
+					code += "</label>";
+				}
+				$("#comm_add").html(code);
+			}
+						
+		}).fail(function(err){
+			console.log("실패");
+			alert(err);
+		});
+	}
+	
+	
 	</script>
 	
 </body>

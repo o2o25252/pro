@@ -145,16 +145,20 @@
       <button class = "btn btn-secondary my-2 my-sm-0" type = "button" id="ok_btn"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 검색 </font> </font> </button>
     </div>
     <div>
-    <!-- 카카오 안할 시 변경해야 함 -->
-    	<c:if test="${empty userId  }">
-		<aside id="as">
-			<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
-		</aside>
-		</c:if>
-		<c:if test="${ userId ne null}">
-	        <h1>${nickname}님 환영합니다</h1>
-	        <input type="button" value="로그아웃" onclick="location.href='logout.inc'">
-	    </c:if>
+	    <!-- 로그인 전 -->
+	      <c:if test="${empty sessionScope.userVO.nickname }">
+	         <aside id="as">
+	            <a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
+	         </aside>
+	      </c:if>
+	         <!-- 네이버 로그인시 -->
+	      <c:if test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 1}">
+	      		<label>N_${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
+	      </c:if>
+	      <!-- 카카오 로그인시 -->
+	      <c:if test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 2}">
+	              <label>K_${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
+	      </c:if>
     </div>
   </div>
 </nav>

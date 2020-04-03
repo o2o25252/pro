@@ -7,7 +7,16 @@ public class CommVO {
 					pwd,
 					write_date,
 					ip,
-					b_idx;
+					b_idx,
+					status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getC_idx() {
 		return c_idx;

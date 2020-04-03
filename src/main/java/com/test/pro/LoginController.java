@@ -71,7 +71,7 @@ public class LoginController {
 		String id = (String)response_obj.get("id");
 		String name =(String)response_obj.get("name");
 		
-		System.out.println("member 정보 :");
+		System.out.println("naver 로그인 정보 :");
 		System.out.println(nickname);
 		System.out.println(id);
 		System.out.println(name);
@@ -81,13 +81,14 @@ public class LoginController {
 		vo.setPw(null);
 		vo.setNickname(nickname);
 		vo.setName(name);
+		vo.setStatus("1");
 		
 		u_dao.search(vo);
 		
 		//4.파싱 닉네임 세션으로 저장
 		session.setAttribute("userVO",vo); //세션 생성
 		model.addAttribute("result", apiResult);
-		return "Main";
+		return "main";
 	}
 	//로그아웃
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })

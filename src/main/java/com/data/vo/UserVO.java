@@ -1,7 +1,7 @@
 package com.data.vo;
 
 public class UserVO {
-	private String id,pw,name,nickname,naver;
+	private String id,pw,name,nickname,status;
 
 	public String getId() {
 		return id;
@@ -35,11 +35,11 @@ public class UserVO {
 		this.nickname = nickname;
 	}
 
-	public String getNaver() {
-		return naver;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setNaver(String naver) {
-		this.naver = naver;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

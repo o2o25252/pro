@@ -64,6 +64,7 @@
 					class="active"></li>
 				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 			</ol>
 			<div class="carousel-inner" role="listbox">
 				<!-- Slide One - Set the background image for this slide in the line below -->
@@ -165,6 +166,10 @@
 						<tbody class='weekendM'>
 						</tbody>
 					</table>
+				</div>
+				<!-- Slide Three -->
+				<div class="carousel-item" style="background: gray">
+					<jsp:include page="chartExO2.jsp" />
 				</div>
 			</div>
 
@@ -368,15 +373,14 @@
 							var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
 							$("#d_people1").html(d_people);
 							
-						if(data.vo.avo != undefined){
-							var a_people = "배우:";
-							for(var i=0; i<data.vo.avo.length; i++){
-								
-							a_people +=  data.vo.avo[i].peopleNm;
-							
-							}
-							$("#a_people1").html(a_people);
-						}
+							if(data.vo.avo != undefined){
+					               var a_people = "배우:";
+					               for(var i=0; i<data.vo.avo.length; i++){
+					                  a_people +=  data.vo.avo[i].peopleNm;
+					                  a_people +=  " / ";               
+					               }
+					               $("#a_people1").html(a_people);
+					            }
 						}
 						
 					}).fail(function(err){
@@ -449,15 +453,14 @@
 						var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
 						$("#d_people2").html(d_people);
 						
-					if(data.vo.avo != undefined){
-						var a_people = "배우:";
-						for(var i=0; i<data.vo.avo.length; i++){
-							
-						a_people +=  data.vo.avo[i].peopleNm;
-						
-						}
-						$("#a_people2").html(a_people);
-					}
+						if(data.vo.avo != undefined){
+				               var a_people = "배우:";
+				               for(var i=0; i<data.vo.avo.length; i++){
+				                  a_people +=  data.vo.avo[i].peopleNm;
+				                  a_people +=  " / ";               
+				               }
+				               $("#a_people2").html(a_people);
+				            }
 					}
 					
 				}).fail(function(err){
@@ -508,13 +511,13 @@
 				$("#info").html(info);	
 				
 				if(data.vo.avo != undefined){
-	               var a_people = "배우:";
-	               for(var i=0; i<data.vo.avo.length; i++){
-	                  a_people +=  data.vo.avo[i].peopleNm;
-	                  a_people +=  " / ";               
-	               }
-	               $("#a_people").html(a_people);
-	            }
+		               var a_people = "배우:";
+		               for(var i=0; i<data.vo.avo.length; i++){
+		                  a_people +=  data.vo.avo[i].peopleNm;
+		                  a_people +=  " / ";               
+		               }
+		               $("#a_people").html(a_people);
+		            }
 		}//if의 끝
 		
 			gogo2();

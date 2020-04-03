@@ -2,6 +2,7 @@ package com.test.pro;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.data.vo.BbsVO;
+import com.data.vo.CommVO;
 import com.pro.util.FileRenameUtill;
 import com.pro.util.Paging;
 
@@ -174,48 +176,109 @@ public class ListAction  {
 	}
 	
 	// 수정 화면 전환
-	@RequestMapping("/editgo.inc")
-	public ModelAndView goedit(String b_idx, String nowPage) {
-		BbsVO vo = b_dao.getview(b_idx);
+		@RequestMapping("/editgo.inc")
+		public ModelAndView goedit(String b_idx, String nowPage) {
+			BbsVO vo = b_dao.getview(b_idx);
+			
+			ModelAndView mv = new ModelAndView();
+			
+			mv.addObject("vo", vo);
+			mv.setViewName("edit");
+			
+			return mv;
+		}
 		
-		ModelAndView mv = new ModelAndView();
+		@RequestMapping(value = "/editok.inc", method = RequestMethod.POST)
+		public ModelAndView editok(BbsVO vo) throws Exception{
+			// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
+			
+			ModelAndView mv = new ModelAndView();
+			
+			MultipartFile mf = vo.getUpload();
+			
+			if(mf != null && mf.getSize()>0) {
+				String path = application.getRealPath(uploadPath);
+				
+				String file_name = mf.getOriginalFilename();
+				
+				file_name = FileRenameUtill.checkFileName(path, file_name);
+				
+				mf.transferTo(new File(path,file_name));
+				
+				vo.setFile_name(file_name);
+				
+				System.out.println(file_name);
+			}
+			
+			vo.setIp(request.getRemoteAddr());
+			
+			boolean value = b_dao.edit(vo);
+			
+			if(value) {
+				mv.setViewName("redirect:/view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
+			}
+			
+			return mv;
+		}
+	//게시물삭제
+	@RequestMapping(value = "/del.inc", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Boolean> del(String b_idx, String pw) {
 		
-		mv.addObject("vo", vo);
-		mv.setViewName("edit");
+		Map<String, Boolean> map = new  HashMap<String, Boolean>();
 		
-		return mv;
+		boolean chk =	b_dao.del(b_idx, pw);
+		
+		
+		
+		map.put("chk", chk);
+			
+		
+		return map;
+				
 	}
+	//댓글 입력 
+		@RequestMapping(value = "/add_coment.inc", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, CommVO> comment_add(String b_idx, String c_writer, String c_pwd, String c_content){
+			
+			Map<String, CommVO> map = new HashMap<String, CommVO>();
+			CommVO cvo = new CommVO();
+			cvo.setB_idx(b_idx);
+			cvo.setContent(c_content);
+			String ip = request.getRemoteAddr();
+			cvo.setIp(ip);
+			cvo.setPwd(c_pwd);
+			cvo.setWriter(c_writer);
+			
+			b_dao.comment_add(cvo); //여기까지 DB 댓글 등록
+			
+			
+			map.put("cvo", cvo);
+			
+			return map;
+		}
+	//댓글 표현
+		@RequestMapping(value = "/view_comm.inc", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> comment_add(String b_idx){
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			List<CommVO> c_list = b_dao.getcomlist(b_idx);
+			
+			
+			CommVO[] c_ar = null;
+			
+			if(c_list.size() != 0) {
+				c_ar = new CommVO[c_list.size()];
+				c_list.toArray(c_ar);
+			}
+			map.put("c_ar", c_ar);
+			
+			return map;
+		}
+
 	
-	@RequestMapping(value = "/editok.inc", method = RequestMethod.POST)
-	public ModelAndView editok(BbsVO vo) throws Exception{
-		// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
-		
-		ModelAndView mv = new ModelAndView();
-		
-		MultipartFile mf = vo.getUpload();
-		
-		if(mf != null && mf.getSize()>0) {
-			String path = application.getRealPath(uploadPath);
-			
-			String file_name = mf.getOriginalFilename();
-			
-			file_name = FileRenameUtill.checkFileName(path, file_name);
-			
-			mf.transferTo(new File(path,file_name));
-			
-			vo.setFile_name(file_name);
-			
-			System.out.println(file_name);
-		}
-		
-		vo.setIp(request.getRemoteAddr());
-		
-		boolean value = b_dao.edit(vo);
-		
-		if(value) {
-			mv.setViewName("redirect:/view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
-		}
-		
-		return mv;
-	}
+
 }

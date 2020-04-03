@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.data.vo.BbsVO;
+import com.data.vo.CommVO;
 
 public class BbsDAO {
 
@@ -26,7 +27,6 @@ public class BbsDAO {
 	// 표현하기 위해 '배열'로 반환하는 기능 - list.jsp
 	public BbsVO[] getList(int begin, int end) {
 		BbsVO[] ar = null;
-		
 		
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin", begin);
@@ -50,7 +50,6 @@ public class BbsDAO {
 		int cnt = template.insert("bbs.add",vo);
 		
 		if(cnt > 0) {
-			
 			chk= true;
 		}
 		return chk;
@@ -63,7 +62,6 @@ public class BbsDAO {
 		BbsVO vo = template.selectOne("bbs.getBbs", b_idx);
 		
 		return vo;
-		
 	}
 	
 	// 게시물 수정 
@@ -77,6 +75,35 @@ public class BbsDAO {
 			value = true;
 		
 		return value;
+	}
+	// 게시물 삭제 1
+	public boolean del(String b_idx, String pw) {
+		
+		boolean chk = false;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("b_idx", b_idx);
+		map.put("pw",pw);
+		
+		int cnt =template.update("bbs.del",map);
+		
+		if(cnt > 0) {
+			chk = true;	
+		}
+		
+		return chk;
+				
+	}
+	// 댓글 등록 
+	public void comment_add(CommVO cvo) {
+		
+		int cnt = template.insert("bbs.comadd",cvo);
+	}
+	// 댓글 보여주기 
+	public List<CommVO> getcomlist(String b_idx) {
+		List<CommVO> c_list	= template.selectList("bbs.getComlist", b_idx);
+		
+		return c_list;
 	}
 	
 }

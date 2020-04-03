@@ -17,9 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.data.vo.UserVO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import mybatis.dao.UserDAO;
  
 @Service
 public class kakaoAPI {
@@ -29,6 +32,9 @@ public class kakaoAPI {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	UserDAO u_dao;
 	
 	// 기본 베이스
     public String getAccessToken (String authorize_code) {
@@ -118,26 +124,34 @@ public class kakaoAPI {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             
+            long id = element.getAsJsonObject().get("id").getAsLong();
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-            
+
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
             
-            System.out.println("nickname:"+nickname);
-            System.out.println("email"+email);
+            System.out.println("kakao Login controller nickname:"+nickname);
+            System.out.println("kakao Login controller email"+email);
+            
+            UserVO vo = new UserVO();
+          vo.setId(Long.toString(id));
+          vo.setPw(null);
+          vo.setNickname(nickname);
+          vo.setName(nickname);
+            vo.setStatus("2");
             
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
             
-            request.setAttribute("nickname",nickname);
-            session.setAttribute("nickname", nickname);
+            u_dao.search(vo);   // id 중복확인 후 없다면 바로가입
             
+            session.setAttribute("userVO",vo); //세션 생성
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
         return userInfo;
     }
 

@@ -72,12 +72,13 @@ public class goList {
 	
 	// 카카오 로그아웃
 	@RequestMapping(value="/logout.inc")
-	public String logout(HttpSession session) {
-	    kakao.kakaoLogout((String)session.getAttribute("access_Token"));
-	    session.removeAttribute("access_Token");
-	    session.removeAttribute("userId");
-	    return "main";
-	}
+	   public String logout(HttpSession session) {
+	       kakao.kakaoLogout((String)session.getAttribute("access_Token"));
+	       session.removeAttribute("access_Token");
+	       session.removeAttribute("userId");
+	       session.invalidate();
+	      return "redirect:main.inc";
+	   }
 
 	
 }
