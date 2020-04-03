@@ -1,172 +1,236 @@
+<%@page import="mybatis.dao.BbsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/summernote-lite.min.css">
-<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="resources/js/summernote-lite.min.js"></script>
-<script type="text/javascript" src="resources/js/lang/summernote-ko-KR.min.js"></script>
-<script type="text/javascript">
-	$(function(){
-		$("#str").summernote({
-			height: 300,
-			width: 550,
-			lang: "ko-KR",
-			callbacks:{
-				onImageUpload: function (files, editor){
-					for(var i=0; i<files.length; i++){
-						sendFile(files[i], editor);
-					}
-				}
-			}
-		});
-	});
+<style type="text/css">
+	#bbs table {
+	    width:580px;
+	    margin-left:10px;
+	    border:1px solid black;
+	    border-collapse:collapse;
+	    font-size:14px;
+	    
+	}
 	
-	function sendFile(file, editor){
-		var frm = new FormData();
-		frm.append("upload", file);
-		 
-		$.ajax({
-			url: "saveImage.inc",
-			type: "post",
-			data: frm,
-			dataType: "json",
-			contentType: false,
-			processData: false
-		}).done(function(data){
-			$("#str").summernote("editor.insertImage", data.url);
-		}).fail(function(err){
-			console.log(err);
-		});
+	#bbs table caption {
+	    font-size:20px;
+	    font-weight:bold;
+	    margin-bottom:10px;
 	}
-
-	function check(){
-		//유효성 검사
-		var writer = $("#writer").val().trim();
-		var title = $("#subject").val().trim();
-		var str = $("#str").val().trim();
-		var pwd = $("#pwd").val().trim();
-		
-		if(writer.length < 1){
-			alert("작성자를 입력하세요!");
-			$("#writer").focus();
-			return;
-		}
-		
-		if(title.length < 1){
-			alert("제목을 입력하세요!");
-			$("#subject").focus();
-			return;
-		}
-		
-		if(pwd.length < 1){
-			alert("비밀번호를 입력하세요!");
-			$("#pwd").focus();
-			return;
-		}
-		
-		if(str.length < 1){
-			alert("내용을 입력하세요!");
-			$("#str").focus();
-			return;
-		}
-		
-		$("#content").val(str);
-		
-		document.frm.submit(); 
+	
+	#bbs table th {
+	    text-align:center;
+	    border:1px solid black;
+	    padding:4px 10px;
 	}
-</script>
+	
+	#bbs table td {
+	    text-align:left;
+	    border:1px solid black;
+	    padding:4px 10px;
+	}
+	
+	.no {width:15%}
+	.subject {width:30%}
+	.writer {width:20%}
+	.reg {width:20%}
+	.hit {width:15%}
+	.title{background:lightsteelblue}
+	
+	.odd {background:silver}
+	
+		
+</style>
+<link rel="stylesheet" href="resources/css/summernote-lite.css"/>
 </head>
 <body>
+	<div id="bbs">
+	<form action="editok.inc" method="post" encType="multipart/form-data">
+		<table summary="게시판 글쓰기">
+			<caption>게시판 수정</caption>
+			<tbody>
+				
+				<tr>
+					<th>제목:</th>
+					<td><input type="text" id="subject" name="subject" size="45" value="${vo.subject}"/>  </td>
+				</tr>
+				<tr>
+					<th>이름:</th>
+					<td><input type="text" id="writer" name="writer" size="12" value="${ vo.writer }"/> </td>
+				</tr>
+<%--				
+				<tr>
+					<th>내용:</th>
+					<td><textarea name="content" cols="50" 
+							rows="8" id="content"></textarea>
+					</td>
+				</tr>
+ --%>				
+				<tr>
+					<th>첨부파일:</th>
+					<td><input type="file" id="file" name="file"/>(${ vo.file_name })</td>
+				</tr>
 
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td valign="top">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="center" height="10"></td>
-        </tr>
-        <tr>
-          <td align="center"><u><b>BBS 글쓰기</b></u></td>
-        </tr>
-        <tr>
-          <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td>&nbsp;</td>
-              </tr>
-            </table>
-            
-            <form action="add.inc" method="post" enctype="multipart/form-data" name="frm">
-				<input type="hidden" name="nowPage" value="${nowPage }"/>
-				<input type="hidden" name="content" id="content"/>
-	            <table width="556" border="0" cellspacing="0" cellpadding="0">
-	              <tr>
-	                <td height="2" bgcolor="#C3C3C3"></td>
-	              </tr>
-	              <tr>
-	                <td bgcolor="#E5E5E5"><table width="100%" border="0" cellspacing="1" cellpadding="2">
+				<tr>
+					<th>비밀번호:</th>
+					<td><input type="password" id="pwd" name="pwd" size="12"/></td>
+				</tr>
+
+<%--
+				<tr>
+					<td colspan="2">
+						<input type="button" value="보내기"
+						onclick="sendData()"/>
+						<input type="button" value="다시"/>
+						<input type="button" value="목록"/>
+					</td>
+				</tr>
+ --%>				
+			</tbody>
+		</table>
+		
+		<input type="hidden" name="nowPage" value="${ param.nowPage }"/>
+		<input type="hidden" name="b_idx" value="${ vo.b_idx }"/>
+		<input type="hidden" name="content" id="str" />
+	</form>
+
+		<table>
+			<tbody>
+				<tr>
+					<th style="width:83px;">내용:</th>
+					<td><textarea name="content" cols="50" rows="8" id="content" ></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2">
+						<input type="button" value="수정" onclick="sendData()"/>
+						<input type="reset" id="reset" value="다시"/>
+						<input type="button" id="list" value="목록"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>	
 	
-	                    <tr>
-	                      <td width="90" height="20" align="center" bgcolor="#669AB3"><font color="#FFFFFF">작성자</font></td>
-	                      <td bgcolor="#F2F7F9" align="left"> <input type="text" id="writer" name="writer" cssStyle="width:100px" theme="simple" value="${ vo.writer }"/></td>
-	                    </tr>
+	</div>
 	
-	                    <tr>
-	                      <td height="20" align="center" bgcolor="#669AB3"><font color="#FFFFFF">제목</font></td>
-	                      <td bgcolor="#F2F7F9" align="left"> <input type="text" id="subject" name="subject" size="50" theme="simple" value="${ vo.write_date }"/></td>
-	                    </tr>
-	                    <tr>
-	                      <td height="20" align="center" bgcolor="#669AB3"><font color="#FFFFFF">첨부파일</font></td>
-	                      <td bgcolor="#F2F7F9" align="left">
-	                        <input type="file" name="upload" cssStyle="width:300px" theme="simple"/>
-	                      </td>
-	                    </tr>
-	                    <tr>
-	                      <td height="20" align="center" bgcolor="#669AB3"><font color="#FFFFFF">비밀번호</font></td>
-	                      <td bgcolor="#F2F7F9" align="left"> <input type="password" id="pwd" name="pwd" cssStyle="width:200px" theme="simple"/>
-	                        <font color="#0066CC">* 삭제.수정시 필요</font> </td>
-	                    </tr>
-	                  </table></td>
-	              </tr>
-	            </table>
-	            
-            </form>
-            <table width="556" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-              	<td height="20" align="center" bgcolor="#669AB3"><font color="#FFFFFF">내용</font></td>
-              </tr>
-              <tr>
-              	<td bgcolor="#F2F7F9" align="left"> <textarea id="str" name="str" cols="50" rows="10" theme="simple"></textarea></td>
-              </tr>
-              <tr>
-                <td height="20" valign="middle"><img src="resources/images/sub_it/point_line.gif" width="556" height="3"></td>
-              </tr>
-              <tr>
-                <td align="right"> <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                      <td width="315" align="center">
-                        
-                      </td>
-                      <td width="241" align="right">
-                      <input type="button" onclick="javascript: location.href='notice.inc?nowPage=${nowPage}'" value="목록"/>
-                      <input type="button" onclick="check()" value="보내기"/>
-                      <input type="reset" value="재입력"/>
-                      </td>
-                    </tr>
-                  </table></td>
-              </tr>
-            </table></td>
-        </tr>
-        <tr>
-          <td height="19"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
 	
+	<script src="resources/js/jquery-3.4.1.min.js"></script>
+	<script src="resources/js/summernote-lite.js"></script>
+	<script src="resources/js/lang/summernote-ko-KR.min.js"></script>
+	<script>
+	
+		$(function(){
+			$("#list").bind("click",function(){
+				
+				location.href= "list.inc";
+				
+			});
+			
+			$("#reset").bind("click",function(){
+				
+				var subject = document.getElementById("subject");
+				var writer = document.getElementById("writer");
+				var content = document.getElementById("content");
+				var file = document.getElementById("file");
+				var pwd = document.getElementById("pwd");
+				
+				subject.value = "";
+				writer.value = "";
+				content.value = "";
+				file.value = "";
+				pwd.value = "";
+			});
+			
+			$("#content").summernote({
+				height: 300,
+				width: 450,
+				lang: "ko-KR",
+				callbacks:{
+					onImageUpload: function(files, editor){
+						//이미지가 에디터에 추가될 때마다
+						//수행하는 곳
+						//console.log("TTTTTT");
+						//이미지를 첨부하면 배열로 인식된다.
+						//이것을 서버로 비동식 통신을 수행하는
+						//함수를 호출하여 upload를 시킨다.
+						for(var i=0; i<files.length; i++){
+							sendFile(files[i], editor);
+						}
+					},
+				}
+			});
+			
+			$("#content").summernote("lineHeight", 1.0);
+		});
+		
+		function sendFile(file, editor){
+			
+			//파라미터를 전달하기 위해 폼객체 준비!
+			var frm = new FormData(); //<form encType="multipart/form-data"></form>
+			
+			//보내고자 하는 자원을 파라미터 값으로 등록(추가)
+			frm.append("file", file);
+			
+			//비동기식 통신
+			$.ajax({
+				url: "saveImage.inc",
+				type: "post",
+				dataType: "json",
+				// 파일을 보낼 때는
+				//일반적인 데이터 전송이 아님을 증명해야 한다.
+				contentType: false,
+				processData: false,
+				data: frm
+				
+			}).done(function(data){
+				
+				//console.log(data.img_url);
+				//에디터에 img태그로 저장하기 위해
+				// img태그 만들고, src라는 속성을 지정해야 함!
+				//var img = $("<img>").attr("src",data.img_url);
+				//$("#content").summernote("insertNode", img[0]);
+				
+				$("#content").summernote(
+					"editor.insertImage", data.url);
+				
+				
+				//console.log(data.str);
+				
+			}).fail(function(err){
+				console.log(err);
+			});
+		}
+		
+		
+		function sendData(){
+			for(var i=0 ; i<document.forms[0].elements.length ; i++){
+				
+				//만약 제목과 이름만 입력되었는지 유효성 검사를 
+				//한다면...
+				if(i > 1)
+					break;
+				
+				if(document.forms[0].elements[i].value == ""){
+					alert(document.forms[0].elements[i].name+
+							"를 입력하세요");
+					document.forms[0].elements[i].focus();
+					return;//수행 중단
+				}
+			}
+			var str = $("#content").val();
+			//console.log(str);
+			$("#str").val(str);
+			
+			
+			document.forms[0].submit();
+		}
+	</script>
 </body>
 </html>

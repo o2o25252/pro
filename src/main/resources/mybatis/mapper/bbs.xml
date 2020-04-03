@@ -53,8 +53,8 @@
 	
 	<!-- 게시물 수정 -->
 	<update id="edit" parameterType="com.data.vo.BbsVO">
-		UPDATE bbs_t SET subject = #{subject}, content = #{content},
-		<if test="fname != null">
+		UPDATE bbs_t SET subject = #{subject},writer=#{writer} ,content = #{content}
+		<if test="file_name != null">
 			,file_name =#{file_name}
 		</if>
 		WHERE b_idx = #{b_idx} AND pwd = #{pwd}

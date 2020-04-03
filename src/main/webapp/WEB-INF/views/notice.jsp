@@ -43,11 +43,10 @@
 							<c:forEach var="vo" items="${list }" varStatus="st">
 								<tr>
 									<td bgcolor="#f2f7f5">
-										${rowTotal-((nowPage-1)*blockList+st.index)+1}
+										${rowTotal-((nowPage-1)*blockList+st.index)}
 										<!-- ${(nowPage-1)*blockList+st.index+1}  --> 
 									</td>
 									<td>
-										
 										<a href="view.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
 											${vo.subject }
 										</a>

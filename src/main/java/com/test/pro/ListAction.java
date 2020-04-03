@@ -62,6 +62,7 @@ public class ListAction  {
 		
 		// 총 게시물의 수를 MyBatis환경을 통해 얻는다.
 		rowTotal = b_dao.getTotalCount();
+		
 		// 페이징 처리를 위한 객체 생성
 		Paging page = new Paging(this.nowPage,  BLOCK_LIST, BLOCK_PAGE,rowTotal);
 		//jsp에서 표현할 페이징 기법의 코드를 pageCode에다가 저장
@@ -181,6 +182,39 @@ public class ListAction  {
 		
 		mv.addObject("vo", vo);
 		mv.setViewName("edit");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/editok.inc", method = RequestMethod.POST)
+	public ModelAndView editok(BbsVO vo) throws Exception{
+		// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
+		
+		ModelAndView mv = new ModelAndView();
+		
+		MultipartFile mf = vo.getUpload();
+		
+		if(mf != null && mf.getSize()>0) {
+			String path = application.getRealPath(uploadPath);
+			
+			String file_name = mf.getOriginalFilename();
+			
+			file_name = FileRenameUtill.checkFileName(path, file_name);
+			
+			mf.transferTo(new File(path,file_name));
+			
+			vo.setFile_name(file_name);
+			
+			System.out.println(file_name);
+		}
+		
+		vo.setIp(request.getRemoteAddr());
+		
+		boolean value = b_dao.edit(vo);
+		
+		if(value) {
+			mv.setViewName("redirect:/view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
+		}
 		
 		return mv;
 	}
