@@ -24,7 +24,25 @@
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 <beans:bean id="naverLoginBO" class="com.test.pro.NaverLoginBO" />
 
+		<!-- 파일첨부시 움직이는 MultipartResolver -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="maxUploadSize" value="-1"/><!-- 사이즈 제한 없음 -->
+	</beans:bean>
 	
+	<beans:bean id="jsonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jsonHttpMessageConverter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+		
+		
+		
 	
 	<context:component-scan base-package="com.test.pro" />
 	
