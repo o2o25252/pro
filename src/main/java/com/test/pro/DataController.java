@@ -69,12 +69,12 @@ public class DataController {
 			
 			return mv;
 		}
-	
+
+	// 영화 상세정보
 	@RequestMapping(value = "/oo.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
 
-		// 영화 상세정보
 		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
 		
 		MovieVO vo = new MovieVO();
@@ -97,7 +97,6 @@ public class DataController {
 		if(nation.size()>0) {
 			vo.setNationNm(nation.get(0).getChildText("nationNm"));
 		}
-		
 		
 		String nationEE;
 		
@@ -176,11 +175,9 @@ public class DataController {
 		return map;
 	}
 
+	 // 영화 포스터 가져오기
 	public String getPost(String movieNm, String prdtYear, String nationEE) throws Exception{
-      // 영화 포스터 가져오기
-      
-		System.out.println(prdtYear);
-      
+     
         String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
         String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
         
@@ -198,13 +195,13 @@ public class DataController {
         Element root = doc.getRootElement();
         Element channel = root.getChild("channel");
 
-      List<Element> item = channel.getChildren("item");
-      String image_s = null;
-      if(item.size() != 0) {
-         image_s = item.get(0).getChildText("image");         
-      }else {
-         image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
-      }
+        List<Element> item = channel.getChildren("item");
+        String image_s = null;
+        if(item.size() != 0) {
+           image_s = item.get(0).getChildText("image");         
+        }else {
+           image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
+        }
       
         return image_s;
    }
@@ -229,32 +226,29 @@ public class DataController {
 		return map;
 	}
 	
-		//댓글등록
-		@RequestMapping(value ="/coco.inc",method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> staradd(String movieCd, String
-		 rating, String content) {
-			
-			//StarVO 에 인자 값 온거 넣기
-			StarVO vo = new StarVO();
-			vo.setMovieCd(movieCd);
-			vo.setRating(rating);
-			vo.setContent(content);
-			
-			String writer = "작성자";
-			vo.setWriter(writer);
-			
-			System.out.println(vo.getContent());
-			System.out.println(vo.getWriter());
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			//vo 를 DB에 넣기 
-			if(u_dao.staradd(vo)) {
-				map.put("svo", vo);
-			}
-			return map;
+	//댓글등록
+	@RequestMapping(value ="/coco.inc",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> staradd(String movieCd, String
+	 rating, String content) {
+		
+		//StarVO 에 인자 값 온거 넣기
+		StarVO vo = new StarVO();
+		vo.setMovieCd(movieCd);
+		vo.setRating(rating);
+		vo.setContent(content);
+		
+		String writer = "작성자";
+		vo.setWriter(writer);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//vo 를 DB에 넣기 
+		if(u_dao.staradd(vo)) {
+			map.put("svo", vo);
 		}
+		return map;
+	}
 
 	// 금일 달력 순위 
 	@RequestMapping(value = "/last.inc",method = RequestMethod.POST)

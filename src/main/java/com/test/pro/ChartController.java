@@ -34,9 +34,6 @@ public class ChartController {
 	@ResponseBody
 	public void ex00(Object json_data) {
 		
-		System.out.println("controller 진입");
-		
-		
 		c_dao.saveChartData(json_data);
 		
 	}

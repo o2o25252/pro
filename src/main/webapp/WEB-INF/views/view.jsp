@@ -118,9 +118,9 @@
 			</form>
 		
 		<!-- 댓글 출력란 -->
-				<div id="comm_add">
-					
-				</div>
+		<div id="comm_add">
+			
+		</div>
 		
 		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
@@ -165,7 +165,7 @@
 	
 	// 수정 화면 전환
 		function edit(){
-			document.frm.action = "editgo.inc";
+			document.frm.action = "b_editgo.inc";
 			document.frm.submit();
 		
 	}
@@ -196,7 +196,7 @@
 			
 			
 			$.ajax({
-				url: "del.inc",
+				url: "b_del.inc",
 				data: param,
 				type:"post",
 				dataType:"json"
@@ -234,7 +234,7 @@
 		"&c_pwd="+encodeURIComponent(c_pwd)+"&c_content="+encodeURIComponent(c_content);
 		
 		$.ajax({
-			url: "add_coment.inc",
+			url: "comm_add.inc",
 			data: c_info,
 			type:"post",
 			dataType:"json"
@@ -253,7 +253,7 @@
 		var view_cinfo ="b_idx="+encodeURIComponent(b_idx);
 		
 		$.ajax({
-			url: "view_comm.inc",
+			url: "comm_view.inc",
 			data: view_cinfo,
 			type:"post",
 			dataType:"json"

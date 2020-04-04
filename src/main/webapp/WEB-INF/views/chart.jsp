@@ -17,6 +17,8 @@
 	request.setAttribute("today", toDay);
 	request.setAttribute("nowday", nowDay);
 	request.setAttribute("toweek", toWeek);
+	
+	
 %>
 <!DOCTYPE html>
 <html>

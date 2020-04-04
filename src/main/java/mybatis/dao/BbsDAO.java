@@ -25,7 +25,7 @@ public class BbsDAO {
 	
 	// 원하는 페이지의 게시물을 목록화면으로
 	// 표현하기 위해 '배열'로 반환하는 기능 - list.jsp
-	public BbsVO[] getList(int begin, int end) {
+	public BbsVO[] b_getList(int begin, int end) {
 		BbsVO[] ar = null;
 		
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -45,9 +45,9 @@ public class BbsDAO {
 		return ar;
 	}
 	//원글 추가  
-	public boolean add(BbsVO vo) {
+	public boolean b_add(BbsVO vo) {
 		boolean chk = false;
-		int cnt = template.insert("bbs.add",vo);
+		int cnt = template.insert("bbs.b_add",vo);
 		
 		if(cnt > 0) {
 			chk= true;
@@ -65,11 +65,11 @@ public class BbsDAO {
 	}
 	
 	// 게시물 수정 
-	public boolean edit(BbsVO vo) {
+	public boolean b_edit(BbsVO vo) {
 		
 		boolean value = false;
 		
-		int cnt = template.update("bbs.edit",vo);
+		int cnt = template.update("bbs.b_edit",vo);
 		
 		if(cnt > 0)
 			value = true;
@@ -77,7 +77,7 @@ public class BbsDAO {
 		return value;
 	}
 	// 게시물 삭제 1
-	public boolean del(String b_idx, String pw) {
+	public boolean b_del(String b_idx, String pw) {
 		
 		boolean chk = false;
 		
@@ -85,7 +85,7 @@ public class BbsDAO {
 		map.put("b_idx", b_idx);
 		map.put("pw",pw);
 		
-		int cnt =template.update("bbs.del",map);
+		int cnt =template.update("bbs.b_del",map);
 		
 		if(cnt > 0) {
 			chk = true;	
@@ -97,11 +97,12 @@ public class BbsDAO {
 	// 댓글 등록 
 	public void comment_add(CommVO cvo) {
 		
-		int cnt = template.insert("bbs.comadd",cvo);
+		int cnt = template.insert("bbs.c_add",cvo);
 	}
+	
 	// 댓글 보여주기 
 	public List<CommVO> getcomlist(String b_idx) {
-		List<CommVO> c_list	= template.selectList("bbs.getComlist", b_idx);
+		List<CommVO> c_list	= template.selectList("bbs.c_list", b_idx);
 		
 		return c_list;
 	}

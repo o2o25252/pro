@@ -23,7 +23,7 @@ import com.pro.util.Paging;
 
 import mybatis.dao.BbsDAO;
 @Controller
-public class ListAction  {
+public class ListController  {
 	
 	 
 	private String imgPath = "/resources/editor_img";
@@ -79,7 +79,7 @@ public class ListAction  {
 		
 		// MyBatis환경을 통해 begin과 end를 전달하면서 
 		// 표현할 게시물들을 받는다.
-		BbsVO[] ar = b_dao.getList(begin, end);
+		BbsVO[] ar = b_dao.b_getList(begin, end);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("pageCode", pageCode);
@@ -94,12 +94,12 @@ public class ListAction  {
 	}
 	
 	//쓰기  페이지로 가는 곳 갈떄 nowPage 챙기고 가기
-	@RequestMapping("/write.inc")
+	@RequestMapping("/b_write.inc")
 	public ModelAndView add(String nowPage) {
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("nowPage", nowPage);
-		mv.setViewName("write");
+		mv.setViewName("b_write");
 		
 		return mv;
 	}
@@ -127,43 +127,42 @@ public class ListAction  {
 	}
 	
 	//원글 추가 기능 
-	@RequestMapping(value = "/add.inc", method = RequestMethod.POST)
+	@RequestMapping(value = "/b_add.inc", method = RequestMethod.POST)
 	public ModelAndView write(BbsVO vo )throws Exception{
+		
 		ModelAndView mv = new ModelAndView();
-		System.out.println("여기야");
+		
 		MultipartFile mf = vo.getUpload();
 		
 		if(mf != null && mf.getSize() >0) {
 			String path = application.getRealPath(uploadPath);
 			
 			String f_name = mf.getOriginalFilename();
-			System.out.println(f_name);
+			
 			f_name = FileRenameUtill.checkFileName(path, f_name);
 			
 			mf.transferTo(new File(path, f_name));
 			
 			vo.setFile_name(f_name);
-		}else {
+		}else{
 			vo.setFile_name("");
 		}
 		
 		vo.setIp(request.getRemoteAddr());  //ip
 		
-		System.out.println(vo.getSubject());
-		
-		boolean value  = b_dao.add(vo);
+		boolean value  = b_dao.b_add(vo);
 		
 		if(value)
 			mv.setViewName("redirect://notice.inc");
 		else
-			mv.setViewName("redirect:/write.inc?nowPage="+vo.getNowPage());
+			mv.setViewName("redirect:/b_write.inc?nowPage="+vo.getNowPage());
 		
 		return mv;
 				
 	}
 	
 	// 보기 화면 전환
-	@RequestMapping("/view.inc")
+	@RequestMapping("/b_view.inc")
 	public ModelAndView view(String b_idx,String nowPage) {
 		
 		ModelAndView mv = new ModelAndView();
@@ -176,108 +175,106 @@ public class ListAction  {
 	}
 	
 	// 수정 화면 전환
-		@RequestMapping("/editgo.inc")
-		public ModelAndView goedit(String b_idx, String nowPage) {
-			BbsVO vo = b_dao.getview(b_idx);
+	@RequestMapping("/b_editgo.inc")
+	public ModelAndView goedit(String b_idx, String nowPage) {
+		
+		BbsVO vo = b_dao.getview(b_idx);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("vo", vo);
+		mv.setViewName("edit");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/b_editok.inc", method = RequestMethod.POST)
+	public ModelAndView editok(BbsVO vo) throws Exception{
+		
+		// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
+		ModelAndView mv = new ModelAndView();
+		
+		MultipartFile mf = vo.getUpload();
+		
+		if(mf != null && mf.getSize()>0) {
+			String path = application.getRealPath(uploadPath);
 			
-			ModelAndView mv = new ModelAndView();
+			String file_name = mf.getOriginalFilename();
 			
-			mv.addObject("vo", vo);
-			mv.setViewName("edit");
+			file_name = FileRenameUtill.checkFileName(path, file_name);
 			
-			return mv;
+			mf.transferTo(new File(path,file_name));
+			
+			vo.setFile_name(file_name);
 		}
 		
-		@RequestMapping(value = "/editok.inc", method = RequestMethod.POST)
-		public ModelAndView editok(BbsVO vo) throws Exception{
-			// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
-			
-			ModelAndView mv = new ModelAndView();
-			
-			MultipartFile mf = vo.getUpload();
-			
-			if(mf != null && mf.getSize()>0) {
-				String path = application.getRealPath(uploadPath);
-				
-				String file_name = mf.getOriginalFilename();
-				
-				file_name = FileRenameUtill.checkFileName(path, file_name);
-				
-				mf.transferTo(new File(path,file_name));
-				
-				vo.setFile_name(file_name);
-				
-				System.out.println(file_name);
-			}
-			
-			vo.setIp(request.getRemoteAddr());
-			
-			boolean value = b_dao.edit(vo);
-			
-			if(value) {
-				mv.setViewName("redirect:/view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
-			}
-			
-			return mv;
+		vo.setIp(request.getRemoteAddr());
+		
+		boolean value = b_dao.b_edit(vo);
+		
+		if(value) {
+			mv.setViewName("redirect:/b_view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
 		}
+		
+		return mv;
+	}
 	//게시물삭제
-	@RequestMapping(value = "/del.inc", method = RequestMethod.POST)
+	@RequestMapping(value = "/b_del.inc", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Boolean> del(String b_idx, String pw) {
 		
 		Map<String, Boolean> map = new  HashMap<String, Boolean>();
 		
-		boolean chk =	b_dao.del(b_idx, pw);
-		
-		
+		boolean chk =	b_dao.b_del(b_idx, pw);
 		
 		map.put("chk", chk);
 			
-		
 		return map;
 				
 	}
 	//댓글 입력 
-		@RequestMapping(value = "/add_coment.inc", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, CommVO> comment_add(String b_idx, String c_writer, String c_pwd, String c_content){
-			
-			Map<String, CommVO> map = new HashMap<String, CommVO>();
-			CommVO cvo = new CommVO();
-			cvo.setB_idx(b_idx);
-			cvo.setContent(c_content);
-			String ip = request.getRemoteAddr();
-			cvo.setIp(ip);
-			cvo.setPwd(c_pwd);
-			cvo.setWriter(c_writer);
-			
-			b_dao.comment_add(cvo); //여기까지 DB 댓글 등록
-			
-			
-			map.put("cvo", cvo);
-			
-			return map;
-		}
+	@RequestMapping(value = "/comm_add", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, CommVO> comment_add(String b_idx, String c_writer, String c_pwd, String c_content){
+		
+		Map<String, CommVO> map = new HashMap<String, CommVO>();
+		
+		CommVO cvo = new CommVO();
+		cvo.setB_idx(b_idx);
+		cvo.setContent(c_content);
+		
+		String ip = request.getRemoteAddr();
+		cvo.setIp(ip);
+		cvo.setPwd(c_pwd);
+		cvo.setWriter(c_writer);
+		
+		b_dao.comment_add(cvo); //여기까지 DB 댓글 등록
+		
+		
+		map.put("cvo", cvo);
+		
+		return map;
+	}
+	
 	//댓글 표현
-		@RequestMapping(value = "/view_comm.inc", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> comment_add(String b_idx){
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			List<CommVO> c_list = b_dao.getcomlist(b_idx);
-			
-			
-			CommVO[] c_ar = null;
-			
-			if(c_list.size() != 0) {
-				c_ar = new CommVO[c_list.size()];
-				c_list.toArray(c_ar);
-			}
-			map.put("c_ar", c_ar);
-			
-			return map;
+	@RequestMapping(value = "/comm_view.inc", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> comment_add(String b_idx){
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<CommVO> c_list = b_dao.getcomlist(b_idx);
+		
+		CommVO[] c_ar = null;
+		
+		if(c_list.size() != 0) {
+			c_ar = new CommVO[c_list.size()];
+			c_list.toArray(c_ar);
 		}
+		map.put("c_ar", c_ar);
+		
+		return map;
+	}
 
 	
 

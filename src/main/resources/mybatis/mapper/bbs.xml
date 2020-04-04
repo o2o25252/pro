@@ -41,7 +41,7 @@
    </select>
  
  	<!-- 게시물 등록 -->
- 	<insert id="add" parameterType="com.data.vo.BbsVO">
+ 	<insert id="b_add" parameterType="com.data.vo.BbsVO">
  		insert into bbs_t(b_idx, subject, writer, content, file_name,  pwd, write_date, ip, hit, status)
  		values (bbs_t_seq.NEXTVAL, #{subject}, #{writer}, #{content}, #{file_name}, #{pwd}, sysdate, #{ip}, 0, 0)
  	</insert>
@@ -52,7 +52,7 @@
 	</select>
 	
 	<!-- 게시물 수정 -->
-	<update id="edit" parameterType="com.data.vo.BbsVO">
+	<update id="b_edit" parameterType="com.data.vo.BbsVO">
 		UPDATE bbs_t SET subject = #{subject},writer=#{writer} ,content = #{content}
 		<if test="file_name != null">
 			,file_name =#{file_name}
@@ -61,18 +61,18 @@
 	</update>
 	
 	<!-- 게시물 삭제 -->
-	<update id="del" parameterType="java.util.Map">
+	<update id="b_del" parameterType="java.util.Map">
 		UPDATE bbs_t SET status = 1 
 		WHERE b_idx = #{b_idx} AND pwd = #{pw}
 	</update>
 	
 <!--  댓글 등록-->
-	<insert id="comadd" parameterType="com.data.vo.CommVO">
+	<insert id="c_add" parameterType="com.data.vo.CommVO">
 		insert into comment_t (c_idx,writer,content,pwd,write_date,ip,b_idx,status)
 		values (comment_t_seq.NEXTVAL , #{writer},#{content},#{pwd},sysdate,#{ip},#{b_idx},0)
 	</insert>
 <!-- 선택 댓글 보기  -->
-	<select id="getComlist" parameterType="String" resultType="com.data.vo.CommVO">
+	<select id="c_list" parameterType="String" resultType="com.data.vo.CommVO">
 		select * from comment_t where b_idx =#{b_idx}
 	</select>	
 </mapper>
