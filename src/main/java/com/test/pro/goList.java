@@ -59,7 +59,6 @@ public class goList {
     public String login(@RequestParam("code") String code) {
 	 String access_Token = kakao.getAccessToken(code);
 	    HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-	    System.out.println("login Controller : " + userInfo);
 	    
 	    //    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 	    if (userInfo.get("email") != null) {

@@ -47,8 +47,6 @@ public class LoginController {
 	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		
-		System.out.println("member callback");
-		
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		//1. 로그인 사용자 정보를 읽어온다.
@@ -71,11 +69,6 @@ public class LoginController {
 		String id = (String)response_obj.get("id");
 		String name =(String)response_obj.get("name");
 		
-		System.out.println("naver 로그인 정보 :");
-		System.out.println(nickname);
-		System.out.println(id);
-		System.out.println(name);
-		
 		UserVO vo = new UserVO();
 		vo.setId(id);
 		vo.setPw(null);
@@ -93,7 +86,6 @@ public class LoginController {
 	//로그아웃
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session)throws IOException {
-		System.out.println("member logout");
 		session.invalidate();
 		return "redirect:main.inc";
 	}

@@ -51,11 +51,9 @@
 			dataType: "json"
 		}).done(function(data) {
 			if(data.result){	// 데이터가 있다면
-				console.log("데이터가 있다면!");
 				viewChart(data.jsonAr);				
 			}
 			else{					// 데이터가 없다면
-				console.log("데이터가 없다면!");
 				connApi();
 			}
 		}).fail(function(er) {
@@ -64,8 +62,6 @@
 	});
 	
 	function connApi() {
-		
-		console.log("connApi 넘어옴");
 		
 		$.ajax({
 			url: "http://localhost:5000/daySalesAmt?setDate=${toDay2}&count=7",
@@ -132,8 +128,6 @@
 	
 	function saveData(json_data) {
 
-		console.log(json_data);
-		
 		$.ajax({
 			url: "saveChartData",
 			type: "POST",

@@ -75,8 +75,6 @@ public class ListController  {
 		int begin = page.getBegin();
 		int end = page.getEnd();
 		
-		
-		
 		// MyBatis환경을 통해 begin과 end를 전달하면서 
 		// 표현할 게시물들을 받는다.
 		BbsVO[] ar = b_dao.b_getList(begin, end);
@@ -188,6 +186,7 @@ public class ListController  {
 		return mv;
 	}
 	
+	// 원글 수정 완료
 	@RequestMapping(value = "/b_editok.inc", method = RequestMethod.POST)
 	public ModelAndView editok(BbsVO vo) throws Exception{
 		
@@ -218,6 +217,7 @@ public class ListController  {
 		
 		return mv;
 	}
+	
 	//게시물삭제
 	@RequestMapping(value = "/b_del.inc", method = RequestMethod.POST)
 	@ResponseBody
@@ -233,7 +233,7 @@ public class ListController  {
 				
 	}
 	//댓글 입력 
-	@RequestMapping(value = "/comm_add", method = RequestMethod.POST)
+	@RequestMapping(value = "/comm_add.inc", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, CommVO> comment_add(String b_idx, String c_writer, String c_pwd, String c_content){
 		

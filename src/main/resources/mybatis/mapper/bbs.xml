@@ -22,7 +22,6 @@
       where status = 0 
    </select>
    
-	 
 	<!-- 클릭한 게시물 보기 기능 -->
 	<select id="get_bbs" parameterType="String" resultMap="map1">
 		select * from bbs_t
@@ -66,12 +65,12 @@
 		WHERE b_idx = #{b_idx} AND pwd = #{pw}
 	</update>
 	
-<!--  댓글 등록-->
+	<!--  댓글 등록-->
 	<insert id="c_add" parameterType="com.data.vo.CommVO">
-		insert into comment_t (c_idx,writer,content,pwd,write_date,ip,b_idx,status)
-		values (comment_t_seq.NEXTVAL , #{writer},#{content},#{pwd},sysdate,#{ip},#{b_idx},0)
+		insert into comment_t (c_idx,writer,content,pwd,write_date,ip,b_idx)
+		values (comment_t_seq.NEXTVAL , #{writer},#{content},#{pwd},sysdate,#{ip},#{b_idx})
 	</insert>
-<!-- 선택 댓글 보기  -->
+	<!-- 선택 댓글 보기  -->
 	<select id="c_list" parameterType="String" resultType="com.data.vo.CommVO">
 		select * from comment_t where b_idx =#{b_idx}
 	</select>	

@@ -14,7 +14,6 @@ public class MapController {
 
 	@RequestMapping("/kmap2.inc")
 	public ModelAndView map2(String name) {
-		System.out.println(name);
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("kAddr", name);
@@ -26,7 +25,6 @@ public class MapController {
 	@ResponseBody
 	public Map<String, String> gogo(String dt){
 		Map<String, String> map = new HashMap<String, String>();
-		System.out.println("요기");
 		map.put("addr", dt);
 		
 		return map;

@@ -62,7 +62,6 @@ public class kakaoAPI {
             
             //    결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
  
             //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -72,7 +71,6 @@ public class kakaoAPI {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
             
             //    Json 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -80,9 +78,6 @@ public class kakaoAPI {
             
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-            
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
             
             br.close();
             bw.close();
@@ -109,7 +104,6 @@ public class kakaoAPI {
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
             
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
             session.setAttribute("responseCode", responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             
@@ -119,7 +113,6 @@ public class kakaoAPI {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
             
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -130,9 +123,6 @@ public class kakaoAPI {
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
-            
-            System.out.println("kakao Login controller nickname:"+nickname);
-            System.out.println("kakao Login controller email"+email);
             
             UserVO vo = new UserVO();
           vo.setId(Long.toString(id));
@@ -165,24 +155,18 @@ public class kakaoAPI {
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
             
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
             
             session.removeAttribute("conn");
             session.setAttribute("responseCode", responseCode);
-            
-            System.out.println("요기");
             
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             
             String result = "";
             String line = "";
             
-            
-            System.out.println("여기");
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println(result);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
