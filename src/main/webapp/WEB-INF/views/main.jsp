@@ -49,6 +49,11 @@
 	#view_win1{
 		border: 1px solid black;
 		float: left;
+		padding:auto;
+		width: 600px;
+		height: 900px;
+		margin: auto;
+		margin-left: 80px;
 	}
 
 
