@@ -275,6 +275,18 @@ public class ListController  {
 		
 		return map;
 	}
+	//댓글 삭제
+	public Map<String, Boolean> comment_del(String c_idx, String pwd) {
+		
+		Map<String, Boolean> map = new  HashMap<String, Boolean>();
+		
+		boolean chk =	b_dao.comment_del(c_idx, pwd);
+		
+		map.put("chk", chk);
+			
+		return map;
+				
+	}
 
 	
 

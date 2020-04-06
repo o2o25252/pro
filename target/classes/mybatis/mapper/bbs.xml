@@ -62,16 +62,23 @@
 	<!-- 게시물 삭제 -->
 	<update id="b_del" parameterType="java.util.Map">
 		UPDATE bbs_t SET status = 1 
-		WHERE b_idx = #{b_idx} AND pwd = #{pw}
+		WHERE b_idx = #{b_idx} AND pwd = #{pwd}
 	</update>
 	
 	<!--  댓글 등록-->
 	<insert id="c_add" parameterType="com.data.vo.CommVO">
-		insert into comment_t (c_idx,writer,content,pwd,write_date,ip,b_idx)
-		values (comment_t_seq.NEXTVAL , #{writer},#{content},#{pwd},sysdate,#{ip},#{b_idx})
+		insert into comment_t (c_idx,writer,content,pwd,write_date,ip,b_idx,status)
+		values (comment_t_seq.NEXTVAL , #{writer},#{content},#{pwd},sysdate,#{ip},#{b_idx},0)
 	</insert>
 	<!-- 선택 댓글 보기  -->
 	<select id="c_list" parameterType="String" resultType="com.data.vo.CommVO">
 		select * from comment_t where b_idx =#{b_idx}
 	</select>	
+	<!-- 댓글 삭제 -->
+		<update id="c_del" parameterType="java.util.Map" >
+			UPDATE bbs_t SET status = 1 
+			WHERE c_idx = #{c_idx} AND pwd = #{pwd}
+		</update>	
+	<!-- 댓글 수정 -->
+		
 </mapper>

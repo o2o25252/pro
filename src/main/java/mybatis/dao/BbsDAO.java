@@ -77,13 +77,13 @@ public class BbsDAO {
 		return value;
 	}
 	// 게시물 삭제 1
-	public boolean b_del(String b_idx, String pw) {
+	public boolean b_del(String b_idx, String pwd) {
 		
 		boolean chk = false;
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("b_idx", b_idx);
-		map.put("pw",pw);
+		map.put("pw",pwd);
 		
 		int cnt =template.update("bbs.b_del",map);
 		
@@ -105,6 +105,22 @@ public class BbsDAO {
 		List<CommVO> c_list	= template.selectList("bbs.c_list", b_idx);
 		
 		return c_list;
+	}
+	//댓글 삭제 
+	public boolean comment_del(String c_idx, String pwd) {
+		boolean chk = false;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("c_idx", c_idx);
+		map.put("pwd",pwd);
+		
+		int cnt =template.update("bbs.c_del",map);
+		
+		if(cnt > 0) {
+			chk = true;	
+		}
+		
+		return chk;
 	}
 	
 }
