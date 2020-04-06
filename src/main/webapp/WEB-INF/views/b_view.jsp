@@ -279,7 +279,7 @@
 					code += "<span class='show' id='sp"+i+"'>";
 					code += data.c_ar[i].content;
 					code += "</span>";
-
+					
 					code += "<textarea class='none' name='content' id='content"+i+"' rows='2' cols='12'>"+data.c_ar[i].content+"</textarea>";
 					code += "</br>";
 					code += "<input type='hidden' name='c_c_idx' id='c_c_idx"+i+"' value=\"";
@@ -340,6 +340,7 @@
 			$("#c_pwd"+idx).removeClass("none");
 			$("#c_pwd"+idx).addClass("show");
 			
+			value = false;
 		}else{//수정버튼을 두번째(짝수번째) 클릭했을 때는 DB의 내용을 수정해야 한다.
 			//확인 완료 
 			
@@ -365,17 +366,19 @@
 					$("#c_pwd"+idx).removeClass("shone");
 					$("#c_pwd"+idx).addClass("none");
 					
-					$("#sp"+idx).text(c_content);
+					$("#sp"+idx).text(c_content); //텍스트 에어리어 입력한 값을 sp 에 삽입하는 부분 
+					
+					
 					alert("댓글 수정 성공");
+					
 				}else{
 					alert("댓글 수정 실패!");
 				}
 			}).fail(function(err){
 				console.log(err)
 			});
+			value = true;
 		}
-		
-		value = false;
 	}
 	</script>
 	
