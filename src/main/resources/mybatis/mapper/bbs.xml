@@ -94,6 +94,6 @@
 	<!-- 댓글 수정 -->
 	<update id="c_edit" parameterType="java.util.Map">
 		UPDATE comment_t SET content = #{content} 
-		WHERE b_idx = #{b_idx} AND pwd = #{pwd} AND c_idx = #{c_idx}
+		WHERE  pwd = #{pwd} AND c_idx = #{c_idx}
 	</update>
 </mapper>

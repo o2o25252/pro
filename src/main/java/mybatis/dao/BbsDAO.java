@@ -124,13 +124,13 @@ public class BbsDAO {
 		return chk;
 	}
 	//댓글 수정
-	public boolean c_edit(String content,String b_idx,String pwd,String c_idx) {
+	public boolean c_edit(String content,String pwd,String c_idx) {
 		
 		boolean value = false;
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("content", content);
-		map.put("b_idx", b_idx);
+		
 		map.put("pwd", pwd);
 		map.put("c_idx", c_idx);
 		

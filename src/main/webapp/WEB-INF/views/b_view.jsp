@@ -44,6 +44,8 @@
 		display: none;
 	}
 	
+	.show{display: block;}
+	.none{display: none; }
 </style>
 
 </head>
@@ -98,6 +100,7 @@
 					<table>
 						<tbody>
 							<tr>
+								
 								<td><label for="c_writer">작성자:</label></td>
 								<td><input type="text"  id="c_writer" name="c_writer"/> </td>
 							</tr>
@@ -140,7 +143,7 @@
                <input type="hidden" name="nowPage" value="${param.nowPage }">
          </form>
    </div>
-	
+	<
 	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
@@ -267,31 +270,26 @@
 				var code ="";
 				for(var i =0; i<data.c_ar.length; i++){
 					
-					code += "<hr/><label>작성자 : </label>";
+					code += "<hr/><form><label>작성자 : </label>";
 					code += "<label>";
 					code += data.c_ar[i].writer;
 					code += "</label>";
 					code += "<br/>";
 					code += "<label>내용 : </label>";
-					code += "<input type='text' id=\'c_content\' value=\"";
+					code += "<span class='show' id='sp"+i+"'>";
 					code += data.c_ar[i].content;
-					code += "\">";
+					code += "</span>";
+
+					code += "<textarea class='none' name='content' id='content"+i+"' rows='2' cols='12'>"+data.c_ar[i].content+"</textarea>";
 					code += "</br>";
-					code += "<input type='hidden' id=\'c_c_idx\' value=\"";
+					code += "<input type='hidden' name='c_c_idx' id='c_c_idx"+i+"' value=\"";
 					code += data.c_ar[i].c_idx;
-					code += "\">";
-					code += "<input type='text' id=\'c_pwd\' value=\"";
-					code += data.c_ar[i].pwd;
-					code += "\">";
-					code += "<input type='text' id=\'c_b_idx\' value=\"";
-					code += data.c_ar[i].b_idx;
-					code += "\">";
-					code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+")\" value=\'삭제\'/>";
-					code += "<input type = 'button' onclick=\"c_edit("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+","+data.c_ar[i].b_idx+","+data.c_ar[i].content+")\" value=\'수정\'/>";
-					
+					code += "\"/>";
+					code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
+					code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\'/>";
+					code += "<input type = 'button' onclick='c_edit("+i+")' value='수정'/></form>";
 				}
 				$("#comm_add").html(code);
-				
 			}
 						
 		}).fail(function(err){
@@ -303,7 +301,7 @@
 	function c_del(c_idx,c_pwd){
 		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
 
-		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd);
+		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(ok_pwd);
 		
 		$.ajax({
 			url: "comm_del.inc",
@@ -327,36 +325,57 @@
 		
 	}
 	
-	function c_edit(c_idx,c_pwd,b_idx,content){
-		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
+	var value = true;
+	//댓글 수정
+	function c_edit(idx){
 		
-		console.log(c_idx);
-		console.log(content);
-		console.log(c_pwd);
-		console.log(b_idx);
-		
-		var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_content)+"&b_idx="+encodeURIComponent(b_idx);
-		
-		$.ajax({
-			url: "c_editok.inc",
-			data: edit_cinfo,
-			type:"post",
-			dataType:"json"
-		}).done(function(data){
+		if(value){ //처음 수정버튼을 누렀을 때는 수정할 수 있는 화면으로 전환!!
+			//수정선택시 해당 폼객체를 얻어낸다.
+			frm = document.forms[idx+2];
 			
-			if(data.chk){
-				if(data.pwd == ok_pwd){
-				alert("댓글 수정 완료");
-				location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
+			$("#sp"+idx).removeClass("show");
+			$("#sp"+idx).addClass("none");//jquery로 클래스 지정
+			$("#content"+idx).removeClass("none");
+			$("#content"+idx).addClass("show");
+			$("#c_pwd"+idx).removeClass("none");
+			$("#c_pwd"+idx).addClass("show");
+			
+		}else{//수정버튼을 두번째(짝수번째) 클릭했을 때는 DB의 내용을 수정해야 한다.
+			//확인 완료 
+			
+			var c_idx = $("#c_c_idx"+idx).val();
+			var c_content = $("#content"+idx).val();
+			var c_pwd = $("#c_pwd"+idx).val();
+			
+			var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_content);
+			
+			$.ajax({
+				url: "c_editok.inc",
+				data: edit_cinfo,
+				type:"post",
+				dataType:"json"
+			}).done(function(data){
+				
+				if(data.chk){
+					
+					$("#sp"+idx).removeClass("none");
+					$("#sp"+idx).addClass("show");//jquery로 클래스 지정
+					$("#content"+idx).removeClass("show");
+					$("#content"+idx).addClass("none");
+					$("#c_pwd"+idx).removeClass("shone");
+					$("#c_pwd"+idx).addClass("none");
+					
+					$("#sp"+idx).text(c_content);
+					alert("댓글 수정 성공");
+				}else{
+					alert("댓글 수정 실패!");
 				}
-			}else{
-				alert("댓글 수정 실패!");
-			}
-		}).fail(function(err){
-			console.log(err)
-		});
+			}).fail(function(err){
+				console.log(err)
+			});
+		}
 		
-		
+		value = false;
 	}
 	</script>
 	
