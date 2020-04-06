@@ -118,9 +118,9 @@
 			</form>
 		
 		<!-- 댓글 출력란 -->
-		<div id="comm_add">
-			
-		</div>
+				<div id="comm_add">
+					
+				</div>
 		
 		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
@@ -165,7 +165,7 @@
 	
 	// 수정 화면 전환
 		function edit(){
-			document.frm.action = "b_editgo.inc";
+			document.frm.action = "editgo.inc";
 			document.frm.submit();
 		
 	}

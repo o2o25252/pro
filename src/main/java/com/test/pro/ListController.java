@@ -167,7 +167,7 @@ public class ListController  {
 		
 		BbsVO vo = b_dao.getview(b_idx);
 		mv.addObject("vo", vo);
-		mv.setViewName("view");
+		mv.setViewName("b_view");
 		
 		return mv;
 	}
@@ -181,7 +181,7 @@ public class ListController  {
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("vo", vo);
-		mv.setViewName("edit");
+		mv.setViewName("b_edit");
 		
 		return mv;
 	}
@@ -227,8 +227,11 @@ public class ListController  {
 		
 		boolean chk =	b_dao.b_del(b_idx, pw);
 		
+		
+		
 		map.put("chk", chk);
 			
+		
 		return map;
 				
 	}

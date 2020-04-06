@@ -62,7 +62,7 @@
 	<!-- 게시물 삭제 -->
 	<update id="b_del" parameterType="java.util.Map">
 		UPDATE bbs_t SET status = 1 
-		WHERE b_idx = #{b_idx} AND pwd = #{pwd}
+		WHERE b_idx = #{b_idx} AND pwd = #{pw}
 	</update>
 	
 	<!--  댓글 등록-->
