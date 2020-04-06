@@ -106,6 +106,7 @@ public class BbsDAO {
 		
 		return c_list;
 	}
+	
 	//댓글 삭제 
 	public boolean comment_del(String c_idx, String pwd) {
 		boolean chk = false;
@@ -122,5 +123,16 @@ public class BbsDAO {
 		
 		return chk;
 	}
-	
+	//댓글 수정
+	public boolean c_edit(CommVO cvo) {
+		
+		boolean value = false;
+		
+		int cnt = template.update("bbs.c_edit",cvo);
+		
+		if(cnt > 0)
+			value = true;
+		
+		return value;
+	}
 }

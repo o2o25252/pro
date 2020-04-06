@@ -92,7 +92,7 @@
 		<!-- 댓글 입력란 -->
 		<hr/>
 		
-			<form action="" method="post">
+			<form action="b_editok.inc" method="post">
 				<div>
 					<input type="hidden" id="b_idx" name="b_idx" value="${vo.b_idx }">
 					<table>
@@ -118,17 +118,16 @@
 			</form>
 		
 		<!-- 댓글 출력란 -->
-				<div id="comm_add">
-					
-				</div>
-		
+		<div id="comm_add">
+			
+		</div>
 		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
 			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }">
 		</form>
+		</div>
 		
-		
-	</div>
+	<!-- 게시물 -->	
 	<div id="del_win">
          <form>
                <input type="hidden" name="b_idx" id="b_idx"
@@ -165,7 +164,7 @@
 	
 	// 수정 화면 전환
 		function edit(){
-			document.frm.action = "editgo.inc";
+			document.frm.action = "b_editgo.inc";
 			document.frm.submit();
 		
 	}
@@ -192,7 +191,7 @@
 			console.log(pw);
 			
 			var param = "b_idx="+encodeURIComponent(b_idx)
-			+"&pw="+encodeURIComponent(pw);
+			+"&pwd="+encodeURIComponent(pw);
 			
 			
 			$.ajax({
@@ -223,7 +222,6 @@
 		var c_writer =$("#c_writer").val();
 		var c_pwd = $("#c_pwd").val();
 		var c_content = $("#c_content").val();
-		console.log(c_writer);
 		
 		//등록후 초기화
 		$("#c_writer").val("");
@@ -240,7 +238,7 @@
 			dataType:"json"
 		}).done(function(data){
 			
-			view_coment();		// 댓글 표현
+			view_coment(c_pwd);		// 댓글 표현
 			
 		}).fail(function(err){
 			console.log("실패");
@@ -248,7 +246,11 @@
 		});
 	}
 	//댓글 표현 함수 
-	function view_coment() {
+	function view_coment(c_pwd) {
+		
+		var c_pwd = c_pwd; //댓글 삭제시 필요 
+		var c_idx = $("#c_idx").val();//댓글 삭제시 필요
+		
 		
 		var view_cinfo ="b_idx="+encodeURIComponent(b_idx);
 		
@@ -260,21 +262,27 @@
 		}).done(function(data){
 			if(data.c_ar != undefined){
 				
-				console.log(data);
-				
 				var code ="";
 				for(var i =0; i<data.c_ar.length; i++){
+					
 					code += "<hr/><label>작성자 : </label>";
 					code += "<label>";
 					code += data.c_ar[i].writer;
 					code += "</label>";
 					code += "<br/>";
 					code += "<label>내용 : </label>";
-					code += "<label>";
+					code += "<input type='text' id=\'c_content\' value=\"";
 					code += data.c_ar[i].content;
-					code += "</label>";
+					code += "\">";
+					code += "</br>";
+				
+					code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+")\" value=\'삭제\'/>";
+					code += "<input type = 'button' onclick=\"c_edit("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+")\" value=\'수정\'/>";
+					
 				}
 				$("#comm_add").html(code);
+				
+				
 			}
 						
 		}).fail(function(err){
@@ -282,7 +290,62 @@
 			alert(err);
 		});
 	}
+	// 댓글 삭제시
+	function c_del(c_idx,c_pwd){
+		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
+
+		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd);
+		
+		$.ajax({
+			url: "comm_del.inc",
+			data: del_cinfo,
+			type:"post",
+			dataType:"json"
+		}).done(function(data){
+			
+			if(data.chk){
+				if(data.pwd == ok_pwd){
+				alert("댓글삭제 완료");
+				location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
+				}
+			}else{
+				alert("삭제 실패!");
+			}
+		}).fail(function(err){
+			console.log(err)
+		});
+		
+		
+	}
 	
+	// 댓글 수정 시
+	function c_edit(c_idx,c_pwd){
+		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
+		var c_con = $("#c_content").val(); 
+		console.log(c_con);
+		var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_con);
+		
+		$.ajax({
+			url: "c_editok.inc",
+			data: edit_cinfo,
+			type:"post",
+			dataType:"json"
+		}).done(function(data){
+			
+			if(data.chk){
+				if(data.pwd == ok_pwd){
+				alert("댓글 수정 완료");
+				location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
+				}
+			}else{
+				alert("댓글 수정 실패!");
+			}
+		}).fail(function(err){
+			console.log(err)
+		});
+		
+		
+	}
 	
 	</script>
 	
