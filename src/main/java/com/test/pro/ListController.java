@@ -296,18 +296,15 @@ public class ListController  {
 	// 댓글 수정 완료
 	@RequestMapping(value = "/c_editok.inc", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> c_editok(CommVO cvo) throws Exception{
+	public Map<String, Object> c_editok(String content,String b_idx,String pwd,String c_idx) throws Exception{
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		String b_idx = cvo.getB_idx();
-		String c_idx =cvo.getC_idx();
-		String pwd =cvo.getPwd();
-		String content =cvo.getContent();
 		map.put("b_idx", b_idx);
 		map.put("c_idx", c_idx);
 		map.put("pwd", pwd);
 		map.put("content", content);
 
+		b_dao.c_edit(content, b_idx, pwd,c_idx);
 		return map;
 	}
 

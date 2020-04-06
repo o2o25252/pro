@@ -222,7 +222,9 @@
 		var c_writer =$("#c_writer").val();
 		var c_pwd = $("#c_pwd").val();
 		var c_content = $("#c_content").val();
-		
+		console.log(c_writer);
+		console.log(c_pwd);
+		console.log(c_content);
 		//등록후 초기화
 		$("#c_writer").val("");
 		$("#c_pwd").val("");
@@ -275,13 +277,20 @@
 					code += data.c_ar[i].content;
 					code += "\">";
 					code += "</br>";
-				
+					code += "<input type='hidden' id=\'c_c_idx\' value=\"";
+					code += data.c_ar[i].c_idx;
+					code += "\">";
+					code += "<input type='text' id=\'c_pwd\' value=\"";
+					code += data.c_ar[i].pwd;
+					code += "\">";
+					code += "<input type='text' id=\'c_b_idx\' value=\"";
+					code += data.c_ar[i].b_idx;
+					code += "\">";
 					code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+")\" value=\'삭제\'/>";
-					code += "<input type = 'button' onclick=\"c_edit("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+")\" value=\'수정\'/>";
+					code += "<input type = 'button' onclick=\"c_edit("+data.c_ar[i].c_idx+","+data.c_ar[i].pwd+","+data.c_ar[i].b_idx+","+data.c_ar[i].content+")\" value=\'수정\'/>";
 					
 				}
 				$("#comm_add").html(code);
-				
 				
 			}
 						
@@ -318,12 +327,15 @@
 		
 	}
 	
-	// 댓글 수정 시
-	function c_edit(c_idx,c_pwd){
+	function c_edit(c_idx,c_pwd,b_idx,content){
 		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
-		var c_con = $("#c_content").val(); 
-		console.log(c_con);
-		var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_con);
+		
+		console.log(c_idx);
+		console.log(content);
+		console.log(c_pwd);
+		console.log(b_idx);
+		
+		var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_content)+"&b_idx="+encodeURIComponent(b_idx);
 		
 		$.ajax({
 			url: "c_editok.inc",
@@ -346,7 +358,6 @@
 		
 		
 	}
-	
 	</script>
 	
 </body>

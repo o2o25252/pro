@@ -84,8 +84,7 @@
 	<!-- 선택 댓글 보기 -->
 	<select id="c_list" parameterType="String"
 		resultType="com.data.vo.CommVO">
-		select * from comment_t where b_idx =#{b_idx} AND status =
-		0
+		select * from comment_t where b_idx =#{b_idx} AND status =0 ORDER BY c_idx DESC
 	</select>
 	<!-- 댓글 삭제 -->
 	<update id="c_del" parameterType="java.util.Map">
@@ -93,8 +92,8 @@
 		WHERE c_idx = #{c_idx} AND pwd = #{pwd}
 	</update>
 	<!-- 댓글 수정 -->
-	<update id="c_edit" parameterType="com.data.vo.CommVO">
+	<update id="c_edit" parameterType="java.util.Map">
 		UPDATE comment_t SET content = #{content} 
-		WHERE b_idx = #{b_idx} AND pwd = #{pwd}
+		WHERE b_idx = #{b_idx} AND pwd = #{pwd} AND c_idx = #{c_idx}
 	</update>
 </mapper>
