@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -6,16 +7,27 @@
 <%
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
-	SimpleDateFormat nowdate = new SimpleDateFormat("YYYYMMdd");
 	SimpleDateFormat dateW = new SimpleDateFormat("YY년 w주차");
 	
 	String toDay = date.format(today);
-	String nowDay = nowdate.format(today);
 	String toWeek = dateW.format(today);
 	
 	request.setAttribute("today", toDay);
-	request.setAttribute("nowday", nowDay);
 	request.setAttribute("toweek", toWeek);
+	 
+	SimpleDateFormat date1 = new SimpleDateFormat("YYYYMMdd");
+	
+	Calendar yDay = Calendar.getInstance();
+	yDay.add(Calendar.DATE , -1);
+
+	Calendar yWeek = Calendar.getInstance();
+	yWeek.add(Calendar.DATE , -7);
+	
+	String beforeD = date1.format(yDay.getTime());
+	String beforeW = date1.format(yWeek.getTime());
+	
+	request.setAttribute("beforeD", beforeD);
+	request.setAttribute("beforeW", beforeW);
 %>
 
 <!DOCTYPE html> 
@@ -322,7 +334,7 @@
 		$( "#tabs" ).tabs();
 		
 		// 금일 박스 오피스
-		var param = "targetDt="+${nowday-1};
+		var param = "targetDt="+${beforeD};
 		
 		$.ajax({
 			url:"last.inc",
@@ -402,7 +414,7 @@
 		
 		
 		// 처음 페이지 로딩 시 금주 박스 오피스
-		var param = "targetDt="+${nowday-7};
+		var param = "targetDt="+${beforeW};
 		
 		$.ajax({
 			url:"next.inc",

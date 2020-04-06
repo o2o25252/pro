@@ -99,7 +99,7 @@
               </tr>
             </table>
             
-            <form action="b_add.inc" method="post" enctype="multipart/form-data" name="frm">
+            <form action="add.inc" method="post" enctype="multipart/form-data" name="frm">
 				<input type="hidden" name="nowPage" value="${nowPage }"/>
 				<input type="hidden" name="content" id="content"/>
 	            <table width="556" border="0" cellspacing="0" cellpadding="0">

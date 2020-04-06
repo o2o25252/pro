@@ -48,8 +48,12 @@
 		
 </style>
 <link rel="stylesheet" href="resources/css/summernote-lite.min.css"/>
+
+<!-- 메뉴바 css -->
+<link rel="stylesheet" href="resources/css/styles.css" />
 </head>
 <body>
+	<jsp:include page="menu.jsp"/>
 	<div id="bbs">
 	<form action="b_editok.inc" method="post" encType="multipart/form-data">
 		<table summary="게시판 글쓰기">
@@ -96,7 +100,7 @@
 					<td colspan="2">
 						<input type="button" value="수정" onclick="sendData()"/>
 						<input type="reset" id="reset" value="다시"/>
-						<input type="button" id="list" value="목록"/>
+						<input type="button" id="notice" value="목록"/>
 					</td>
 				</tr>
 			</tbody>
@@ -111,7 +115,7 @@
 	<script>
 	
 		$(function(){
-			$("#list").bind("click",function(){
+			$("#notice").bind("click",function(){
 				
 				location.href= "notice.inc";
 				
