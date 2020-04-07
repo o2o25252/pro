@@ -3,6 +3,9 @@ package com.test.pro;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,9 @@ public class RegController {
 	@Autowired
 	private UserDAO u_dao;
 	
+	@Autowired
+	private HttpSession session;
+	
 	//회원 가입
 	@RequestMapping(value = "/regOk.inc",method =  RequestMethod.POST)
 	public ModelAndView newid(String id,String pw,String name,String nickname)throws Exception{
@@ -33,7 +39,7 @@ public class RegController {
 		vo.setName(name);
 		vo.setNickname(nickname);
 		
-		u_dao.h_reg(vo);
+		u_dao.search(vo);
 		
 		mv.setViewName("main");
 		
@@ -52,6 +58,25 @@ public class RegController {
 		if(chk) {
 			map.put("tru", chk );
 		}
+		return map;
+	}
+	
+	// 로그인
+	@RequestMapping(value = "/userdo.inc", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> login_id(String id,String pw) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean chk = u_dao.log(id,pw);
+		map.put("chk", chk);
+		
+		UserVO vo = new UserVO();
+		vo.setId(id);
+		vo.setPw(pw);
+		
+		//회원 정보 찾기 
+		UserVO uvo = u_dao.search_user(id,pw);
+		session.setAttribute("userVO",uvo);
+		
 		return map;
 	}
 }

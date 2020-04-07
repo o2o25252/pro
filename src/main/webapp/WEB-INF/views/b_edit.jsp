@@ -9,6 +9,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.min.css">
+<link rel="stylesheet" href="resources/css/styles.css" />
+
 <style type="text/css">
 	#bbs table {
 	    width:580px;
@@ -51,6 +53,8 @@
 
 </head>
 <body>
+	<%--메뉴 바 가져오기 --%>
+	<jsp:include page="menu.jsp" />
 	<div id="bbs">
 	<form action="b_editok.inc" method="post" encType="multipart/form-data">
 		<table summary="게시판 글쓰기">

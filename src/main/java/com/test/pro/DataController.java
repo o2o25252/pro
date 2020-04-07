@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -16,18 +18,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.data.vo.ActorsVO;
 import com.data.vo.MovieVO;
 import com.data.vo.RankVO;
 import com.data.vo.StarVO;
+import com.data.vo.UserVO;
 
 import mybatis.dao.UserDAO;
 
 @Controller
 public class DataController {
 	
+	@Autowired
+	private HttpSession session;
 	
 	@Autowired
 	UserDAO u_dao;
@@ -206,7 +212,7 @@ public class DataController {
         return image_s;
    }
 	
-	//댓글표현
+	//다이어로그 평점 댓글표현
 	@RequestMapping(value ="/getComm.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getComm(String movieCd) {
@@ -226,7 +232,7 @@ public class DataController {
 		return map;
 	}
 	
-	//댓글등록
+	//다이어로그 평점 댓글등록
 	@RequestMapping(value ="/coco.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> staradd(String movieCd, String
@@ -237,15 +243,18 @@ public class DataController {
 		vo.setMovieCd(movieCd);
 		vo.setRating(rating);
 		vo.setContent(content);
-		
-		String writer = "작성자";
-		vo.setWriter(writer);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
+		UserVO uvo = null;
+		Object obj =  session.getAttribute("userVO");
+		if(obj != null) {
+			uvo = (UserVO) obj;
 		
-		//vo 를 DB에 넣기 
-		if(u_dao.staradd(vo)) {
-			map.put("svo", vo);
+			vo.setWriter(uvo.getNickname());
+			
+			//vo 를 DB에 넣기 
+			if(u_dao.staradd(vo)) {
+				map.put("svo", vo);
+			}
 		}
 		return map;
 	}

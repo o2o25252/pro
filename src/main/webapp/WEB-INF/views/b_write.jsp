@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/summernote-lite.min.css">
+<link rel="stylesheet" href="resources/css/styles.css" />
 <script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="resources/js/summernote-lite.min.js"></script>
 <script type="text/javascript" src="resources/js/lang/summernote-ko-KR.min.js"></script>
@@ -81,7 +82,8 @@
 </script>
 </head>
 <body>
-
+		<%--메뉴 바 가져오기 --%>
+		<jsp:include page="menu.jsp" />
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top">

@@ -102,7 +102,7 @@
 							<tr>
 								
 								<td><label for="c_writer">작성자:</label></td>
-								<td><input type="text"  id="c_writer" name="c_writer"/> </td>
+								<td><label id="c_writer" name="c_writer" >${userVO.nickname }</label> </td>
 							</tr>
 							<tr>
 								<td><label for="c_content">내용:</label></td>
@@ -113,7 +113,7 @@
 								<td><input type="password" id="c_pwd" name="c_pwd"/></td>
 							</tr>
 							<tr>
-								<td><input type="button" value="저장" onclick="add_coment()"/></td>
+								<td><input type="button" value="저장" onclick="add_coment()" /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -218,6 +218,17 @@
 			});
 			
 		});
+		//엔터시 등록
+		$("#c_pwd").keydown(function(key){
+			if (key.keyCode == 13) {
+				var pw = $("#c_pwd").val().trim().replace(/ /g, "%20");
+				
+				if(pw==0){
+					alert("비밀번호 입력하세요");
+				}
+				
+			}
+		});
 		
 	});
 	//댓글 등록 함수
@@ -225,9 +236,7 @@
 		var c_writer =$("#c_writer").val();
 		var c_pwd = $("#c_pwd").val();
 		var c_content = $("#c_content").val();
-		console.log(c_writer);
-		console.log(c_pwd);
-		console.log(c_content);
+		
 		//등록후 초기화
 		$("#c_writer").val("");
 		$("#c_pwd").val("");

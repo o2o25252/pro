@@ -5,8 +5,10 @@
 <html>
 <head>
 <title>NAVER LOGIN TEST</title>
+<link rel="stylesheet" href="resources/css/styles.css" />
 </head>
 <body>
+	<jsp:include page="menu.jsp"/>
 	<h1>Login Form</h1>
 	<hr>
 	<br>
@@ -22,14 +24,14 @@
 			</c:when>
 			
 			<c:otherwise>
-				<form action="login.userdo" method="post" name="frm"
+				<form action="userdo.inc" method="post" name="frm"
 					style="width: 470px;">
 					<h2>로그인</h2>
 					<input type="text" name="id" id="id" class="w3-input w3-border"
-						placeholder="아이디" value="${id}"> <br> <input
-						type="password" id="pwd" name="pwd" class="w3-input w3-border"
+						placeholder="아이디" value="${id}" autocomplete="off"> <br> <input
+						type="password" id="pwd" name="pw" class="w3-input w3-border"
 						placeholder="비밀번호"> <br> 
-						<input type="submit" id="log_btn" value="로그인"> <br>
+						<input type="button" id="log_btn" value="로그인"> <br>
 				</form>
 				<br>
 				
@@ -57,17 +59,37 @@
 			$(function(){
 				$("#log_btn").bind("click",function(){
 					var id = $("#id").val();
-					var pw = $("#pw").val();
+					var pw = $("#pwd").val();
+					
+					var login_info ="id="+encodeURIComponent(id)+"&pw="+encodeURIComponent(pw);
+					
 					
 					if(id.trim().length<1){
 						alert("아이디 입력하세여");
-						$("#id").f
+						$("#id").focus();
+						return;
 					}
 					if(pw.trim().length<1){
 						alert("비밀번호를 입력하세여");
 						$("#pw").focus();
+						return;
 					}
+					$.ajax({
+						url:"userdo.inc",
+						data:login_info,
+						dataType:"json",
+						type:"post"
+					}).done(function(data){
+						if(data.chk){
+							location.href="main.inc";
+						}else{
+							alert("정보가 다릅니다.");
+						}
+					}).fail(function(err){
+						console.log(err);
+					});
 				});
+				
 			});	
 		</script>
 		</body>
