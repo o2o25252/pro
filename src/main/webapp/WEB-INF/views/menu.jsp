@@ -148,7 +148,7 @@
 	    <!-- 로그인 전 -->
 	      <c:if test="${empty sessionScope.userVO.nickname }">
 	         <aside id="as">
-	            <a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
+	            <a href="login.inc">로그인</a>&nbsp; <a href="b_reg.inc">회원가입</a>
 	         </aside>
 	      </c:if>
 	         <!-- 네이버 로그인시 -->

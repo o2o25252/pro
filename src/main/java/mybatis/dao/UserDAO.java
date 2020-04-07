@@ -1,6 +1,8 @@
 package mybatis.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,30 +46,46 @@ public class UserDAO {
 		
 	}
 	//★★★★★★★★★★별점 DAO 
-		//별점 추가 
-		public boolean staradd(StarVO svo) {
-			boolean chk = false;
-			
-			int cnt =ss.insert("star.star_add", svo);
-			if(cnt > 0) {
-				chk =true;
-			}
-			
-			return chk;
+	//별점 추가 
+	public boolean staradd(StarVO svo) {
+		boolean chk = false;
+		
+		int cnt =ss.insert("star.star_add", svo);
+		if(cnt > 0) {
+			chk =true;
 		}
 		
-		//별점 평균 보기 
-		public double avg(String moviecd) {
-			double avgr =ss.selectOne("star.avg_r",moviecd);
-			return avgr;
-		}
-		
-		public List<StarVO> getList(String moviecd) {
-		
-			List<StarVO> s_list = ss.selectList("star.list", moviecd);
-			
-			return s_list;
-		}
+		return chk;
+	}
 	
+	//별점 평균 보기 
+	public double avg(String moviecd) {
+		double avgr =ss.selectOne("star.avg_r",moviecd);
+		return avgr;
+	}
 	
+	public List<StarVO> getList(String moviecd) {
+	
+		List<StarVO> s_list = ss.selectList("star.list", moviecd);
+		
+		return s_list;
+	}
+	
+	// 홈페이지 회원가입
+	private boolean h_reg(String id,String pw,String name,String nickname) {
+		boolean chk = false;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("pw", pw);
+		map.put("name", name);
+		map.put("nickname", nickname);
+		
+		int cnt = ss.insert("user.h_add", map);
+		if(cnt>0) {
+			chk = true;
+		}
+		
+		return chk;
+	}
 }

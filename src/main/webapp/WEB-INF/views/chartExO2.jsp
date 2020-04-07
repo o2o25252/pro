@@ -8,7 +8,7 @@
 	SimpleDateFormat date2 = new SimpleDateFormat("yyyy-MM-dd");
 	
 	Calendar today = Calendar.getInstance();
-	today.add(Calendar.DATE , -1);
+	today.add(Calendar.DATE, 0);
 
 	Calendar tarday = Calendar.getInstance();
 	tarday.add(Calendar.DATE , -7);
@@ -41,27 +41,6 @@
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 <script type="text/javascript">
 	$(function() {
-
-		var param = "toDay="+${toDay}+"&tarDay="+${tarDay}+"&count=7";
-		
-		$.ajax({
-			url: "chkChartData",
-			type: "POST",
-			data: param,
-			dataType: "json"
-		}).done(function(data) {
-			if(data.result){	// 데이터가 있다면
-				viewChart(data.jsonAr);				
-			}
-			else{					// 데이터가 없다면
-				connApi();
-			}
-		}).fail(function(er) {
-			console.log(er);
-		});
-	});
-	
-	function connApi() {
 		
 		$.ajax({
 			url: "http://localhost:5000/daySalesAmt?setDate=${toDay2}&count=7",
@@ -69,9 +48,9 @@
 			dataType: "json"
 		}).done(function(data) {
 			viewChart(data);
-			saveData(data);
 		});
-	}
+		
+	});
 	
 	function viewChart(json_data) {
 		
@@ -124,20 +103,6 @@
 		range.label.fill = range.grid.stroke;
 		range.label.verticalCenter = "bottom";
 
-	}
-	
-	function saveData(json_data) {
-
-		$.ajax({
-			url: "saveChartData",
-			type: "POST",
-			data: json_data,
-			dataType: "text"
-		}).done(function(data) {
-			
-		}).fail(function(er) {
-			console.log(er);
-		});
 	}
 
 </script>

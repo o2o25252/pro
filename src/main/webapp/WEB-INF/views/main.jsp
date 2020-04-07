@@ -46,12 +46,12 @@
 
 <style type="text/css">
 
-#view_win {
-	display: none;
-	background-color : rgba( 255, 255, 255, 0.5 );
-	padding: 0px;
-}
-#week a,#weekend a{
+	#view_win {
+		display: none;
+		background-color : rgba( 255, 255, 255, 0.5 );
+		padding: 0px;
+	}
+	#week a,#weekend a{
 		color : black;
   	}
   	#week{
@@ -59,23 +59,27 @@
   	}
   	
 	#view_win1{
-		border: 1px solid black;
 		float: left;
 		padding:auto;
-		width: 600px;
+		width: 400px;
 		height: 900px;
 		margin: auto;
 		margin-left: 80px;
 	}
-
-
+	.m_img{
+		float: left;
+		width: 250px;
+		margin: auto;
+		padding: auto;
+		border: 1px solid black;
+		
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="menu.jsp" />
 	<header>
-		<div id="carouselExampleIndicators" class="carousel slide"
-			data-ride="carousel">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
 				<li data-target="#carouselExampleIndicators" data-slide-to="0"
 					class="active"></li>
@@ -86,9 +90,13 @@
 			<div class="carousel-inner" role="listbox">
 				<!-- Slide One - Set the background image for this slide in the line below -->
 				<div class="carousel-item active" style="background: gray">
+					<div id=""></div>
+					<div class="m_img">
+						 <img id="i12" width="250" height="400">
+					</div>
 					<div id="view_win1" title="영화상세">
-		        
-				         <img id="i12" width="150" height="200">
+		        		<div id="xx"></div>
+						
 				         <h3 id="info1"></h3>
 				         <hr/>
 				      	 <label id="m_name1"></label><br/>
@@ -106,7 +114,6 @@
 				               <label id="a_people1"></label><br/>
 				         <hr/>
 				   </div>
-				
 					<table id="week" class="table table-bordered table-hover">
 						<colgroup>
 							<col width="50px" />
@@ -136,9 +143,11 @@
 				</div>
 				<!-- Slide Two - Set the background image for this slide in the line below -->
 				<div class="carousel-item" style="background: gray">
+					<div class="m_img">
+						 <img id="i13" width="250" height="400">
+					</div>
 					<div id="view_win1" title="영화상세">
 		        
-				         <img id="i13" width="150" height="200">
 				         <hr/>
 				      	 <label id="m_name2"></label><br/>
 				         <label id="openyear2"></label><br/>

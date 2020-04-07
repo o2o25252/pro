@@ -44,5 +44,5 @@
 	 
 	 <bean class="mybatis.dao.UserDAO"/>
 	 <bean class="mybatis.dao.BbsDAO"/>
-	 <bean class="mybatis.dao.ChartDAO"/>
+	 
 </beans>

@@ -11,9 +11,9 @@
 		
 	</insert>
 	<!-- 홈페이지 회원정보 저장 -->
-	<insert id="h_add" parameterType="com.data.vo.UserVO">
+	<insert id="h_add" parameterType="java.util.Map">
 		insert into user_t(id,pw,name,nickname,naver) 
-		values(#{id}, #{pw}, #{name}, #{nickname},1)
+		values(#{id}, #{pw}, #{name}, #{nickname},2)
 	</insert>
 	
 	<!-- id 로 회원정보 찾기 
@@ -23,6 +23,5 @@
 		select count(*) from user_t 
 		where id=#{id}
 	</select>
-	
 	
 </mapper>
