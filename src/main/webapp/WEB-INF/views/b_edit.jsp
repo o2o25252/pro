@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="resources/css/summernote-lite.min.css">
 <style type="text/css">
 	#bbs table {
 	    width:580px;
@@ -47,7 +48,7 @@
 	
 		
 </style>
-<link rel="stylesheet" href="resources/css/summernote-lite.css"/>
+
 </head>
 <body>
 	<div id="bbs">
@@ -121,9 +122,9 @@
 	</div>
 	
 	
-	<script src="resources/js/jquery-3.4.1.min.js"></script>
-	<script src="resources/js/summernote-lite.js"></script>
-	<script src="resources/js/lang/summernote-ko-KR.min.js"></script>
+	<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="resources/js/summernote-lite.min.js"></script>
+	<script type="text/javascript" src="resources/js/lang/summernote-ko-KR.min.js"></script>
 	<script>
 	
 		$(function(){
