@@ -11,14 +11,16 @@
 	<hr>
 	<br>
 	<center>
+		<!-- 일반회원 로그인 시 발생 -->
 		<c:choose>
 			<c:when test="${vo.nickname != null}">
-				<h2>네이버 아이디 로그인 성공하셨습니다!!</h2>
+				<h2> 로그인 성공하셨습니다!!</h2>
 				<h3>'${vo.nickname}' 님 환영합니다!</h3>
 				<h3>
 					<a href="logout">로그아웃</a>
 				</h3>
 			</c:when>
+			
 			<c:otherwise>
 				<form action="login.userdo" method="post" name="frm"
 					style="width: 470px;">
@@ -26,8 +28,8 @@
 					<input type="text" name="id" id="id" class="w3-input w3-border"
 						placeholder="아이디" value="${id}"> <br> <input
 						type="password" id="pwd" name="pwd" class="w3-input w3-border"
-						placeholder="비밀번호"> <br> <input type="submit"
-						value="로그인" onclick="#"> <br>
+						placeholder="비밀번호"> <br> 
+						<input type="submit" id="log_btn" value="로그인"> <br>
 				</form>
 				<br>
 				
@@ -37,9 +39,7 @@
 	        	</a>
 				
 				<br/>
-				<!-- 구글  -->
-				<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=http%3a%2f%2flocalhost%3a9090%2fpro%2flogin.inc&client_id=959152787145-hum5jhsftmkgp03ouofpnrj4jjqinjjs.apps.googleusercontent.com">google login</a>
-
+				
 				<!-- 네이버 로그인 창으로 이동 -->
 				<div id="naver_id_login" style="text-align: center">
 					<a href="${url}"> <img width="223"
@@ -50,10 +50,25 @@
 		</c:choose>
 		
 		</center>
+	
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-		<script src="YOUR SDK FILE PATH"></script>
+		<script src="resources/js/jquery-3.4.1.min.js"></script>
 		<script>
-		
+			$(function(){
+				$("#log_btn").bind("click",function(){
+					var id = $("#id").val();
+					var pw = $("#pw").val();
+					
+					if(id.trim().length<1){
+						alert("아이디 입력하세여");
+						$("#id").f
+					}
+					if(pw.trim().length<1){
+						alert("비밀번호를 입력하세여");
+						$("#pw").focus();
+					}
+				});
+			});	
 		</script>
 		</body>
 		

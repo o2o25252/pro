@@ -72,20 +72,30 @@ public class UserDAO {
 	}
 	
 	// 홈페이지 회원가입
-	private boolean h_reg(String id,String pw,String name,String nickname) {
+	public boolean h_reg(UserVO uvo) {
 		boolean chk = false;
+		int cnt = ss.insert("user.h_add", uvo);
 		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("pw", pw);
-		map.put("name", name);
-		map.put("nickname", nickname);
-		
-		int cnt = ss.insert("user.h_add", map);
 		if(cnt>0) {
 			chk = true;
 		}
 		
+		return chk;
+	}
+	
+	//아이디 중복 확인
+	public boolean id_okok(String id) {
+		boolean chk = false;
+		
+		 List<UserVO> cnt =  ss.selectList("user.id_ok",id);
+		 for(UserVO uvo:cnt) {
+			 if(uvo.getId().equals(id)) {
+				 chk = true;
+				 break;
+			 }
+			 
+		 }
+
 		return chk;
 	}
 }
