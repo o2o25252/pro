@@ -102,7 +102,7 @@
 							<tr>
 								
 								<td><label for="c_writer">작성자:</label></td>
-								<td><label id="c_writer" name="c_writer" >${userVO.nickname }</label> </td>
+								<td><label id="c_writer" name="c_writer">${userVO.nickname }</label><input type="hidden" id="c_writer2" value="${userVO.nickname }"/> </td>
 							</tr>
 							<tr>
 								<td><label for="c_content">내용:</label></td>
@@ -233,12 +233,11 @@
 	});
 	//댓글 등록 함수
 	function add_coment(){
-		var c_writer =$("#c_writer").val();
+		var c_writer =$("#c_writer2").val();
 		var c_pwd = $("#c_pwd").val();
 		var c_content = $("#c_content").val();
-		
+		console.log(c_writer);
 		//등록후 초기화
-		$("#c_writer").val("");
 		$("#c_pwd").val("");
 		$("#c_content").val("");
 		
@@ -264,6 +263,7 @@
 		
 		var c_pwd = c_pwd; //댓글 삭제시 필요 
 		var c_idx = $("#c_idx").val();//댓글 삭제시 필요
+		var c_writer2 = $("#c_writer2").val();// writer 가져오기
 		
 		
 		var view_cinfo ="b_idx="+encodeURIComponent(b_idx);
@@ -280,9 +280,7 @@
 				for(var i =0; i<data.c_ar.length; i++){
 					
 					code += "<hr/><form><label>작성자 : </label>";
-					code += "<label>";
-					code += data.c_ar[i].writer;
-					code += "</label>";
+					code += "<label>"+data.c_ar[i].writer+"</label>";
 					code += "<br/>";
 					code += "<label>내용 : </label>";
 					code += "<span class='show' id='sp"+i+"'>";

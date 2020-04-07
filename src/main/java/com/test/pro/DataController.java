@@ -245,6 +245,7 @@ public class DataController {
 		vo.setContent(content);
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserVO uvo = null;
+		
 		Object obj =  session.getAttribute("userVO");
 		if(obj != null) {
 			uvo = (UserVO) obj;
