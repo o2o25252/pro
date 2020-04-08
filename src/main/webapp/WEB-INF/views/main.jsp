@@ -49,7 +49,6 @@
 	#view_win {
 		display: none;
 		background-color : rgba( 255, 255, 255, 0.5 );
-		padding: 0px;
 	}
 	#week a,#weekend a{
 		color : black;
@@ -60,19 +59,20 @@
   	
 	#view_win1{
 		float: left;
-		padding:auto;
 		width: 400px;
 		height: 900px;
 		margin: auto;
-		margin-left: 80px;
+		margin-left: 60px;
+		padding: auto;
+		margin-top: 180px;
 	}
 	.m_img{
 		float: left;
 		width: 250px;
 		margin: auto;
-		padding: auto;
 		border: 1px solid black;
-		
+		margin-left: 180px;
+		margin-top: 180px;
 	}
 </style>
 </head>
@@ -102,9 +102,7 @@
 				      	 <label id="m_name1"></label><br/>
 				         <label id="openyear1"></label><br/>
 				         <label id="genere1"></label><br/> 
-				
-				         <hr />
-				        
+				         <hr/>
 				               <label id="company1"></label><br/>
 				         <hr/>
 				               <label id="nations1"></label><br/>
@@ -120,16 +118,14 @@
 							<col width="*" />
 							<col width="100px" />
 						</colgroup>
-
 						<thead>
 							<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
 							<tr>
 								<th colspan="4" id="date"><input type="button"
 									style="background-color: transparent; border: 0px transparent solid;"
 									id="datepicker" value="${ today }" /> 박스 오피스 순위
-									<hr />
+									<hr/>
 								</th>
-
 							</tr>
 							<tr>
 								<th>순위</th>

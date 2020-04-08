@@ -151,7 +151,7 @@
 	            <a href="login.inc">로그인</a>&nbsp; <a href="b_reg.inc">회원가입</a>
 	         </aside>
 	      </c:if>
-	      	<!-- 홈 로그인 시 -->
+      	<!-- 홈 로그인 시 -->
       	 <c:if test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 0}">
       		<label>H_${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
 	      </c:if>
@@ -162,6 +162,11 @@
 	      <!-- 카카오 로그인시 -->
 	      <c:if test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 2}">
 	              <label>K_${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
+	      </c:if>
+	      
+	      <!-- 관리자 로그인 시 -->
+	      <c:if test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 9}">
+      		<label>M_${userVO.nickname }님 환영합니다</label> <a href="logout">로그아웃</a>
 	      </c:if>
     </div>
   </div>

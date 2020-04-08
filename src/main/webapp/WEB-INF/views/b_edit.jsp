@@ -69,14 +69,6 @@
 					<th>이름:</th>
 					<td><input type="text" id="writer" name="writer" size="12" value="${ vo.writer }"/> </td>
 				</tr>
-<%--				
-				<tr>
-					<th>내용:</th>
-					<td><textarea name="content" cols="50" 
-							rows="8" id="content"></textarea>
-					</td>
-				</tr>
- --%>				
 				<tr>
 					<th>첨부파일:</th>
 					<td><input type="file" id="file" name="file"/>(${ vo.file_name })</td>
@@ -87,16 +79,6 @@
 					<td><input type="password" id="pwd" name="pwd" size="12"/></td>
 				</tr>
 
-<%--
-				<tr>
-					<td colspan="2">
-						<input type="button" value="보내기"
-						onclick="sendData()"/>
-						<input type="button" value="다시"/>
-						<input type="button" value="목록"/>
-					</td>
-				</tr>
- --%>				
 			</tbody>
 		</table>
 		
@@ -109,7 +91,7 @@
 			<tbody>
 				<tr>
 					<th style="width:83px;">내용:</th>
-					<td><textarea name="content" cols="50" rows="8" id="content" ></textarea>
+					<td><textarea name="content" cols="50" rows="8" id="content" >${ vo.content }</textarea>
 					</td>
 				</tr>
 				
@@ -159,12 +141,6 @@
 				lang: "ko-KR",
 				callbacks:{
 					onImageUpload: function(files, editor){
-						//이미지가 에디터에 추가될 때마다
-						//수행하는 곳
-						//console.log("TTTTTT");
-						//이미지를 첨부하면 배열로 인식된다.
-						//이것을 서버로 비동식 통신을 수행하는
-						//함수를 호출하여 upload를 시킨다.
 						for(var i=0; i<files.length; i++){
 							sendFile(files[i], editor);
 						}
@@ -181,32 +157,20 @@
 			var frm = new FormData(); //<form encType="multipart/form-data"></form>
 			
 			//보내고자 하는 자원을 파라미터 값으로 등록(추가)
-			frm.append("file", file);
+			frm.append("upload", file);
 			
 			//비동기식 통신
 			$.ajax({
 				url: "saveImage.inc",
 				type: "post",
 				dataType: "json",
-				// 파일을 보낼 때는
-				//일반적인 데이터 전송이 아님을 증명해야 한다.
 				contentType: false,
 				processData: false,
 				data: frm
 				
 			}).done(function(data){
 				
-				//console.log(data.img_url);
-				//에디터에 img태그로 저장하기 위해
-				// img태그 만들고, src라는 속성을 지정해야 함!
-				//var img = $("<img>").attr("src",data.img_url);
-				//$("#content").summernote("insertNode", img[0]);
-				
-				$("#content").summernote(
-					"editor.insertImage", data.url);
-				
-				
-				//console.log(data.str);
+				$("#content").summernote("editor.insertImage", data.url);
 				
 			}).fail(function(err){
 				console.log(err);

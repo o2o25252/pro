@@ -102,7 +102,7 @@ public class ListController  {
 		return mv;
 	}
 
-	//에디터 에 이미지 표현 부분
+	//에디터에 이미지 표현 부분
 	@RequestMapping(value = "/saveImage.inc", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> saveImage(BbsVO vo) throws Exception{

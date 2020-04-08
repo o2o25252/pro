@@ -80,6 +80,7 @@
 			   });
 			
 			$("#reg_btn").bind("click",function(){
+				
 				var id = $("#b_id").val();
 				var pw = $("#b_pw").val();
 				var name = $("#b_name").val();
@@ -105,7 +106,6 @@
 					$("#b_nick").focus();
 					return;
 				}
-				
 				
 				frm.submit();
 			});
