@@ -83,8 +83,11 @@
 					</tr>
 					<tr>
 						<td colspan="4" >
+							
+	                      <c:if test="${ sessionScope.userVO.status eq 9}">
 							<button type="button" onclick="edit()">수정</button>
 							<button type="button" id="del_btn" >삭제</button>
+							</c:if>
 							<button type="button" onclick="list_go()">목록</button>
 						</td>
 					</tr>
@@ -126,7 +129,7 @@
 		</div>
 		<form  name="frm" method="post">
 			<input type="hidden" name="b_idx" value="${ param.b_idx }"/>
-			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }">
+			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }"/>
 		</form>
 		</div>
 		
@@ -152,7 +155,6 @@
 	
 	//목록
 		function list_go(){
-
 			document.frm.action = "notice.inc";
 			document.frm.submit();
 			
@@ -171,7 +173,6 @@
 			document.frm.submit();
 		
 	}
-
 	$(function () {
 		
 		view_coment();
@@ -292,9 +293,12 @@
 					code += "<input type='hidden' name='c_c_idx' id='c_c_idx"+i+"' value=\"";
 					code += data.c_ar[i].c_idx;
 					code += "\"/>";
-					code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
-					code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\'/>";
-					code += "<input type = 'button' onclick='c_edit("+i+")' value='수정'/></form>";
+					if((${ sessionScope.userVO.status} == 9) || ("${sessionScope.userVO.nickname}" == data.c_ar[i].writer)){
+						code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
+						code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\'/>";
+						code += "<input type = 'button' onclick='c_edit("+i+")' value='수정'/></form>";
+						console.log("댓글 아이디 같음.")
+					}
 				}
 				$("#comm_add").html(code);
 			}
@@ -307,7 +311,6 @@
 	// 댓글 삭제시
 	function c_del(c_idx,c_pwd){
 		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
-
 		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(ok_pwd);
 		
 		$.ajax({

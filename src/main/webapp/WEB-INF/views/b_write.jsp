@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html> 
 <head>
@@ -82,7 +84,10 @@
 </script>
 </head>
 <body>
-	
+	<div>
+	<jsp:include page="menu.jsp" />
+	</div>
+	<div>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
 	    <td valign="top">
@@ -154,6 +159,7 @@
 	                      <td width="241" align="right">
 	                      <input type="button" onclick="javascript: location.href='notice.inc?nowPage=${nowPage}'" value="목록"/>
 	                      <input type="button" onclick="check()" value="보내기"/>
+	                     
 	                      <input type="reset" value="재입력"/>
 	                      </td>
 	                    </tr>
@@ -168,6 +174,6 @@
 	    </td>
 	  </tr>
 	</table>
-	
+	</div>
 </body>
 </html>

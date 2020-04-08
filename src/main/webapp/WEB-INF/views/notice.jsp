@@ -25,9 +25,11 @@
 				<tr>
 					<th>씨네마 공지사항</th>
 					<td>
-						<!-- admin 일떄 버튼생성 기능 구현 해주기 --> <input type="button"
-						value="공지 작성" onclick="javascript:location.href='b_write.inc?nowPage=${nowPage}'" />
+						<!-- admin 일떄 버튼생성 기능 구현 해주기 --> 
+						<c:if test="${ sessionScope.userVO.status eq 9}">
+						<input type="button" value="공지 작성" onclick="javascript:location.href='b_write.inc?nowPage=${nowPage}'" />
 						<!-- 현재 페이지 값을 준 상태로 write jsp 가기   -->
+						</c:if>
 					</td>
 				</tr>
 				<tr>

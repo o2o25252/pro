@@ -23,7 +23,8 @@ public class MovieVO {
 				   companyNm,			// 참여 영화사명을 출력합니다.
 				   companyNmEn,			// 참여 영화사명(영문)을 출력합니다.
 				   companyPartNm,		// 참여 영화사 분야명을 출력합니다.
-				   postURL;				// 영화 포스터 썸네일 URL
+				   postURL,				// 영화 포스터 썸네일 URL
+				   nRating;				// naver 영화 평점
 	
 	List<StarVO> s_list; 
 	
@@ -195,5 +196,13 @@ public class MovieVO {
 
 	public void setCompanyPartNm(String companyPartNm) {
 		this.companyPartNm = companyPartNm;
+	}
+
+	public String getnRating() {
+		return nRating;
+	}
+
+	public void setnRating(String nRating) {
+		this.nRating = nRating;
 	}
 }

@@ -41,7 +41,7 @@ public class DataController {
 	// 검색하기
 	@RequestMapping("/search.inc")
 	public ModelAndView search(String movieNm)throws Exception{
-		URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=430156241533f1d058c603178cc3ca0e&movieNm="+movieNm);
+		URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&movieNm="+movieNm);
 
 		Element s_root = connectXML(search);
 		
@@ -81,7 +81,7 @@ public class DataController {
 	@ResponseBody
 	public Map<String, MovieVO> Moviedata(String movieCd) throws Exception{
 
-		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=4855fdf6db4ccb1111545e16fb5c682b&movieCd="+movieCd);
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&movieCd="+movieCd);
 		
 		MovieVO vo = new MovieVO();
 		
@@ -121,8 +121,12 @@ public class DataController {
 		}else {
 			nationEE = "ETC";
 		}
+		Map<String, String> map2 = getPost(vo.getMovieNm(), vo.getPrdtYear(), nationEE);
+		vo.setPostURL(map2.get("image_s"));	// 영화 썸네일
+		vo.setnRating(map2.get("nRating"));	// 네이버 평점
 		
-		vo.setPostURL(getPost(vo.getMovieNm(), vo.getPrdtYear(), nationEE));	// 영화 썸네일
+		System.out.print("평점 : ");
+		System.out.println(vo.getnRating());
 		
 		Element genres = movieInfo.getChild("genres");			// 장르명
 		List<Element> genre = genres.getChildren("genre");
@@ -182,7 +186,7 @@ public class DataController {
 	}
 
 	 // 영화 포스터 가져오기
-	public String getPost(String movieNm, String prdtYear, String nationEE) throws Exception{
+	public Map<String, String> getPost(String movieNm, String prdtYear, String nationEE) throws Exception{
      
         String clientID="UssVhdtzaSQlNhAr5bke"; //네이버 개발자 센터에서 발급받은 clientID입력
         String clientSecret = "6bwpOT_Ese";        //네이버 개발자 센터에서 발급받은 clientSecret입력
@@ -203,13 +207,20 @@ public class DataController {
 
         List<Element> item = channel.getChildren("item");
         String image_s = null;
+        String nRating = null;
         if(item.size() != 0) {
-           image_s = item.get(0).getChildText("image");         
+           image_s = item.get(0).getChildText("image");
+           nRating = item.get(0).getChildText("userRating");
         }else {
            image_s = "http://www.kobis.or.kr/kobis/web/comm/images/main/noimage.png";
+           nRating = "null";
         }
-      
-        return image_s;
+        
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("image_s", image_s);
+        map.put("nRating", nRating);
+        
+        return map;
    }
 	
 	//다이어로그 평점 댓글표현
@@ -266,7 +277,7 @@ public class DataController {
 	public Map<String, Object> Dailydata2(String targetDt) throws Exception{
 
 		// 금일 박스오피스 순위
-		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&targetDt="+targetDt);
+		URL Dailyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&targetDt="+targetDt);
 		
 		Element root = connectXML(Dailyurl);
 		
@@ -300,7 +311,7 @@ public class DataController {
 	public Map<String, Object> Weeklydatanext(String targetDt) throws Exception{
 		
 		// 금주 박스오피스 순위
-		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=4855fdf6db4ccb1111545e16fb5c682b&weekGb=0&targetDt="+targetDt);
+		URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&weekGb=0&targetDt="+targetDt);
 		
 		Element root = connectXML(Weeklyurl);
 	

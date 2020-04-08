@@ -17,7 +17,7 @@
 		where movieCd=#{movieCd}
 	</select>
 	 
-	 <!-- 영화 목록중 특정코드 다이어로그 들어가기 -->
+	<!-- 영화 목록중 특정코드 다이어로그 들어가기 -->
 	<select id="list" parameterType="String" resultType="com.data.vo.StarVO">
 		select * from star_t
 		where movieCd = #{movieCd}

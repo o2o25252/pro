@@ -43,37 +43,60 @@
 
 <!-- jquery-ui -->
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
-
 <style type="text/css">
-
 	#view_win {
 		display: none;
-		background-color : rgba( 255, 255, 255, 0.5 );
+		background-color : rgba( 255, 255, 255, 0 );
 	}
 	#week a,#weekend a{
-		color : black;
-  	}
-  	#week{
-  		float: center;
+		text-decoration: none;
+		color: #000000;
+		float: left;
   	}
   	
-	#view_win1{
+  	#week{
+  		width: 490px;
+  		height: 435px;
+  	}
+  	
+  	.trBorder{
+  		border-bottom: 1px solid rgba(80, 80, 80, 0);
+  	}
+  	
+	.view_win{
 		float: left;
-		width: 400px;
-		height: 900px;
-		margin: auto;
-		margin-left: 60px;
-		padding: auto;
-		margin-top: 180px;
+		text-align: left;
+		width: 254px;		
+		height: 414px;
+		margin-left: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.m_img{
 		float: left;
-		width: 250px;
-		margin: auto;
-		border: 1px solid black;
-		margin-left: 180px;
-		margin-top: 180px;
+		width: 290px;
+		height: 410px;
 	}
+	dt{
+		display:  inline-block;
+		width: 65px;
+		height: 20px;
+		margin-right: 20px;
+	}
+	.category{
+		font-size: 14px;
+		font-weight: bold;
+	}
+	dd{
+		display:  inline-block;
+		width: 165px;
+		height: 20px;
+		font-size: 14px;
+		color: #2A2A2A;
+		margin-bottom: 5px;
+	}
+	
 </style>
 </head>
 <body>
@@ -89,61 +112,67 @@
 			</ol>
 			<div class="carousel-inner" role="listbox">
 				<!-- Slide One - Set the background image for this slide in the line below -->
-				<div class="carousel-item active" style="background: gray">
-					<div id=""></div>
-					<div class="m_img">
-						 <img id="i12" width="250" height="400">
-					</div>
-					<div id="view_win1" title="영화상세">
-		        		<div id="xx"></div>
-						
-				         <h3 id="info1"></h3>
-				         <hr/>
-				      	 <label id="m_name1"></label><br/>
-				         <label id="openyear1"></label><br/>
-				         <label id="genere1"></label><br/> 
-				         <hr/>
-				               <label id="company1"></label><br/>
-				         <hr/>
-				               <label id="nations1"></label><br/>
-				         <hr/>
-				               <label id="d_people1"></label><br/>
-				         <hr/>
-				               <label id="a_people1"></label><br/>
-				         <hr/>
-				   </div>
-					<table id="week" class="table table-bordered table-hover">
-						<colgroup>
-							<col width="50px" />
-							<col width="*" />
-							<col width="100px" />
-						</colgroup>
-						<thead>
-							<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-							<tr>
-								<th colspan="4" id="date"><input type="button"
-									style="background-color: transparent; border: 0px transparent solid;"
-									id="datepicker" value="${ today }" /> 박스 오피스 순위
-									<hr/>
-								</th>
-							</tr>
-							<tr>
-								<th>순위</th>
-								<th>제목</th>
-								<th>개봉일</th>
-							</tr>
-						</thead>
-						<tbody id="weekTB" class="weekM">
-						</tbody>
-					</table>
+				<div class="carousel-item active" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
+				<table style="margin: auto; margin-top: 100px">
+					<thead>
+						<tr>
+							<th colspan="2" id="date"><label>${ today } 박스 오피스 순위</label></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div id="">
+									<div class="m_img">
+										 <img id="i12" width="290" height="410">
+									</div>
+									<div class="view_win" style="">
+								      	 <label id="m_name1"></label><br/>
+								         <hr/>
+								         <dt class="category">개봉일</dt><dd id="openyear1"></dd><br/>
+								         <dt class="category">제작상태</dt><br/>
+								         <dt class="category">영화구분</dt><br/>
+								         <hr/>
+										 <dt class="category">관람등급</dt><br/>
+										 <dt class="category">상영시간</dt><br/>
+										 <dt class="category">제작국가</dt><dd id="nations1"></dd><br/>
+										 <hr/>
+								         <dt class="category">감독</dt><dd id="d_people1"></dd><br/>
+								         <dt class="category">장르</dt><dd id="genere1"></dd><br/>
+								         <dt class="category">배급사</dt><dd id="company1"></dd><br/>
+								         <hr/>
+								   	</div>
+								</div>
+							</td>
+							<td>
+								<table id="week" class="table-hover" style="margin-left: 45px; border: 0px solid;">
+									<colgroup>
+										<col width="60px" />
+										<col width="*" />
+										<col width="150px" />
+									</colgroup>
+									<thead style="border-bottom: 2px solid black; text-align: left;">
+										<tr>
+											<th></th>
+											<th>영화명</th>
+											<th>개봉일</th>
+										</tr>
+									</thead>
+									<tbody id="weekTB" class="weekM" style="text-align: left; border: 0px solid;">
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
 				</div>
 				<!-- Slide Two - Set the background image for this slide in the line below -->
-				<div class="carousel-item" style="background: gray">
+				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246))">
 					<div class="m_img">
 						 <img id="i13" width="250" height="400">
 					</div>
-					<div id="view_win1" title="영화상세">
-		        
+					<div class="view_win" title="영화상세">
 				         <hr/>
 				      	 <label id="m_name2"></label><br/>
 				         <label id="openyear2"></label><br/>
@@ -160,28 +189,21 @@
 				               <label id="a_people2"></label><br/>
 				         <hr/>
 				   </div>
-				
 					<table id="weekend" class="table table-bordered table-hover">
-
 						<colgroup>
 							<col width="50px" />
-							<col width="*" />
+							<col width="100" />
 							<col width="100px" />
 						</colgroup>
-
 						<thead>
 							<tr>
 								<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-								<th colspan="3"><input type="button"
-									style="background-color: transparent; border: 0px transparent solid;"
-									id="datepicker1" value="${ toweek }">박스 오피스
+								<th colspan="3"><label>${ toweek }박스 오피스</label>
 									<hr /></th>
 							</tr>
 							<tr>
-							</tr>
-							<tr>
 								<th>순위</th>
-								<th>제목</th>
+								<th>영화명</th>
 								<th>개봉일</th>
 							</tr>
 						</thead>
@@ -190,12 +212,10 @@
 					</table>
 				</div>
 				<!-- Slide Three -->
-				<div class="carousel-item" style="background: gray">
+				<div class="carousel-item" style="background: #DEDEDE">
 					<jsp:include page="chartExO2.jsp" />
 				</div>
 			</div>
-
-
 			<a class="carousel-control-prev" href="#carouselExampleIndicators"
 				role="button" data-slide="prev"> <span
 				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
@@ -239,51 +259,49 @@
 		<jsp:include page="kMap2.jsp" />
 		<button type="button" id="close_bt">닫기</button>
 			</div>
+			<!-- 레이팅  -->
+			<div id="tabs2">
+				<form action="coco.inc" method="post">
+					<input type="hidden" id="ratinggg">
+					<hr/>
 					<!-- 레이팅  -->
-					<div id="tabs2">
-								<form action="coco.inc" method="post">
-									<input type="hidden" id="ratinggg">
-									<hr/>
-									<!-- 레이팅  -->
-									<div class="form-group" id="rating-ability-wrapper">
-									    <label class="control-label" for="rating">
-									    <span class="field-label-header">영화 리뷰 평가 </span><br>
-									    <span class="field-label-info"></span>
-									    <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
-									    </label>
-									    <h3 class="bold rating-header" style="">
-									    <span id="ratingVal" class="selected-rating">0</span><small> / 5</small>
-									    </h3>
-									    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
-									        <i class="fa fa-star" aria-hidden="true"></i>
-									    </button>
-									    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
-									        <i class="fa fa-star" aria-hidden="true"></i>
-									    </button>
-									    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
-									        <i class="fa fa-star" aria-hidden="true"></i>
-									    </button>
-									    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
-									        <i class="fa fa-star" aria-hidden="true"></i>
-									    </button>
-									    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
-									        <i class="fa fa-star" aria-hidden="true"></i>
-										</button>
-									</div>
-									<!-- ----------------------댓글작성부분------------------- -->
-									<textarea rows="8" cols="50" name="content" id="content"></textarea>
-									<br/>
-									<input type="button" value="등록" onclick="gogo()"/>
-									<hr/>
-									<!-- 댓글내용  표현-->
-									<!-- 아코디언 부분  -->
-									<div id="accordion">
-										
-									  
-									</div>
-								</form>
-								<button type="button" id="close_bt2">닫기</button>
+					<div class="form-group" id="rating-ability-wrapper">
+					    <label class="control-label" for="rating">
+					    <span class="field-label-header">영화 리뷰 평가 </span><br>
+					    <span class="field-label-info"></span>
+					    <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
+					    </label>
+					    <h3 class="bold rating-header" style="">
+					    <span id="ratingVal" class="selected-rating">0</span><small> / 5</small>
+					    </h3>
+					    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
+					        <i class="fa fa-star" aria-hidden="true"></i>
+					    </button>
+					    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
+					        <i class="fa fa-star" aria-hidden="true"></i>
+					    </button>
+					    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
+					        <i class="fa fa-star" aria-hidden="true"></i>
+					    </button>
+					    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
+					        <i class="fa fa-star" aria-hidden="true"></i>
+					    </button>
+					    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
+					        <i class="fa fa-star" aria-hidden="true"></i>
+						</button>
 					</div>
+					<!-- ----------------------댓글작성부분------------------- -->
+					<textarea rows="8" cols="50" name="content" id="content"></textarea>
+					<br/>
+					<input type="button" value="등록" onclick="gogo()"/>
+					<hr/>
+					<!-- 댓글내용  표현-->
+					<!-- 아코디언 부분  -->
+					<div id="accordion">
+					</div>
+				</form>
+				<button type="button" id="close_bt2">닫기</button>
+			</div>
 		</div>
 	</div>
 	
@@ -351,8 +369,7 @@
 				var code = "";
 				
 				for(var i=0; i<data.Dailyar.length; i++){
-
-					code += "<tr class='ye'><td>";
+					code += "<tr class='trBorder'><td>";
 					code += data.Dailyar[i].rnum;
 					code += "<input type=hidden value='";
 					code += data.Dailyar[i].movieCd;
@@ -365,9 +382,8 @@
 				$("#week>tbody").html(code);
 				
 				// 금일 순위 마우스 위치 시 옆의 내용 변환
-				$(".weekM tr").mouseover(function(){
+				$(".weekM tr").mouseenter(function(){
 			  		
-					
 					var cd = $(this).children().eq(0).children().eq(0).val();
 			  		
 			  		var paran = "movieCd="+encodeURIComponent(cd);
@@ -379,39 +395,25 @@
 						dataType : "json"
 					}).done(function(data){
 						if(data.vo != undefined){
-							
 							$("#i12").attr("src", data.vo.postURL);
 							
-							var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
+							var code = ""+data.vo.movieNm;
 							$("#m_name1").html(code);
-							var openyear = "개봉연도: "+data.vo.openDt;
+							var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
 							$("#openyear1").html(openyear);
-							var genere = "장르: "+data.vo.genreNm;
+							var genere = ""+data.vo.genreNm;
 							$("#genere1").html(genere);	
-							var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
+							var company = ""+data.vo.companyNm;
 							$("#company1").html(company);
-							var nations = "제작국가: "+ data.vo.nationNm;
+							var nations = ""+ data.vo.nationNm;
 							$("#nations1").html(nations);
-							var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
+							var d_people = ""+ data.vo.directors_peopleNm;
 							$("#d_people1").html(d_people);
-							
-							if(data.vo.avo != undefined){
-					               var a_people = "배우:";
-					               for(var i=0; i<data.vo.avo.length; i++){
-					                  a_people +=  data.vo.avo[i].peopleNm;
-					                  a_people +=  " / ";               
-					               }
-					               $("#a_people1").html(a_people);
-					            }
 						}
-						
 					}).fail(function(err){
 						console.log(err);
 					});
-					
-					
 				});
-				
 			}
 		}).fail(function(err){
 			console.log(err);
@@ -428,14 +430,13 @@
 			type: "POST"
 		}).done(function(data){
 			if(data.Weeklyar != undefined){
-				
 				var code = "";
 				for(var i=0; i<data.Weeklyar.length; i++){
 					code += "<tr><td>";
 					code += data.Weeklyar[i].rnum;
 					code += "<input type=hidden value='";
 					code += data.Weeklyar[i].movieCd;
-					code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
+					code += "'/></td><td><a href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
 					code += data.Weeklyar[i].movieNm;
 					code += "</a></td><td>";
 					code += data.Weeklyar[i].openDt;
@@ -444,13 +445,13 @@
 			
 				$("#weekend>tbody").html(code);
 				
+
 				// 금주 순위에 포커스 위치 시 옆에 변환
-				$(".weekendM tr").mouseover(function(){
-		  		
-				
-				var cd = $(this).children().eq(0).children().eq(0).val();
-		  		
+				$(".weekendM tr").mouseenter(function(){
+		  		var cd = $(this).children().eq(0).children().eq(0).val();
 		  		var paran = "movieCd="+encodeURIComponent(cd);
+		  		
+		  		console.log("마우스 enter");
 		  		
 		  		$.ajax({
 					url: "oo.inc",
@@ -483,20 +484,19 @@
 				               }
 				               $("#a_people2").html(a_people);
 				            }
-					}
-					
-				}).fail(function(err){
-					console.log(err);
+						}
+					}).fail(function(err){
+						console.log(err);
+					});
 				});
-				
-				
-			});
 			}
 		}).fail(function(err){
 			console.log(err);
 		});
 	});
   
+	
+	
 	// 영화 상세정보 보기
 	function go(frm){
 										//인비 저블맨 출연진이 안나옴,출연배우들 나오게는 함
@@ -541,9 +541,7 @@
 		               $("#a_people").html(a_people);
 		            }
 		}//if의 끝
-		
 			gogo2();
-		
 		}).fail(function(err){
 			console.log(err);
 		});
@@ -551,7 +549,6 @@
 	
 	//댓글 표현 함수 
 	function gogo2() {
-		
 		var par = "movieCd="+encodeURIComponent(moviecode);
 		
 		$.ajax({
@@ -571,11 +568,9 @@
 					code += data.commAr[i].content;
 					code += "</label></div>";
 					$("#accordion").append(code);
-				}				
-				
+				}
 			}
 		}).fail(function(err){
-			
 		});
 	}
 	
