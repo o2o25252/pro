@@ -174,20 +174,18 @@
 					</div>
 					<div class="view_win" title="영화상세">
 				         <hr/>
-				      	 <label id="m_name2"></label><br/>
-				         <label id="openyear2"></label><br/>
-				         <label id="genere2"></label><br/> 
-				
-				         <hr />
-				        
-				               <label id="company2"></label><br/>
-				         <hr/>
-				               <label id="nations2"></label><br/>
-				         <hr/>
-				               <label id="d_people2"></label><br/>
-				         <hr/>
-				               <label id="a_people2"></label><br/>
-				         <hr/>
+				      	 <dt class="category">개봉일</dt><label id="openyear2"></label><br/>
+				         <dt class="category">제작상태</dt><br/>
+				         <dt class="category">영화구분</dt><br/> 
+						 <hr/>
+		               	 <dt class="category">관람등급</dt><br/>
+		               	 <dt class="category">상영시간</dt><br/>
+		               	 <dt class="category">제작국가</dt><label id="nations2"></label><br/>
+		        	 	 <hr/>
+		               	 <dt class="category">감독</dt><label id="d_people2"></label><br/>
+	               	     <dt class="category">장르</dt><label id="genere2"></label><br/>
+		               	 <dt class="category">배급사</dt><label id="company2"></label><br/>
+			         	 <hr/>
 				   </div>
 					<table id="weekend" class="table table-bordered table-hover">
 						<colgroup>
@@ -202,7 +200,7 @@
 									<hr /></th>
 							</tr>
 							<tr>
-								<th>순위</th>
+								<th></th>
 								<th>영화명</th>
 								<th>개봉일</th>
 							</tr>
