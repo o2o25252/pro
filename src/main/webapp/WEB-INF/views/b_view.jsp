@@ -8,62 +8,66 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<!-- Bootstrap core CSS -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css"/>
 <link rel="stylesheet" href="resources/css/styles.css" />
 <style type="text/css">
+	#bbs{
+		padding: auto;
+	}
 	#v_bbs{
 		border: 1px solid black;
 		border-collapse: collapse;
 		float: center;
-		width: 600px;
-		height: 150px;
+		width: 700px;
+		height: auto;
+		padding: auto;
 		margin: auto;
 	}
 	#v_bbs th,#v_bbs td{
 		border: 1px solid black;
 	}
-	#v_bbs{
-		text-decoration: none;
-	}
-	#v_bbs{
-		text-align: center;
-	}
 	#v_bbs th{
-		padding:4px 10px;
-	}
-	#v_bbs td{
-		text-align: left;
-		padding:4px 10px;
-	}
-	#noti{
-		margin: auto;
-		height: 90px;
+		background-color: #C3C3C3;
 	}
 	#del_win{
 		display: none;
 	}
-	
 	.show{display: block;}
 	.none{display: none; }
+	label{
+		display: inline-block;
+		width: auto;
+	}
+	#notice{
+		width: auto;
+		text-align: center;
+	}
+	#heights{
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
 </style>
-
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
-	
-	<div id="bbs">
+	<div id="bbs" class="container">
 		<form method="post">
-			<table id="v_bbs">
+			<div id="notice">
+				<div id="heights"></div>
+				<h2>공지사항</h2>
+			</div>
+			<table id="v_bbs" class="table">
 				<tbody>
 					<tr>
-						<th>제목:</th>
+						<th><label>제목:</label></th>
 						<td>${ vo.subject }</td>
-						<th>조회수:</th>
+						<th><label>조회수:</label></th>
 						<td>${ vo.hit }</td>
 					</tr>
 					<tr>
-						<th>첨부 파일:</th>
+						<th><label>첨부 파일:</label></th>
 						<td colspan="3">
 							<c:if test="${ vo.file_name != null and fn:length(vo.file_name) >4 }">
 								<a href="javascript: download('${vo.file_name }')">
@@ -74,54 +78,53 @@
 						</td>
 					</tr>
 					<tr>
-						<th>이름:</th>
+						<th><label>이름:</label></th>
 						<td colspan="3">${ vo.writer }</td>
 					</tr>
 					<tr>
-						<th>내용:</th>
+						<th><label>내용:</label></th>
 						<td colspan="3"><pre>${ vo.content }</pre></td>
 					</tr>
+				</tbody>
+				<tfoot>
 					<tr>
-						<td colspan="4" >
-							
-	                      <c:if test="${ sessionScope.userVO.status eq 9}">
-							<button type="button" onclick="edit()">수정</button>
-							<button type="button" id="del_btn" >삭제</button>
+						<td colspan="4" style="text-align: right; background-color: #F2F7F9;">
+						<c:if test="${ sessionScope.userVO.status eq 9}">
+							<button type="button" onclick="edit()" class="repSumbit btn btn-primary">수정</button>
+							<button type="button" id="del_btn" class="repSumbit btn btn-warning">삭제</button>
 							</c:if>
-							<button type="button" onclick="list_go()">목록</button>
+							<button type="button" onclick="list_go()" class="repSumbit btn btn-danger">목록</button>
 						</td>
 					</tr>
-				</tbody>
+				</tfoot>
 			</table>
 		</form>
 		<!-- 댓글 입력란 -->
 		<hr/>
-		
-			<form action="b_editok.inc" method="post">
-				<div>
-					<input type="hidden" id="b_idx" name="b_idx" value="${vo.b_idx }">
-					<table>
-						<tbody>
-							<tr>
-								
-								<td><label for="c_writer">작성자:</label></td>
-								<td><label id="c_writer" name="c_writer">${userVO.nickname }</label><input type="hidden" id="c_writer2" value="${userVO.nickname }"/> </td>
-							</tr>
-							<tr>
-								<td><label for="c_content">내용:</label></td>
-								<td><textarea cols="" rows="" id="c_content" name="c_content"></textarea> </td>
-							</tr>
-							<tr>
-								<td><label for="c_pwd">비밀번호:</label></td>
-								<td><input type="password" id="c_pwd" name="c_pwd"/></td>
-							</tr>
-							<tr>
-								<td><input type="button" value="저장" onclick="add_coment()" /></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</form>
+		<form action="b_editok.inc" method="post">
+			<div id="text_box" style="border: 1px solid blue; display: inline-block;">
+				<input type="hidden" id="b_idx" name="b_idx" value="${vo.b_idx }">
+				<table style="text-align: right;">
+					<tbody> 
+						<tr>
+							<td><label for="c_writer">작성자:</label></td>
+							<td><label id="c_writer" name="c_writer">${userVO.nickname }</label><input type="hidden" id="c_writer2" value="${userVO.nickname }"/> </td>
+						</tr>
+						<tr>
+							<td><label for="c_content">내용:</label></td>
+							<td><textarea cols="" rows="" id="c_content" name="c_content"></textarea> </td>
+						</tr>
+						<tr>
+							<td><label for="c_pwd">비밀번호:</label></td>
+							<td><input type="password" id="c_pwd" name="c_pwd"/></td>
+						</tr>
+						<tr>
+							<td><input type="button" value="저장" onclick="add_coment()" class="repSumbit btn btn-danger"/></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
 		
 		<!-- 댓글 출력란 -->
 		<div id="comm_add">
@@ -141,8 +144,8 @@
                <label for="b_pw">비밀번호:</label>
                <input type="password" id="b_pw" name="b_pw"/>
                <br/>
-               <button type="button" id="delete_bt">삭제</button>
-               <button type="button" id="close_bt">닫기</button>
+               <button type="button" id="delete_bt" class="repSumbit btn btn-danger">삭제</button>
+               <button type="button" id="close_bt" class="repSumbit btn btn-primary">닫기</button>
                <input type="hidden" name="nowPage" value="${param.nowPage }">
          </form>
    </div>
@@ -295,17 +298,15 @@
 					code += "\"/>";
 					if((${ sessionScope.userVO.status} == 9) || ("${sessionScope.userVO.nickname}" == data.c_ar[i].writer)){
 						code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
-						code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\'/>";
-						code += "<input type = 'button' onclick='c_edit("+i+")' value='수정'/></form>";
-						console.log("댓글 아이디 같음.")
+						code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\' class='repSumbit btn btn-danger'/>";
+						code += "<input type = 'button' onclick='c_edit("+i+")' value='수정' class='repSumbit btn btn-warning'/></form>";
 					}
 				}
 				$("#comm_add").html(code);
 			}
 						
 		}).fail(function(err){
-			console.log("실패");
-			alert(err);
+			console.log(err);
 		});
 	}
 	// 댓글 삭제시

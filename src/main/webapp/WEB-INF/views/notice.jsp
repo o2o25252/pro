@@ -9,21 +9,18 @@
 <title>Insert title here</title>
 <!-- 선생님이한 게시판 css  -->
 <link rel="stylesheet" href="resources/css/text.css" />
-
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- 메뉴바 css -->
 <link rel="stylesheet" href="resources/css/styles.css" />
 </head>
 <body>
-
 	<%--메뉴 바 가져오기 --%>
 	<jsp:include page="menu.jsp" />
-	
-	<form>
-		<table>
-
+	<div class="container">
+		<table style="width: 1000px;">
+			<h2 style="height: 50px; margin-top: 20px;">씨네마 공지 사항</h2>
 			<tbody> 
-				<tr>
-					<th>씨네마 공지사항</th>
+				<tr style="float:right">
 					<td>
 						<!-- admin 일떄 버튼생성 기능 구현 해주기 --> 
 						<c:if test="${ sessionScope.userVO.status eq 9}">
@@ -34,14 +31,17 @@
 				</tr>
 				<tr>
 					<td>
-						<table>
-							<tr>
-								<td>번호</td>
-								<td>제목</td>
-								<td>글쓴이</td>
-								<td>날짜</td>
-								<td>조회수</td>
-							</tr>
+						<table  class="table table-hover">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>글쓴이</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>	
 							<c:forEach var="vo" items="${list }" varStatus="st">
 								<tr>
 									<td bgcolor="#f2f7f5">
@@ -61,7 +61,9 @@
 									</td>
 									<td>${vo.hit }</td>
 								</tr>
-							</c:forEach>
+								</c:forEach>
+							</tbody>	
+							
 							<%-- list 에 없을떄 목록에 없습니다. 표시용 --%>
 							<c:if test="${empty list }">
 								<tr><td colspan="5">작성된 공지가 없습니다.</td></tr>
@@ -71,13 +73,17 @@
 				</tr>
 			</tbody>
 			<tfoot>
-				<tr>
-					<td colspan="5">
-						${pageCode }
-					</td>
-				</tr>
+				<div>
+					<tr>
+						<td colspan="5" class="pagination">
+							<div style="margin: auto;">
+								${pageCode}
+							</div>
+						</td>
+					</tr>
+				</div>	
 			</tfoot>
 		</table>
-	</form>
+	</div>
 </body>
 </html>

@@ -18,7 +18,7 @@ public class UserDAO {
 	private SqlSessionTemplate ss;
 	
 	
-	// 회원가입 을 했는지 판단 부분 
+	// 회원가입을 했는지 판단 부분 
 	public boolean search(UserVO vo) {
 		//신규가입자라면 true 
 		//기존에 가입되어있다면 false
@@ -46,12 +46,10 @@ public class UserDAO {
 	//별점 추가 
 	public boolean staradd(StarVO svo) {
 		boolean chk = false;
-		
 		int cnt =ss.insert("star.star_add", svo);
 		if(cnt > 0) {
 			chk =true;
 		}
-		
 		return chk;
 	}
 	
@@ -63,9 +61,7 @@ public class UserDAO {
 	
 	// 별점 리스트 가져옴
 	public List<StarVO> getList(String moviecd) {
-	
 		List<StarVO> s_list = ss.selectList("star.list", moviecd);
-		
 		return s_list;
 	}
 

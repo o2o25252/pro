@@ -53,7 +53,6 @@
 		color: #000000;
 		float: left;
   	}
-  	
   	#week{
   		width: 490px;
   		height: 435px;
@@ -65,7 +64,6 @@
   	.trBorder{
   		border-bottom: 1px solid rgba(80, 80, 80, 0);
   	}
-  	
 	.view_win{
 		float: left;
 		text-align: left;
@@ -115,10 +113,10 @@
 				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 			</ol>
-			<div class="carousel-inner" role="listbox">
+			<div class="carousel-inner" role="listbox" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246));">
 				<!-- 금일 순위 -->
 				<!-- Slide One - Set the background image for this slide in the line below -->
-				<div class="carousel-item active" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
+				<div class="carousel-item active" style="height: 694px; ov">
 				<table style="margin: auto; margin-top: 100px">
 					<thead>
 						<tr>
@@ -175,7 +173,7 @@
 				</div>
 				<!-- Slide Two - Set the background image for this slide in the line below -->
 				<!-- 주간 순위 -->
-				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
+				<div class="carousel-item" style="height: 694px;">
 					<table style="margin: auto; margin-top: 100px">
 						<thead>
 							<tr>
@@ -227,7 +225,7 @@
 					</table>
 				</div>
 				<!-- Slide Three -->
-				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
+				<div class="carousel-item" style="height: 694px;">
 					<div style="margin:auto;text-align: center;">
 						<jsp:include page="chartExO2.jsp"/>
 					</div>	
@@ -361,7 +359,6 @@
      			 collapsible: true
   		  });
 		
-		
 		$("#close_bt").bind("click", function() {
 			$("#view_win").dialog("close");				// dialog 닫을경우 dialog 내용 삭제
 			$("#accordion").html("");
@@ -462,7 +459,6 @@
 			
 				$("#weekend>tbody").html(code);
 				
-
 				// 금주 순위에 포커스 위치 시 옆에 변환
 				$(".weekendM tr").mouseenter(function(){
 		  		var cd = $(this).children().eq(0).children().eq(0).val();
@@ -571,9 +567,13 @@
 					code += "<h3>";
 					code += data.commAr[i].writer;
 					code += "</h3>";
+					code += "<h4>";
+	                code += data.commAr[i].Rating;
+	                code += "</h4>";
 					code += "<div><label>";
 					code += data.commAr[i].content;
 					code += "</label></div>";
+					console.log(data.commAr[i].Rating);
 					$("#accordion").append(code);
 				}
 			}
