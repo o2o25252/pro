@@ -99,7 +99,9 @@
 		color: #2A2A2A;
 		margin-bottom: 5px;
 	}
-	
+	#chart{
+		margin: auto;
+	}
 </style>
 </head>
 <body>
@@ -226,7 +228,9 @@
 				</div>
 				<!-- Slide Three -->
 				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
-					<jsp:include page="chartExO2.jsp" />
+					<div style="margin:auto;text-align: center;">
+						<jsp:include page="chartExO2.jsp"/>
+					</div>	
 				</div>
 			</div>
 			<a class="carousel-control-prev" href="#carouselExampleIndicators"

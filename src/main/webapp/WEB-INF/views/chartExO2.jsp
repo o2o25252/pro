@@ -29,7 +29,9 @@
 <style type="text/css">
 	#chart_div{
 		width: 700px;
-		height: 300px; 
+		height: 600px; 
+		margin: auto;
+		padding: auto;
 	}
 </style>
 </head>
