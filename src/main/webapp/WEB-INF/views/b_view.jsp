@@ -308,7 +308,6 @@
 	// 댓글 삭제시
 	function c_del(c_idx,c_pwd){
 		var writer = $("#b_id").val();
-		console.log(writer);
 		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&writer="+encodeURIComponent(writer);
 		
 		$.ajax({

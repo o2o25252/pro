@@ -13,20 +13,16 @@
 
 <style type="text/css">
 	#bbs table {
-	    width:580px;
 	    margin-left:10px;
 	    border:1px solid black;
 	    border-collapse:collapse;
 	    font-size:14px;
-	    
 	}
-	
 	#bbs table caption {
 	    font-size:20px;
 	    font-weight:bold;
 	    margin-bottom:10px;
 	}
-	
 	#bbs table th {
 	    text-align:center;
 	    border:1px solid black;
@@ -38,44 +34,42 @@
 	    border:1px solid black;
 	    padding:4px 10px;
 	}
-	
 	.no {width:15%}
 	.subject {width:30%}
 	.writer {width:20%}
 	.reg {width:20%}
 	.hit {width:15%}
 	.title{background:lightsteelblue}
-	
 	.odd {background:silver}
 	
-		
 </style>
-
 </head>
 <body>
 	<%--메뉴 바 가져오기 --%>
 	<jsp:include page="menu.jsp" />
+	<div style="width:900px; margin:auto; padding:auto; text-align: center; margin-top: 15px; margin-bottom: 15px;">
+		<h2>게시판 수정</h2>
+	</div>
 	<div id="bbs">
-	<form action="b_editok.inc" method="post" encType="multipart/form-data">
-		<table summary="게시판 글쓰기">
-			<caption>게시판 수정</caption>
+	<form action="b_editok.inc" method="post" encType="multipart/form-data" name="edit_frm">
+		<table summary="게시판 글쓰기" style="margin: auto; width:740px;">
 			<tbody>
 				
 				<tr>
-					<th>제목:</th>
+					<th style="background-color:#669AB3;"><label for="subject">제목:</label></th>
 					<td><input type="text" id="subject" name="subject" size="45" value="${vo.subject}"/>  </td>
 				</tr>
 				<tr>
-					<th>이름:</th>
+					<th style="background-color:#669AB3;"><label for="writer">이름:</label></th>
 					<td><input type="text" id="writer" name="writer" size="12" value="${ vo.writer }"/> </td>
 				</tr>
 				<tr>
-					<th>첨부파일:</th>
+					<th style="background-color:#669AB3;"><label for="file">첨부파일:</label></th>
 					<td><input type="file" id="file" name="file"/>(${ vo.file_name })</td>
 				</tr>
 
 				<tr>
-					<th>비밀번호:</th>
+					<th style="background-color:#669AB3;"><label for="pwd">비밀번호:</label></th>
 					<td><input type="password" id="pwd" name="pwd" size="12"/></td>
 				</tr>
 
@@ -86,33 +80,27 @@
 		<input type="hidden" name="b_idx" value="${ vo.b_idx }"/>
 		<input type="hidden" name="content" id="str" />
 	</form>
-
-		<table>
+		<table style="margin: auto; width:740px;">
 			<tbody>
 				<tr>
-					<th style="width:83px;">내용:</th>
+					<th style="width:144px; background-color:#669AB3;"><label for="content">내용:</label></th>
 					<td><textarea name="content" cols="50" rows="8" id="content" >${ vo.content }</textarea>
 					</td>
 				</tr>
-				
 				<tr>
-					<td colspan="2">
-						<input type="button" value="수정" onclick="sendData()"/>
-						<input type="reset" id="reset" value="다시"/>
-						<input type="button" id="list" value="목록"/>
+					<td colspan="2" style="background-color:#F2F7F9; text-align: right; ">
+						<input type="button" value="수정" onclick="sendData()" class="repSumbit btn btn-primary"/>
+						<input type="reset" id="reset" value="다시" class="repSumbit btn btn-warning"/>
+						<input type="button" id="list" value="목록" class="repSumbit btn btn-danger"/>
 					</td>
 				</tr>
 			</tbody>
 		</table>	
-	
 	</div>
-	
-	
 	<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="resources/js/summernote-lite.min.js"></script>
 	<script type="text/javascript" src="resources/js/lang/summernote-ko-KR.min.js"></script>
 	<script>
-	
 		$(function(){
 			$("#list").bind("click",function(){
 				
@@ -153,10 +141,8 @@
 		
 		function sendFile(file, editor){
 			
-			//파라미터를 전달하기 위해 폼객체 준비!
-			var frm = new FormData(); //<form encType="multipart/form-data"></form>
+			var frm = new FormData(); 
 			
-			//보내고자 하는 자원을 파라미터 값으로 등록(추가)
 			frm.append("upload", file);
 			
 			//비동기식 통신
@@ -179,26 +165,24 @@
 		
 		
 		function sendData(){
-			for(var i=0 ; i<document.forms[0].elements.length ; i++){
+			for(var i=0 ; i<edit_frm.elements.length ; i++){
 				
-				//만약 제목과 이름만 입력되었는지 유효성 검사를 
-				//한다면...
 				if(i > 1)
 					break;
 				
-				if(document.forms[0].elements[i].value == ""){
-					alert(document.forms[0].elements[i].name+
-							"를 입력하세요");
-					document.forms[0].elements[i].focus();
-					return;//수행 중단
+				if(edit_frm.elements[i].value == ""){
+					
+					alert(edit_frm.elements[i].name+"를 입력하세요");
+					edit_frm.elements[i].focus();
+					
+					return;
 				}
 			}
 			var str = $("#content").val();
-			//console.log(str);
 			$("#str").val(str);
 			
 			
-			document.forms[0].submit();
+			edit_frm.submit();
 		}
 	</script>
 </body>
