@@ -89,11 +89,12 @@
 	<!-- 댓글 삭제 -->
 	<update id="c_del" parameterType="java.util.Map">
 		UPDATE comment_t SET status = 1
-		WHERE c_idx = #{c_idx} AND pwd = #{pwd}
+		WHERE c_idx = #{c_idx} AND writer = #{writer}
 	</update>
+	
 	<!-- 댓글 수정 -->
 	<update id="c_edit" parameterType="java.util.Map">
 		UPDATE comment_t SET content = #{content} 
-		WHERE  pwd = #{pwd} AND c_idx = #{c_idx}
+		WHERE  writer = #{writer} AND c_idx = #{c_idx}
 	</update>
 </mapper>

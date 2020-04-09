@@ -281,12 +281,12 @@ public class ListController  {
 	//댓글 삭제
 	@RequestMapping(value = "/comm_del.inc", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> comment_del(String c_idx, String pwd) {
+	public Map<String, Object> comment_del(String c_idx, String writer) {
 
 		Map<String, Object> map = new  HashMap<String, Object>();
-
-		boolean chk =	b_dao.comment_del(c_idx, pwd);
-		map.put("pwd",pwd);
+		System.out.println(writer);
+		boolean chk =	b_dao.comment_del(c_idx, writer);
+		map.put("writer",writer);
 		map.put("chk", chk);
 
 		return map;
@@ -296,9 +296,9 @@ public class ListController  {
 	// 댓글 수정 완료
 	@RequestMapping(value = "/c_editok.inc", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> c_editok(String content,String pwd,String c_idx) throws Exception{
+	public Map<String, Object> c_editok(String content,String writer,String c_idx) throws Exception{
 		
-		boolean chk = b_dao.c_edit(content, pwd, c_idx);
+		boolean chk = b_dao.c_edit(content, writer, c_idx);
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("chk", chk);
 		return map2;
