@@ -9,8 +9,6 @@
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
-	<h1>Login Form</h1>
-	<hr>
 	<br>
 	<center>
 		<!-- 일반회원 로그인 시 발생 -->

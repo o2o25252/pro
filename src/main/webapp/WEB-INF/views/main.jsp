@@ -58,7 +58,10 @@
   		width: 490px;
   		height: 435px;
   	}
-  	
+  	#weekend{
+  		width: 490px;
+  		height: 435px;
+  	}
   	.trBorder{
   		border-bottom: 1px solid rgba(80, 80, 80, 0);
   	}
@@ -111,6 +114,7 @@
 				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 			</ol>
 			<div class="carousel-inner" role="listbox">
+				<!-- 금일 순위 -->
 				<!-- Slide One - Set the background image for this slide in the line below -->
 				<div class="carousel-item active" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
 				<table style="margin: auto; margin-top: 100px">
@@ -168,49 +172,60 @@
 				
 				</div>
 				<!-- Slide Two - Set the background image for this slide in the line below -->
-				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246))">
-					<div class="m_img">
-						 <img id="i13" width="250" height="400">
-					</div>
-					<div class="view_win" title="영화상세">
-				         <hr/>
-				      	 <dt class="category">개봉일</dt><label id="openyear2"></label><br/>
-				         <dt class="category">제작상태</dt><br/>
-				         <dt class="category">영화구분</dt><br/> 
-						 <hr/>
-		               	 <dt class="category">관람등급</dt><br/>
-		               	 <dt class="category">상영시간</dt><br/>
-		               	 <dt class="category">제작국가</dt><label id="nations2"></label><br/>
-		        	 	 <hr/>
-		               	 <dt class="category">감독</dt><label id="d_people2"></label><br/>
-	               	     <dt class="category">장르</dt><label id="genere2"></label><br/>
-		               	 <dt class="category">배급사</dt><label id="company2"></label><br/>
-			         	 <hr/>
-				   </div>
-					<table id="weekend" class="table table-bordered table-hover">
-						<colgroup>
-							<col width="50px" />
-							<col width="100" />
-							<col width="100px" />
-						</colgroup>
+				<!-- 주간 순위 -->
+				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
+					<table style="margin: auto; margin-top: 100px">
 						<thead>
 							<tr>
-								<%-- text 선택 시 달력 발생 하도록 설정 변경 할 사항 있으면 변경 --%>
-								<th colspan="3"><label>${ toweek }박스 오피스</label>
-									<hr /></th>
-							</tr>
-							<tr>
-								<th></th>
-								<th>영화명</th>
-								<th>개봉일</th>
+								<th colspan="2"><label>${ toweek }박스 오피스</label></th>
 							</tr>
 						</thead>
-						<tbody class='weekendM'>
+						<tbody>
+							<tr>
+								<td>
+									<div class="m_img" >
+										 <img id="i13" width="290" height="410">
+									</div>
+									<div class="view_win" title="영화상세">
+								         <hr/>
+								      	 <dt class="category">개봉일</dt><label id="openyear2"></label><br/>
+								         <dt class="category">제작상태</dt><br/>
+								         <dt class="category">영화구분</dt><br/> 
+										 <hr/>
+						               	 <dt class="category">관람등급</dt><br/>
+						               	 <dt class="category">상영시간</dt><br/>
+						               	 <dt class="category">제작국가</dt><label id="nations2"></label><br/>
+						        	 	 <hr/>
+						               	 <dt class="category">감독</dt><label id="d_people2"></label><br/>
+					               	     <dt class="category">장르</dt><label id="genere2"></label><br/>
+						               	 <dt class="category">배급사</dt><label id="company2"></label><br/>
+							         	 <hr/>
+								   </div>
+								</td>
+								<td>
+									<table id="weekend" class="table-hover" style="margin-left: 45px; border: 0px solid;">
+										<colgroup>
+											<col width="60px" />
+											<col width="*" />
+											<col width="150px" />
+										</colgroup>
+										<thead style="border-bottom: 2px solid black; text-align: left;">
+											<tr>
+												<th></th>
+												<th>영화명</th>
+												<th>개봉일</th>
+											</tr>
+										</thead>
+										<tbody class='weekendM' style="text-align: left; border: 0px solid;">
+										</tbody>
+									</table>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 				<!-- Slide Three -->
-				<div class="carousel-item" style="background: #DEDEDE">
+				<div class="carousel-item" style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246)); height: 694px;">
 					<jsp:include page="chartExO2.jsp" />
 				</div>
 			</div>
@@ -430,7 +445,7 @@
 			if(data.Weeklyar != undefined){
 				var code = "";
 				for(var i=0; i<data.Weeklyar.length; i++){
-					code += "<tr><td>";
+					code += "<tr class='trBorder'><td>";
 					code += data.Weeklyar[i].rnum;
 					code += "<input type=hidden value='";
 					code += data.Weeklyar[i].movieCd;
@@ -449,8 +464,6 @@
 		  		var cd = $(this).children().eq(0).children().eq(0).val();
 		  		var paran = "movieCd="+encodeURIComponent(cd);
 		  		
-		  		console.log("마우스 enter");
-		  		
 		  		$.ajax({
 					url: "oo.inc",
 					type: "POST",
@@ -461,27 +474,19 @@
 						
 						$("#i13").attr("src", data.vo.postURL);
 						
-						var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
+						var code = ""+data.vo.movieNm;
 						$("#m_name2").html(code);
-						var openyear = "개봉연도: "+data.vo.openDt;
+						var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
 						$("#openyear2").html(openyear);
-						var genere = "장르: "+data.vo.genreNm;
+						var genere = ""+data.vo.genreNm;
 						$("#genere2").html(genere);	
-						var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
+						var company = ""+data.vo.companyNm;
 						$("#company2").html(company);
-						var nations = "제작국가: "+ data.vo.nationNm;
+						var nations = ""+ data.vo.nationNm;
 						$("#nations2").html(nations);
-						var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
+						var d_people = ""+ data.vo.directors_peopleNm;
 						$("#d_people2").html(d_people);
 						
-						if(data.vo.avo != undefined){
-				               var a_people = "배우:";
-				               for(var i=0; i<data.vo.avo.length; i++){
-				                  a_people +=  data.vo.avo[i].peopleNm;
-				                  a_people +=  " / ";               
-				               }
-				               $("#a_people2").html(a_people);
-				            }
 						}
 					}).fail(function(err){
 						console.log(err);
