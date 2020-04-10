@@ -1,12 +1,14 @@
 package com.test.pro;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class ListController  {
 	@Autowired
 	private ServletContext application;
 
+	@Autowired
+	private HttpSession session;
 
 	//페이징 기법을 위한 상수들
 	public final int BLOCK_LIST = 10; // 한페이지당 보여질 게시물 수
@@ -162,10 +166,44 @@ public class ListController  {
 	// 보기 화면 전환
 	@RequestMapping("/b_view.inc")
 	public ModelAndView view(String b_idx,String nowPage) {
-
 		ModelAndView mv = new ModelAndView();
-
-		BbsVO vo = b_dao.getview(b_idx);
+		
+		// 한번이라도 읽기를 한 게시물
+		Object obj = session.getAttribute("read_list");
+		List<BbsVO> r_list = null;
+		if(obj != null) {
+			r_list = (List<BbsVO>) obj;
+		}else {
+			r_list = new ArrayList<BbsVO>();
+		}
+		
+		BbsVO vo = null;
+		if(b_idx != null) {
+			vo =  b_dao.getview(b_idx);
+		
+			boolean chk = false;
+			for(BbsVO bvo: r_list) {
+				if(vo.getB_idx().equals(bvo.getB_idx())) {
+					// 한번 읽기를 수행한 게시물
+					chk = true;
+					break;
+				}
+			}
+			
+		if(!chk) {
+			// 한번도 읽기를 하지 않은 경우, hit 증가
+			b_dao.b_hit(b_idx);
+			
+			String h = vo.getHit();
+			int hit = Integer.parseInt(h);
+			++hit;
+			vo.setHit(String.valueOf(hit));
+			
+			r_list.add(vo);
+			
+			session.setAttribute("read_list", r_list);
+		}
+		}
 		mv.addObject("vo", vo);
 		mv.setViewName("b_view");
 		mv.addObject("b_idx", b_idx);

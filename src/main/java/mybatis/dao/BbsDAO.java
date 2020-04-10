@@ -64,6 +64,13 @@ public class BbsDAO {
 		return vo;
 	}
 	
+	//인자로 받은 seq의 게시물 hit를 증가하는 기능
+	public void b_hit(String b_idx) {
+		
+		int cnt = template.update("bbs.b_hit", b_idx);
+		
+	}
+	
 	// 게시물 수정 
 	public boolean b_edit(BbsVO vo) {
 		

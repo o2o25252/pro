@@ -59,12 +59,10 @@ public class RegController {
 		vo.setNickname(nickname);
 		
 		u_dao.search(vo);
-		
-		mv.setViewName("main");
-		
+		if(vo!=null)
+			mv.setViewName("main");
 		return mv;
 	}
-	
 	
 	// 아이디 중복
 	@RequestMapping(value = "/idCheck.inc", method = RequestMethod.POST)

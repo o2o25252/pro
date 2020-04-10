@@ -4,7 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bbs"> <!-- namespace는 폴더개념 // root는 한개므로 얘는 한개 -->
 
-
 	<!-- 전체 게시물 행번호 부여 & 목록 -->
 	<select id="bbslist" parameterType="java.util.Map"
 		resultMap="map1">
@@ -56,6 +55,14 @@
 		resultType="com.data.vo.BbsVO">
 		SELECT * FROM bbs_t WHERE b_idx = #{no}
 	</select>
+	
+	 
+	<!-- 조회수 증가 -->
+	<update id="b_hit" parameterType="String">
+		UPDATE bbs_t
+		SET hit = hit+1
+		WHERE b_idx = #{b_idx}
+	</update>
 
 	<!-- 게시물 수정 -->
 	<update id="b_edit" parameterType="com.data.vo.BbsVO">
@@ -72,7 +79,7 @@
 		UPDATE bbs_t SET status = 1
 		WHERE b_idx = #{b_idx} AND pwd = #{pw}
 	</update>
-
+	
 	<!-- 댓글 등록 -->
 	<insert id="c_add" parameterType="com.data.vo.CommVO">
 		insert into comment_t
@@ -96,4 +103,5 @@
 		UPDATE comment_t SET content = #{content} 
 		WHERE  pwd = #{pwd} AND c_idx = #{c_idx}
 	</update>
+	
 </mapper>
