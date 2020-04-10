@@ -3,28 +3,28 @@ package com.data.vo;
 import java.util.List;
 
 public class MovieVO {
-	private String movieCd,				// 영화코드를 출력합니다.
-				   movieNm,				// 영화명(국문)을 출력합니다.
-				   movieNmEn,			// 영화명(영문)을 출력합니다.
-				   movieNmOg,			// 영화명(원문)을 출력합니다.
-				   prdtYear,			// 제작연도를 출력합니다.
-				   showTm,				// 상영시간을 출력합니다.
-				   openDt,				// 개봉연도를 출력합니다.
-				   prdtStatNm,			// 제작상태명을 출력합니다.
-				   typeNm,				// 영화유형명을 출력합니다.
-				   
-//				   nations,				// 제작국가를 나타냅니다.
-				   nationNm,			// 제작국가명을 출력합니다.
-				   genreNm,				// 장르명을 출력합니다.
-				   directors_peopleNm,		// 감독명을 출력합니다.
-				   directors_peopleNmEn,	// 감독명(영문)을 출력합니다.
-				   companys,			// 참여 영화사를 나타냅니다.
-				   companyCd,			// 참여 영화사 코드를 출력합니다.
-				   companyNm,			// 참여 영화사명을 출력합니다.
-				   companyNmEn,			// 참여 영화사명(영문)을 출력합니다.
-				   companyPartNm,		// 참여 영화사 분야명을 출력합니다.
-				   postURL,				// 영화 포스터 썸네일 URL
-				   nRating;				// naver 영화 평점
+	   private String movieCd,            // 영화코드를 출력합니다.
+				       movieNm,            // 영화명(국문)을 출력합니다.
+				       movieNmEn,         // 영화명(영문)을 출력합니다.
+				       movieNmOg,         // 영화명(원문)을 출력합니다.
+				       prdtYear,         // 제작연도를 출력합니다.
+				       showTm,            // 상영시간을 출력합니다.
+				       openDt,            // 개봉연도를 출력합니다.
+				       prdtStatNm,         // 제작상태명을 출력합니다.
+				       typeNm,            // 영화유형명을 출력합니다.
+				       watchGradeNm,      // 관람등급을 출력합니다.
+				       nationNm,         // 제작국가명을 출력합니다.
+				       genreNm,            // 장르명을 출력합니다.
+				       directors_peopleNm,      // 감독명을 출력합니다.
+				       directors_peopleNmEn,   // 감독명(영문)을 출력합니다.
+				       companys,         // 참여 영화사를 나타냅니다.
+				       companyCd,         // 참여 영화사 코드를 출력합니다.
+				       companyNm,         // 참여 영화사명을 출력합니다.
+				       companyNmEn,         // 참여 영화사명(영문)을 출력합니다.
+				       companyPartNm,      // 참여 영화사 분야명을 출력합니다.
+				       postURL,            // 영화 포스터 썸네일 URL
+				       nRating,            // naver 영화 평점
+				       hRating;            // 홈페이지 평점
 	
 	List<StarVO> s_list; 
 	
@@ -204,5 +204,21 @@ public class MovieVO {
 
 	public void setnRating(String nRating) {
 		this.nRating = nRating;
+	}
+
+	public String getWatchGradeNm() {
+		return watchGradeNm;
+	}
+
+	public void setWatchGradeNm(String watchGradeNm) {
+		this.watchGradeNm = watchGradeNm;
+	}
+
+	public String gethRating() {
+		return hRating;
+	}
+
+	public void sethRating(String hRating) {
+		this.hRating = hRating;
 	}
 }

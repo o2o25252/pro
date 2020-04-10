@@ -2,6 +2,20 @@ package com.data.vo;
 
 public class StarVO {
 	private String s_idx,movieCd,rating,writer,content;
+	
+	private Double avg;
+	
+	public Double getAvg() {
+		return avg;
+	}
+
+	public void setAvg(Double avg) {
+		this.avg = avg;
+	}
+
+	public String getMovieCd() {
+		return movieCd;
+	}
 
 	public String getS_idx() {
 		return s_idx;

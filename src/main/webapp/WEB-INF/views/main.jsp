@@ -134,16 +134,16 @@
 								      	 <label id="m_name1"></label><br/>
 								         <hr/>
 								         <dt class="category">개봉일</dt><dd id="openyear1"></dd><br/>
-								         <dt class="category">제작상태</dt><br/>
-								         <dt class="category">영화구분</dt><br/>
-								         <hr/>
-										 <dt class="category">관람등급</dt><br/>
-										 <dt class="category">상영시간</dt><br/>
+		                                 <dt class="category">제작상태</dt><dd id="prdtStatNm1"></dd><br/>
+		                                 <dt class="category">영화구분</dt><dd id="typeNm1"></dd><br/> 
+                               			 <hr/>
+							 			 <dt class="category">관람등급</dt><dd id="watchGradeNm1"></dd><br/>
+						 				 <dt class="category">상영시간</dt><dd id="showTm1"></dd><br/>
 										 <dt class="category">제작국가</dt><dd id="nations1"></dd><br/>
-										 <hr/>
-								         <dt class="category">감독</dt><dd id="d_people1"></dd><br/>
-								         <dt class="category">장르</dt><dd id="genere1"></dd><br/>
-								         <dt class="category">배급사</dt><dd id="company1"></dd><br/>
+                               			 <hr/>
+		                                 <dt class="category">감독</dt><dd id="d_people1"></dd><br/>
+		                                 <dt class="category">장르</dt><dd id="genere1"></dd><br/>
+		                                 <dt class="category">배급사</dt><dd id="company1"></dd><br/>
 								         <hr/>
 								   	</div>
 								</div>
@@ -183,24 +183,24 @@
 						<tbody>
 							<tr>
 								<td>
-									<div class="m_img" >
-										 <img id="i13" width="290" height="410">
+									<div class="m_img">
+										<img id="i13" width="290" height="410">
 									</div>
 									<div class="view_win" title="영화상세">
-								         <hr/>
-								      	 <dt class="category">개봉일</dt><label id="openyear2"></label><br/>
-								         <dt class="category">제작상태</dt><br/>
-								         <dt class="category">영화구분</dt><br/> 
-										 <hr/>
-						               	 <dt class="category">관람등급</dt><br/>
-						               	 <dt class="category">상영시간</dt><br/>
-						               	 <dt class="category">제작국가</dt><label id="nations2"></label><br/>
-						        	 	 <hr/>
-						               	 <dt class="category">감독</dt><label id="d_people2"></label><br/>
-					               	     <dt class="category">장르</dt><label id="genere2"></label><br/>
-						               	 <dt class="category">배급사</dt><label id="company2"></label><br/>
-							         	 <hr/>
-								   </div>
+										<hr />
+										<dt class="category">개봉일</dt><dd id="openyear2"></dd><br />
+										<dt class="category">제작상태</dt><dd id="prdtStatNm2"></dd><br />
+										<dt class="category">영화구분</dt><dd id="typeNm2"></dd><br />
+										<hr />
+										<dt class="category">관람등급</dt><dd id="watchGradeNm2"></dd><br />
+										<dt class="category">상영시간</dt><dd id="showTm2"></dd><br />
+										<dt class="category">제작국가</dt><dd id="nations2"></dd><br />
+										<hr />
+										<dt class="category">감독</dt><dd id="d_people2"></dd><br />
+										<dt class="category">장르</dt><dd id="genere2"></dd><br />
+										<dt class="category">배급사</dt><dd id="company2"></dd><br />
+										<hr />
+									</div>
 								</td>
 								<td>
 									<table id="weekend" class="table-hover" style="margin-left: 45px; border: 0px solid;">
@@ -410,19 +410,32 @@
 					}).done(function(data){
 						if(data.vo != undefined){
 							$("#i12").attr("src", data.vo.postURL);
-							
-							var code = ""+data.vo.movieNm;
-							$("#m_name1").html(code);
-							var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
-							$("#openyear1").html(openyear);
-							var genere = ""+data.vo.genreNm;
-							$("#genere1").html(genere);	
-							var company = ""+data.vo.companyNm;
-							$("#company1").html(company);
-							var nations = ""+ data.vo.nationNm;
-							$("#nations1").html(nations);
-							var d_people = ""+ data.vo.directors_peopleNm;
-							$("#d_people1").html(d_people);
+		                     
+		                     var code = ""+data.vo.movieNm;
+		                     $("#m_name1").html(code);
+		                     var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
+		                     $("#openyear1").html(openyear);
+		                     
+		                     var prdtStatNm = data.vo.prdtStatNm;
+		                     $("#prdtStatNm1").html(prdtStatNm);
+		                     
+		                     var typeNm = data.vo.typeNm;
+		                     $("#typeNm1").html(typeNm);
+		                     
+		                     var watchGradeNm = data.vo.watchGradeNm;
+		                     $("#watchGradeNm1").html(watchGradeNm);
+		                     
+		                     var showTm = data.vo.showTm;
+		                     $("#showTm1").html(showTm);
+		                                          
+		                     var genere = ""+data.vo.genreNm;
+		                     $("#genere1").html(genere);   
+		                     var company = ""+data.vo.companyNm;
+		                     $("#company1").html(company);
+		                     var nations = ""+ data.vo.nationNm;
+		                     $("#nations1").html(nations);
+		                     var d_people = ""+ data.vo.directors_peopleNm;
+		                     $("#d_people1").html(d_people);
 						}
 					}).fail(function(err){
 						console.log(err);
@@ -471,22 +484,33 @@
 					dataType : "json"
 				}).done(function(data){
 					if(data.vo != undefined){
-						
-						$("#i13").attr("src", data.vo.postURL);
-						
-						var code = ""+data.vo.movieNm;
-						$("#m_name2").html(code);
-						var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
-						$("#openyear2").html(openyear);
-						var genere = ""+data.vo.genreNm;
-						$("#genere2").html(genere);	
-						var company = ""+data.vo.companyNm;
-						$("#company2").html(company);
-						var nations = ""+ data.vo.nationNm;
-						$("#nations2").html(nations);
-						var d_people = ""+ data.vo.directors_peopleNm;
-						$("#d_people2").html(d_people);
-						
+						  $("#i13").attr("src", data.vo.postURL);
+		                  
+		                  var code = ""+data.vo.movieNm;
+		                  $("#m_name2").html(code);
+		                  var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
+		                  $("#openyear2").html(openyear);
+		                  
+		                  var prdtStatNm = data.vo.prdtStatNm;
+		                  $("#prdtStatNm2").html(prdtStatNm);
+		                  
+		                  var typeNm = data.vo.typeNm;
+		                  $("#typeNm2").html(typeNm);
+		                  
+		                  var watchGradeNm = data.vo.watchGradeNm;
+		                  $("#watchGradeNm2").html(watchGradeNm);
+		                  
+		                  var showTm = data.vo.showTm;
+		                  $("#showTm2").html(showTm);
+		                  
+		                  var genere = ""+data.vo.genreNm;
+		                  $("#genere2").html(genere);   
+		                  var company = ""+data.vo.companyNm;
+		                  $("#company2").html(company);
+		                  var nations = ""+ data.vo.nationNm;
+		                  $("#nations2").html(nations);
+		                  var d_people = ""+ data.vo.directors_peopleNm;
+		                  $("#d_people2").html(d_people);
 						}
 					}).fail(function(err){
 						console.log(err);
@@ -498,11 +522,8 @@
 		});
 	});
   
-	
-	
 	// 영화 상세정보 보기
 	function go(frm){
-										//인비 저블맨 출연진이 안나옴,출연배우들 나오게는 함
 		var paran = "movieCd="+encodeURIComponent(frm);
 		moviecode= frm;// 멤버변수 쓰깅 
 		$.ajax({
@@ -550,10 +571,9 @@
 		});
 	}
 	
-	//댓글 표현 함수 
+	// 댓글 표현 함수 
 	function gogo2() {
 		var par = "movieCd="+encodeURIComponent(moviecode);
-		
 		$.ajax({
 			url: "getComm.inc",
 			type: "POST",
@@ -563,19 +583,22 @@
 			if(data.commAr != undefined){
 				
 				for(var i = 0; i<data.commAr.length; i++){
+					console.log(data.commAr[i].rating);
 					var code = "";
 					code += "<h3>";
 					code += data.commAr[i].writer;
 					code += "</h3>";
-					code += "<h4>";
-	                code += data.commAr[i].Rating;
-	                code += "</h4>";
+					
+					code += "<div id='rate'><label style='color:#FFC107;'>";
+	                code += data.commAr[i].rating+"점";
+	                code += "</label></div>";
+	                
 					code += "<div><label>";
 					code += data.commAr[i].content;
 					code += "</label></div>";
-					console.log(data.commAr[i].Rating);
 					$("#accordion").append(code);
 				}
+				$("#rate").val("");
 			}
 		}).fail(function(err){
 		});
@@ -585,7 +608,7 @@
 	function gogo() {
 		var rating = $("#ratinggg").val(); 
 		var content =$("#content").val();
-		console.log(moviecode+"/"+rating+"/"+content); 
+		$("#ratinggg").val("0"); 
 		var par = "movieCd="+encodeURIComponent(moviecode)+"&rating="+encodeURIComponent(rating)+"&content="+encodeURIComponent(content);
 		$.ajax({
 			url: "coco.inc",
@@ -608,6 +631,11 @@
 				code += "<h3>";
 				code += data.svo.writer;
 				code += "</h3>";
+				
+				code += "<div><label style='color:#FFC107;'>";
+                code += data.svo.rating+"점";
+                code += "</label></div>";
+				
 				code += "<div><label>";
 				code += data.svo.content;
 				code += "</label></div>";
@@ -615,7 +643,7 @@
 				$("#accordion").append(code);
 			}
 		}).fail(function(err){
-			
+			alert("재시도");
 		});
 	}
   </script>

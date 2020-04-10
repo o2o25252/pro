@@ -125,7 +125,6 @@
 				</table>
 			</div>
 		</form>
-		
 		<!-- 댓글 출력란 -->
 		<div id="comm_add">
 			
@@ -135,12 +134,10 @@
 			<input type="hidden" id="cPage" name="nowPage" value="${ param.nowPage }"/>
 		</form>
 		</div>
-		
 	<!-- 게시물 -->	
 	<div id="del_win">
          <form>
-               <input type="hidden" name="b_idx" id="b_idx"
-                  value="${vo.b_idx }"/>
+               <input type="hidden" name="b_idx" id="b_idx" value="${vo.b_idx }"/>
                <label for="b_pw">비밀번호:</label>
                <input type="password" id="b_pw" name="b_pw"/>
                <br/>
@@ -149,32 +146,30 @@
                <input type="hidden" name="nowPage" value="${param.nowPage }">
          </form>
    </div>
-	<
-	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script src="resources/js/jquery-ui.min.js"></script>
 	<script type="text/javascript">
 	var b_idx =$("#b_idx").val();
-	
+
 	//목록
-		function list_go(){
-			document.frm.action = "notice.inc";
-			document.frm.submit();
-			
-		}
+	function list_go(){
+		document.frm.action = "notice.inc";
+		document.frm.submit();
+		
+	}
 	//다운로드 서블릿 이동	
-		function download(fname){
-			console.log(fname);
-			location.href="FileDownload?dir=/resources/upload&f_name="+fname;
-			
-		}
+	function download(fname){
+		console.log(fname);
+		location.href="FileDownload?dir=/resources/upload&f_name="+fname;
 		
+	}
 	
+
 	// 수정 화면 전환
-		function edit(){
-			document.frm.action = "b_editgo.inc";
-			document.frm.submit();
-		
+	function edit(){
+		document.frm.action = "b_editgo.inc";
+		document.frm.submit();
+	
 	}
 	$(function () {
 		
@@ -214,8 +209,6 @@
 					location.href="notice.inc?nowPage=${param.nowPage}";
 				}else
 					alert("비밀번호가 틀렸어요 확인해보세요");
-				
-							
 			}).fail(function(err){
 				console.log("실패");
 				alert(err);
@@ -230,17 +223,16 @@
 				if(pw==0){
 					alert("비밀번호 입력하세요");
 				}
-				
 			}
 		});
 		
 	});
+	
 	//댓글 등록 함수
 	function add_coment(){
 		var c_writer =$("#c_writer2").val();
 		var c_pwd = $("#c_pwd").val();
 		var c_content = $("#c_content").val();
-		console.log(c_writer);
 		//등록후 초기화
 		$("#c_pwd").val("");
 		$("#c_content").val("");
@@ -258,7 +250,6 @@
 			view_coment(c_pwd);		// 댓글 표현
 			
 		}).fail(function(err){
-			console.log("실패");
 			alert(err);
 		});
 	}
@@ -268,7 +259,6 @@
 		var c_pwd = c_pwd; //댓글 삭제시 필요 
 		var c_idx = $("#c_idx").val();//댓글 삭제시 필요
 		var c_writer2 = $("#c_writer2").val();// writer 가져오기
-		
 		
 		var view_cinfo ="b_idx="+encodeURIComponent(b_idx);
 		
@@ -304,12 +294,12 @@
 					}
 				}
 				$("#comm_add").html(code);
-			}
-						
+			}	
 		}).fail(function(err){
 			console.log(err);
 		});
 	}
+	
 	// 댓글 삭제시
 	function c_del(c_idx,c_pwd){
 		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
@@ -333,8 +323,6 @@
 		}).fail(function(err){
 			console.log(err)
 		});
-		
-		
 	}
 	
 	var value = true;
@@ -355,7 +343,6 @@
 			value = false;
 		}else{//수정버튼을 두번째(짝수번째) 클릭했을 때는 DB의 내용을 수정해야 한다.
 			//확인 완료 
-			
 			var c_idx = $("#c_c_idx"+idx).val();
 			var c_content = $("#content"+idx).val();
 			var c_pwd = $("#c_pwd"+idx).val();
@@ -380,9 +367,7 @@
 					
 					$("#sp"+idx).text(c_content); //텍스트 에어리어 입력한 값을 sp 에 삽입하는 부분 
 					
-					
 					alert("댓글 수정 성공");
-					
 				}else{
 					alert("댓글 수정 실패!");
 				}
@@ -393,6 +378,5 @@
 		}
 	}
 	</script>
-	
 </body>
 </html>
