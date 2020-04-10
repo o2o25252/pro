@@ -108,11 +108,12 @@ public class BbsDAO {
 	}
 	
 	//댓글 삭제 
-	public boolean comment_del(String c_idx, String writer) {
+	public boolean comment_del(String c_idx, String pwd) {
 		boolean chk = false;
+		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("c_idx", c_idx);
-		map.put("writer",writer);
+		map.put("pwd",pwd);
 		
 		int cnt =template.update("bbs.c_del",map);
 		
@@ -123,12 +124,14 @@ public class BbsDAO {
 		return chk;
 	}
 	//댓글 수정
-	public boolean c_edit(String content,String writer,String c_idx) {
+	public boolean c_edit(String content,String pwd,String c_idx) {
+		
 		boolean value = false;
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("content", content);
-		map.put("writer", writer);
+		
+		map.put("pwd", pwd);
 		map.put("c_idx", c_idx);
 		
 		int cnt = template.update("bbs.c_edit",map);
@@ -139,3 +142,4 @@ public class BbsDAO {
 		return value;
 	}
 }
+

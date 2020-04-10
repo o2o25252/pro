@@ -20,7 +20,7 @@
 		border: 1px solid black;
 		border-collapse: collapse;
 		float: center;
-		width: 900px;
+		width: 700px;
 		height: auto;
 		padding: auto;
 		margin: auto;
@@ -102,24 +102,28 @@
 		<!-- 댓글 입력란 -->
 		<hr/>
 		<form action="b_editok.inc" method="post">
-			<div id="text_box">
+			<div id="text_box" style=" display: inline-block;">
 				<input type="hidden" id="b_idx" name="b_idx" value="${vo.b_idx }">
-				<input type="hidden" id="b_id" name="b_id" value="${userVO.nickname }">
-				<table>
+				<table style="text-align: right;">
 					<tbody> 
-						<h2></h2>
 						<tr>
-							<td><input type="hidden" id="c_writer2" value="${userVO.nickname }"/></td>
+							<td><label for="c_writer">작성자:</label></td>
+							<td><label id="c_writer" name="c_writer">${userVO.nickname }</label><input type="hidden" id="c_writer2" value="${userVO.nickname }"/> </td>
 						</tr>
 						<tr>
-							<td><textarea cols="130" rows="6" id="c_content" name="c_content"></textarea>&nbsp;&nbsp;</td>
+							<td><label for="c_content">내용:</label></td>
+							<td><textarea cols="" rows="" id="c_content" name="c_content"></textarea> </td>
+						</tr>
+						<tr>
+							<td><label for="c_pwd">비밀번호:</label></td>
+							<td><input type="password" id="c_pwd" name="c_pwd"/></td>
+						</tr>
+						<tr>
 							<td><input type="button" value="저장" onclick="add_coment()" class="repSumbit btn btn-danger"/></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<hr/>
-			<hr/>
 		</form>
 		
 		<!-- 댓글 출력란 -->
@@ -274,12 +278,12 @@
 			type:"post",
 			dataType:"json"
 		}).done(function(data){
-			if(data.c_ar = undefined){
+			if(data.c_ar != undefined){
 				
 				var code ="";
 				for(var i =0; i<data.c_ar.length; i++){
 					
-					code += "<hr/><form><label>작성자 : </label>";
+					code += "<hr/><form><label>작성자 :</label>";
 					code += "<label>"+data.c_ar[i].writer+"</label>";
 					code += "<br/>";
 					code += "<label>내용 : </label>";
@@ -292,7 +296,8 @@
 					code += "<input type='hidden' name='c_c_idx' id='c_c_idx"+i+"' value=\"";
 					code += data.c_ar[i].c_idx;
 					code += "\"/>";
-					if((${ sessionScope.userVO.status} == 9)  || ("${sessionScope.userVO.nickname}" == data.c_ar[i].writer)){
+					console.log(${sessionScope.userVO.nickname});
+					if(("${sessionScope.userVO.status}" == 9) || ("${sessionScope.userVO.nickname}"== data.c_ar[i].writer)){
 						code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
 						code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\' class='repSumbit btn btn-danger'/>";
 						code += "<input type = 'button' onclick='c_edit("+i+")' value='수정' class='repSumbit btn btn-warning'/></form>";
@@ -307,8 +312,8 @@
 	}
 	// 댓글 삭제시
 	function c_del(c_idx,c_pwd){
-		var writer = $("#b_id").val();
-		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&writer="+encodeURIComponent(writer);
+		var ok_pwd = prompt('비밀번호', '비밀번호 작성');
+		var del_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(ok_pwd);
 		
 		$.ajax({
 			url: "comm_del.inc",
@@ -318,9 +323,9 @@
 		}).done(function(data){
 			
 			if(data.chk){
-				if(data.writer == writer){
-					alert("댓글삭제 완료");
-					location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
+				if(data.pwd == ok_pwd){
+				alert("댓글삭제 완료");
+				location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
 				}
 			}else{
 				alert("삭제 실패!");
@@ -344,16 +349,18 @@
 			$("#sp"+idx).addClass("none");//jquery로 클래스 지정
 			$("#content"+idx).removeClass("none");
 			$("#content"+idx).addClass("show");
-			$("#c_id"+idx).removeClass("none");
-			$("#c_id"+idx).addClass("show");
+			$("#c_pwd"+idx).removeClass("none");
+			$("#c_pwd"+idx).addClass("show");
 			
 			value = false;
 		}else{//수정버튼을 두번째(짝수번째) 클릭했을 때는 DB의 내용을 수정해야 한다.
 			//확인 완료 
+			
 			var c_idx = $("#c_c_idx"+idx).val();
 			var c_content = $("#content"+idx).val();
-			var writer = $("#b_id").val();
-			var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&writer="+encodeURIComponent(writer)+"&content="+encodeURIComponent(c_content);
+			var c_pwd = $("#c_pwd"+idx).val();
+			
+			var edit_cinfo ="c_idx="+encodeURIComponent(c_idx)+"&pwd="+encodeURIComponent(c_pwd)+"&content="+encodeURIComponent(c_content);
 			
 			$.ajax({
 				url: "c_editok.inc",

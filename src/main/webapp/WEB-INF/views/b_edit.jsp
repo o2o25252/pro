@@ -54,7 +54,6 @@
 	<form action="b_editok.inc" method="post" encType="multipart/form-data" name="edit_frm">
 		<table summary="게시판 글쓰기" style="margin: auto; width:740px;">
 			<tbody>
-				
 				<tr>
 					<th style="background-color:#669AB3;"><label for="subject">제목:</label></th>
 					<td><input type="text" id="subject" name="subject" size="45" value="${vo.subject}"/>  </td>
@@ -125,7 +124,7 @@
 			
 			$("#content").summernote({
 				height: 300,
-				width: 450,
+				width: 580,
 				lang: "ko-KR",
 				callbacks:{
 					onImageUpload: function(files, editor){
