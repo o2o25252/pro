@@ -106,6 +106,31 @@ public class UserDAO {
 		return uvo;
 	}
 	
+	//이름 으로 ID 찾기
+	public UserVO id_info(String name) {
+		UserVO uvo = new UserVO();
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("name", name);
+		
+		uvo = ss.selectOne("user.id_info",map);
+		
+		
+		return uvo;
+	}
+	//별칭 으로 PW 찾기
+	public UserVO pw_info(String nickname) {
+		UserVO uvo = new UserVO();
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("nickname", nickname);
+		
+		uvo = ss.selectOne("user.pw_info", map);
+		
+		return uvo;
+	}
 }
 
 

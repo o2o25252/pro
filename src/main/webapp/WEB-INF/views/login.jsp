@@ -46,6 +46,13 @@
 						src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
 				</div>
 				<br>
+				
+				
+				<!-- ID/PW 찾기   -->
+				<div>
+					<a href="user_info.inc">ID/PW찾기</a>
+				</div>
+				
 			</c:otherwise>
 		</c:choose>
 		

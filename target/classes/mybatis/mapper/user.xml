@@ -32,5 +32,12 @@
 		select * from user_t WHERE id = #{id} AND pw = #{pw}
 	</select>
 	
-	
+	<!-- 회원 이름 으로 ID 찾기 -->
+	<select id="id_info" parameterType="String" resultType="com.data.vo.UserVO">
+		select * from user_t WHERE name = #{name} and status != 4
+	</select>
+	<!-- 회원 이름 으로 ID 찾기 -->
+	<select id="pw_info" parameterType="String" resultType="com.data.vo.UserVO">
+		select * from user_t WHERE nickname = #{nickname} and status != 4
+	</select>
 </mapper>
