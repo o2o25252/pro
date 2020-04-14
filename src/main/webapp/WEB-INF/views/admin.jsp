@@ -38,12 +38,12 @@
 							<td id="status${st.index }">${vo.status }</td>
 							<td id="division${st.index}">${vo.division }</td>
 							<c:if test="${vo.status eq 4  }">
-								<td id="btn_recover${st.index }"><input type="button"
+								<td id="btn_area${st.index }"><input type="button"
 									value="복구" onclick="recover('${st.index}')" ></td>
 							</c:if>
 							
 							<c:if test="${vo.status ne 4  }">
-								<td id="btn_ban${st.index }"><input type="button"
+								<td id="btn_area${st.index }"><input type="button"
 									value="정지" onclick="ban('${st.index}')" ></td>
 							</c:if>
 									
@@ -54,6 +54,7 @@
 			</table>
 		</form>
 	</div>
+	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	
@@ -64,44 +65,22 @@
 
 	function ban(idx) {
 		var id = $("#id"+idx).text();
-		var division =$("#division"+idx).text();
-		
 		var param =  "id="+encodeURIComponent(id);
-		
 		$.ajax({
 			url: "ban.inc",
 			data: param,
 			type:"post",
 			dataType:"json"
 		}).done(function(data){
+			console.log("ban"+data.chk);
 			if(data.chk){
+			
 				var code = "<input type='button'  value='복구' onclick='recover("+idx+")' />";
-				$("#btn_ban"+idx).html(code);
+				console.log(code);
+				$("#btn_area"+idx).html(code);
 				
 				$("#status"+idx).text("4");
 			}
-		}).fail(function(err){ 
-			console.log("실패"+err);
-		});
-		
-		var recover_param =  "id="+encodeURIComponent(id)+"&division="+encodeURIComponent(division);
-		
-		$.ajax({
-			url: "recover.inc",
-			data: recover_param,
-			type:"post",
-			dataType:"json"
-		}).done(function(data){	
-			if(data.chk){
-				
-				console.log("복구 실행됨");
-				
-				var code = "<input type='button'  value='정지' onclick='recover("+idx+")'/>";
-				$("#btn_recover"+idx).html(code);
-
-				$("#status"+idx).text(division);
-			}
-			
 		}).fail(function(err){ 
 			console.log("실패"+err);
 		});
@@ -112,41 +91,24 @@
 		var id = $("#id"+idx).text();
 		var division =$("#division"+idx).text();
 		var recover_param =  "id="+encodeURIComponent(id)+"&division="+encodeURIComponent(division);
+
 		
 		$.ajax({
 			url: "recover.inc",
 			data: recover_param,
 			type:"post",
 			dataType:"json"
-		}).done(function(data){	
+		}).done(function(data){
+			console.log("recover"+data.chk);
 			if(data.chk){
 				
-				console.log("복구 실행됨");
-				
-				var code = "<input type='button'  value='정지' onclick='recover("+idx+")'/>";
-				$("#btn_recover"+idx).html(code);
+				var code = "<input type='button'  value='정지' onclick='ban("+idx+")'/>";
+				console.log(code);
+				$("#btn_area"+idx).html(code);
 
 				$("#status"+idx).text(division);
 		}
 			
-		}).fail(function(err){ 
-			console.log("실패"+err);
-		});
-		
-		var param =  "id="+encodeURIComponent(id);
-		
-		$.ajax({
-			url: "ban.inc",
-			data: param,
-			type:"post",
-			dataType:"json"
-		}).done(function(data){
-			if(data.chk){
-				var code = "<input type='button'  value='복구' onclick='recover("+idx+")' />";
-				$("#btn_ban"+idx).html(code);
-				
-				$("#status"+idx).text("4");
-			}
 		}).fail(function(err){ 
 			console.log("실패"+err);
 		});

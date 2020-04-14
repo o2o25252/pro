@@ -41,6 +41,7 @@ public class ManagerController {
 		
 		Boolean chk = m_dao.user_ban(id);
 		
+		
 		map.put("chk", chk);
 		
 		return map;
