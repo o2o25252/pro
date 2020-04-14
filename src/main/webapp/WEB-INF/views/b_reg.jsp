@@ -69,7 +69,6 @@
 			           		}else{
 			           			$("#box").text("아이디 사용 가능");
 			           		}
-			            	
 			         }).fail(function(err) {
 			            console.log(err);
 			         });

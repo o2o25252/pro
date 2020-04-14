@@ -25,7 +25,7 @@ public class RegController {
 	
 	@Autowired
 	private HttpSession session;
-	/*
+	
 	//회원 가입
 	@RequestMapping(value = "/regOk.inc",method =  RequestMethod.POST)
 	public ModelAndView newid(String id,String pw,String name,String nickname)throws Exception{
@@ -38,25 +38,7 @@ public class RegController {
 		vo.setPw(pw);
 		vo.setName(name);
 		vo.setNickname(nickname);
-		
-		u_dao.search(vo);
-		
-		mv.setViewName("main");
-		
-		return mv;
-	}
-	*/
-	@RequestMapping(value = "/regOk.inc",method =  RequestMethod.POST)
-	public ModelAndView newid(String id,String pw,String name,String nickname)throws Exception{
-		
-		ModelAndView mv = new ModelAndView();
-		
-		UserVO vo = new UserVO();
-		
-		vo.setId(id);
-		vo.setPw(pw);
-		vo.setName(name);
-		vo.setNickname(nickname);
+		vo.setStatus("0");
 		
 		u_dao.search(vo);
 		if(vo!=null)

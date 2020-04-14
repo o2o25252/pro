@@ -71,7 +71,7 @@ public class LoginController {
 		
 		UserVO vo = new UserVO();
 		vo.setId(id);
-		vo.setPw(null);
+		vo.setPw("");
 		vo.setNickname(nickname);
 		vo.setName(name);
 		vo.setStatus("1");

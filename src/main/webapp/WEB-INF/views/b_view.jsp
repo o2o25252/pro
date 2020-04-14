@@ -286,7 +286,6 @@
 					code += "<input type='hidden' name='c_c_idx' id='c_c_idx"+i+"' value=\"";
 					code += data.c_ar[i].c_idx;
 					code += "\"/>";
-					console.log(${sessionScope.userVO.nickname});
 					if(("${sessionScope.userVO.status}" == 9) || ("${sessionScope.userVO.nickname}"== data.c_ar[i].writer)){
 						code += "<input type='text' class='none' name='c_pwd' id='c_pwd"+i+"'/>";
 						code += "<input type = 'button' onclick=\"c_del("+data.c_ar[i].c_idx+")\" value=\'삭제\' class='repSumbit btn btn-danger'/>";
@@ -357,7 +356,6 @@
 			}).done(function(data){
 				
 				if(data.chk){
-					
 					$("#sp"+idx).removeClass("none");
 					$("#sp"+idx).addClass("show");//jquery로 클래스 지정
 					$("#content"+idx).removeClass("show");

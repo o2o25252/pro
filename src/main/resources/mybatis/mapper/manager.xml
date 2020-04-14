@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manager">
+
+	<!-- 모든 회원 정보  -->
+	<select id="all_info"  resultType="com.data.vo.UserVO">
+		select * from user_t 
+	</select>
+	
+	<!-- id을 받아서 정지  -->
+	<update id="user_ban" parameterType="String">
+		UPDATE user_t SET status = '4'
+		where id = #{id} and status != '4' and status !='9'
+	</update>
+	
+	<!-- id을 받아서 복구 -->
+	<update id="user_recover" parameterType="java.util.Map">
+		UPDATE user_t SET status = #{division}
+		where id = #{id} and status = '4' and status !='9'
+	</update>
+</mapper>

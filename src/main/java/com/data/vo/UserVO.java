@@ -1,7 +1,15 @@
 package com.data.vo;
 
 public class UserVO {
-	private String id,pw,name,nickname,status;
+	private String id,pw,name,nickname,status,division;
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
 
 	public String getId() {
 		return id;

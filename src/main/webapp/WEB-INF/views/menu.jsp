@@ -192,8 +192,8 @@ table th {
 			<!-- 관리자 로그인 시 -->
 			<c:if
 				test="${ !empty sessionScope.userVO.nickname and sessionScope.userVO.status eq 9}">
-				<label>M_${userVO.nickname }님 환영합니다</label>
-				<a href="logout">로그아웃</a>
+				<a href="admin.inc" style="color: green;">M_${userVO.nickname }님 환영합니다</a>
+				<a  href="logout" >로그아웃</a>
 			</c:if>
 		</div>
 	</div>

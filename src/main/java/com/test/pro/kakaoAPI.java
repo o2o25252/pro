@@ -122,11 +122,15 @@ public class kakaoAPI {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            String email = null;
+            
+            if(kakao_account.getAsJsonObject().get("email") != null) {
+            	email = kakao_account.getAsJsonObject().get("email").getAsString();
+            }
             
             UserVO vo = new UserVO();
 	        vo.setId(Long.toString(id));
-	        vo.setPw(null);
+	        vo.setPw("");
 	        vo.setNickname(nickname);
 	        vo.setName(nickname);
             vo.setStatus("2");
