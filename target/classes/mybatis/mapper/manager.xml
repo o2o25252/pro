@@ -20,4 +20,21 @@
 		UPDATE user_t SET status = #{division}
 		where id = #{id} and status = '4' and status !='9'
 	</update>
+	
+	<!-- comment_t 의 writer 와 인자 (nickname)이 같은 게시글 보기  -->
+	<select id="selectview_bbs" parameterType="String" resultType="com.data.vo.CommVO">
+		select * from comment_t where writer = #{nickname}
+	</select>
+	
+	<!-- 선택한 comment 의 삭제  -->
+	<select id="select_comment_ban" parameterType="String">
+		UPDATE comment_t SET status = '1'
+		where c_idx = #{c_idx}
+	</select>
+	
+	<!-- 선택한 comment 의 복구  -->
+	<select id="select_comment_recover" parameterType="String">
+		UPDATE comment_t SET status = '0'
+		where c_idx = #{c_idx}
+	</select>
 </mapper>

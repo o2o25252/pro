@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.data.vo.CommVO;
 import com.data.vo.UserVO;
 
 public class ManagerDAO {
@@ -49,5 +50,33 @@ public class ManagerDAO {
 		
 		return chk;
 		
+	}
+	//선택회원의 댓글을 볼수있는 기능 
+	public List<CommVO> selectview_bbs(String nickname) {
+		
+		List<CommVO> c_list = ss.selectList("manager.selectview_bbs", nickname);
+		
+		return c_list;
+		
+	}
+	//선택한 회원의 댓글을 삭제 할수 있는 기능
+	public boolean select_comment_ban(String c_idx) {
+		boolean chk = false;
+		int cnt = ss.update("manager.select_comment_ban", c_idx);
+		if(cnt > 0 ) {
+			chk = true;
+		}
+		return chk;
+	}
+	//선택한 회원의 댓글을 복구 할수 있는 기능
+	public boolean select_comment_recover(String c_idx) {
+		
+		boolean chk = false;
+		int cnt = ss.update("manager.select_comment_recover", c_idx);
+		
+		if(cnt > 0 ) {
+			chk = true;
+		}
+		return chk;
 	}
 }

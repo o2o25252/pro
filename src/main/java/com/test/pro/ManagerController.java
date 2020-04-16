@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.data.vo.CommVO;
 import com.data.vo.UserVO;
 
 import mybatis.dao.ManagerDAO;
@@ -58,4 +59,41 @@ public class ManagerController {
 		
 		return map;
 	}
+	//선택 회원 댓글을 보기
+	@RequestMapping(value="/selectview_bbs.inc", method = RequestMethod.GET)
+	public ModelAndView selectview_bbs(String nickname) {
+		ModelAndView mv = new ModelAndView();
+		
+		List<CommVO> c_list = m_dao.selectview_bbs(nickname);
+		
+		mv.addObject("c_list", c_list);
+		mv.addObject("nickname", nickname);
+		mv.setViewName("viewbbs_comm");
+		
+		return mv;
+		
+	}
+	//선택 회원 댓글 삭제버튼 눌렀을때 
+	@RequestMapping(value = "/comment_ban.inc", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Boolean> comment_ban(String c_idx){
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		Boolean chk = m_dao.select_comment_ban(c_idx);
+		map.put("chk", chk);
+		
+		return map;
+	}
+	
+	//선택 회원 댓글 복구버튼 눌렀을때 
+		@RequestMapping(value = "/comment_recover.inc", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Boolean> comment_recover(String c_idx){
+			Map<String, Boolean> map = new HashMap<String, Boolean>();
+			Boolean chk = m_dao.select_comment_recover(c_idx);
+			
+			map.put("chk", chk);
+			
+			return map;
+		}
+	
 }
