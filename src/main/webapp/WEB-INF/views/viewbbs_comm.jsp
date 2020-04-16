@@ -29,6 +29,7 @@
 				<th>IP</th>
 				<th>B_IDX</th>
 				<th>STATUS</th>
+				<th>BAN</th>
 			</tr>	
 			</thead>
 			<tbody>
