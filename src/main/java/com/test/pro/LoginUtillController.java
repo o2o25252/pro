@@ -31,7 +31,7 @@ public class LoginUtillController {
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("uvo", uvo);
-		mv.setViewName("user_info");
+		mv.setViewName("userInfo");
 		
 		return mv;
 	}

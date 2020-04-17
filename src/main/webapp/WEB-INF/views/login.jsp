@@ -6,6 +6,9 @@
 <head>
 <title>NAVER LOGIN TEST</title>
 <link rel="stylesheet" href="resources/css/styles.css" />
+<style type="text/css">
+
+</style>
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
@@ -50,7 +53,7 @@
 				
 				<!-- ID/PW 찾기   -->
 				<div>
-					<a href="user_info.inc">ID/PW찾기</a>
+					<button id="but" onclick="location.href='user_info.inc'">ID/PW찾기 🌴</button>
 				</div>
 				
 			</c:otherwise>

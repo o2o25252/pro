@@ -180,6 +180,39 @@
 	  	display:none;
   	}
   .button_area {position:absolute;bottom:0;left:10px;} 
+  /* 평점 CSS */
+	.star-rating {
+		width: 304px; 
+	}
+	.star-rating {
+		display: inline-block; 
+		height: 55px; 
+		overflow: hidden; 
+		background-image: url("resources/css/images/starRating.png");
+		background-repeat: no-repeat; 
+	}
+	
+	#nRating{
+		display: inline-block; 
+		height: 55px; 
+		overflow: hidden; 
+		background-image: url("resources/css/images/starRating.png");
+		background-repeat: no-repeat; 
+	}
+	#hRating{
+		display: inline-block; 
+		height: 55px; 
+		overflow: hidden; 
+		background-image: url("resources/css/images/starRatingB.png");
+		background-repeat: no-repeat; 
+	}
+	
+	.star-rating span {
+		background-position : left bottom; 
+		line-height : 0px; 
+		vertical-align : top; 
+	}
+	  
 </style>
 </head>
 <body>
