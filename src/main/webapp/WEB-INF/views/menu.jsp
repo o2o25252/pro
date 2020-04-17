@@ -204,7 +204,7 @@ table th {
 				<li class="nav-item"><a class="nav-link" href="kMap.inc"> <font
 						style="vertical-align: inherit;"><font
 							style="vertical-align: inherit; color: #ffffff; ;"> 지도 </font></font></a></li>
-				<li class="nav-item"><a class="nav-link" href="chart.inc">
+				<li class="nav-item"><a class="nav-link" href="ranking.inc">
 						<font style="vertical-align: inherit;"><font
 							style="vertical-align: inherit; color: #ffffff; "> 순위 </font></font>
 				</a></li>

@@ -16,7 +16,6 @@
 	request.setAttribute("today", toDay);
 	request.setAttribute("toweek", toWeek);
 	
-	
 	SimpleDateFormat date1 = new SimpleDateFormat("YYYYMMdd");
 	
 	Calendar yDay = Calendar.getInstance();
@@ -24,6 +23,7 @@
 
 	Calendar yWeek = Calendar.getInstance();
 	yWeek.add(Calendar.DATE , -7);
+	yWeek.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 	
 	String beforeD = date1.format(yDay.getTime());
 	String beforeW = date1.format(yWeek.getTime());
@@ -171,207 +171,195 @@
 		$("#datepicker1").datepicker({onSelect: function (dateText, inst) {
 			goweek();
 		}});
+		
 		$.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd'  
-            ,showOtherMonths: true         //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-            ,showMonthAfterYear:true     //년도 먼저 나오고, 뒤에 월 표시
-            ,changeYear: true             //콤보박스에서 년 선택 가능
-            ,changeMonth: true             //콤보박스에서 월 선택 가능         
-            ,yearSuffix: "년"             //달력의 년도 부분 뒤에 붙는 텍스트
+			dateFormat: 'yy-mm-dd'  
+            ,showOtherMonths: true         	//빈 공간에 현재월의 앞뒤월의 날짜를 표시
+            ,showMonthAfterYear:true     	//년도 먼저 나오고, 뒤에 월 표시
+            ,changeYear: true             	//콤보박스에서 년 선택 가능
+            ,changeMonth: true             	//콤보박스에서 월 선택 가능         
+            ,yearSuffix: "년"             	//달력의 년도 부분 뒤에 붙는 텍스트
             ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12']                     //달력의 월 부분 텍스트
             ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
             ,dayNamesMin: ['일','월','화','수','목','금','토']                                         //달력의 요일 부분 텍스트
             ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']                 //달력의 요일 부분 Tooltip 텍스트
-	        });                    
+		});                    
 		
 		$("#date").bind("click",function(){
 			$("#date").datepicker();
 		});
 		
-        $("#open_btn").bind("click", function() {
-        	$("#view_win").dialog("option", "width", 8100 );
-        });
-
         $("#close_bt").bind("click", function() {
            $("#view_win").dialog("close");
         });
-      });
-	$(function(){
-			var date = $("#datepicker").val().replace('-', "").replace('-',"");
-			var param = "targetDt="+${beforeD};
-			
-			$.ajax({
-				url:"last.inc",
-				dataType:"json",
-				data: param,
-				type: "POST"
-			}).done(function(data){
-				if(data.Dailyar != undefined){
-					var code = "";
-					
-					for(var i=0; i<data.Dailyar.length; i++){
-						code += "<tr><td class='daily'>";
-						code += data.Dailyar[i].rnum;
-						code += "<input type='hidden' value='";
-						code += data.Dailyar[i].movieCd;
-						code += "'></td><td class='daily'><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
-						code += data.Dailyar[i].movieNm;
-						code += "</a></td><td class='daily'>";
-						code += data.Dailyar[i].openDt;
-						code += "</td></tr>";
-					}
-					$("#week>tbody").html(code);
+        
+     	// 금일 박스 오피스
+		$.ajax({
+			url:"http://localhost:5000/dailyRank?setDate=${beforeD}",
+			dataType:"json",
+			type: "POST"
+		}).done(function(data){
+			if(data != undefined){
+				var code = "";
+				for(var i=0; i<data.length; i++){
+					code += "<tr><td class='daily'>";
+					code += data[i].rank;
+					code += "<input type='hidden' value='";
+					code += data[i].movieCd;
+					code += "'></td><td class='daily'><a class='asd' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+					code += data[i].movieNm;
+					code += "</a></td><td class='daily'>";
+					code += data[i].openDt;
+					code += "</td></tr>";
 				}
-			}).fail(function(err){
-				console.log(err);
-			});
-			
-			// 처음 페이지 로딩 시 금주 박스 오피스
-			var param = "targetDt="+${beforeW};
-			
-			$.ajax({
-				url:"next.inc",
-				dataType:"json",
-				data: param,
-				type: "POST"
-			}).done(function(data){
-				if(data.Weeklyar != undefined){
-					
-					var code = "";
-					for(var i=0; i<data.Weeklyar.length; i++){
-							code += "<tr><td class='daily'>";
-							code += data.Weeklyar[i].rnum;
-							code += "<input type=hidden value='";
-							code += data.Weeklyar[i].movieCd;
-							code += "'/></td><td class='daily'><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
-							code += data.Weeklyar[i].movieNm;
-							code += "</a></td><td class='daily'>";
-							code += data.Weeklyar[i].openDt;
-							code += "</td></tr>";
-					}
-					$("#weekend>tbody").html(code);
-				}
-			}).fail(function(err){
-				console.log(err);
-			});
-			
+				$("#week>tbody").html(code);
+			}
+		}).fail(function(err){
+			console.log(err);
 		});
-		// 금일 날짜 선택 시
-		function goday() {
-			
-			var date = $("#datepicker").val().replace('-', "").replace('-',"");
-			var param = "targetDt="+encodeURIComponent(date);
-			
-			var yy = date.substring(2, 4);
-			var mm = date.substring(4, 6);
-			var dd = date.substring(6);
-			
-			$("#datepicker").val(yy+"년"+mm+"월"+dd+"일");
-			
-			$.ajax({
-				url:"last.inc",
-				dataType:"json",
-				data: param,
-				type: "POST"
-			}).done(function(data){
-				if(data.Dailyar != undefined){
-					var code = "";
-					
-					for(var i=0; i<data.Dailyar.length; i++){
-						code += "<tr><td>";
-						code += data.Dailyar[i].rnum;
-						code += "<input type='hidden' value='";
-						code += data.Dailyar[i].movieCd;
-						code += "'></td><td><a class='asd' href=\"javascript:go('"+data.Dailyar[i].movieCd+"')\">";
-						code += data.Dailyar[i].movieNm;
-						code += "</a></td><td>";
-						code += data.Dailyar[i].openDt;
-						code += "</td></tr>";
-					}
-					$("#week>tbody").html(code);
+		
+		// 처음 페이지 로딩 시 금주 박스 오피스
+		$.ajax({
+			url:"http://localhost:5000/weeklyRank?setDate=${beforeW}",
+			dataType:"json",
+			type: "POST"
+		}).done(function(data){
+			if(data != undefined){
+				var code = "";
+				for(var i=0; i<data.length; i++){
+					code += "<tr><td class='daily'>";
+					code += data[i].rank;
+					code += "<input type=hidden value='";
+					code += data[i].movieCd;
+					code += "'/></td><td class='daily'><a class='asd' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+					code += data[i].movieNm;
+					code += "</a></td><td class='daily'>";
+					code += data[i].openDt;
+					code += "</td></tr>";
 				}
-			}).fail(function(err){
-				console.log(err);
-			});
-		}
-		// 금주 달력 선택 시
-		function goweek() {
-			
-			var date2 = $("#datepicker1").val().replace('-', "").replace('-',"");
-			var param = "targetDt="+encodeURIComponent(date2);
-			
-			$.ajax({
-				url:"next.inc",
-				dataType:"json",
-				type: "POST",
-				data: param
-			}).done(function(data){
-				if(data.Weeklyar != undefined){
-					
-					var code = "";
-					for(var i=0; i<data.Weeklyar.length; i++){
-						code += "<tr><td>";
-						code += data.Weeklyar[i].rnum;
-						code += "<input type=hidden value='";
-						code += data.Weeklyar[i].movieCd;
-						code += "'/></td><td><a class='asd' href=\"javascript:go('"+data.Weeklyar[i].movieCd+"')\">";
-						code += data.Weeklyar[i].movieNm;
-						code += "</a></td><td>";
-						code += data.Weeklyar[i].openDt;
-						code += "</td></tr>";
-					}
-					$("#weekend>tbody").html(code);
-					$("#datepicker1").val(data.ywt_Y+"년 "+data.ywt_W+"주차");
+				$("#weekend>tbody").html(code);
+			}
+		}).fail(function(err){
+			console.log(err);
+		});
+	});
+	
+	// 금일 날짜 선택 시
+	function goday() {
+		var date = $("#datepicker").val().replace('-', "").replace('-',"");
+		
+		console.log(date);
+		
+		var yy = date.substring(2, 4);
+		var yyyy = date.substring(0, 4);
+		var mm = date.substring(4, 6);
+		var dd = date.substring(6);
+		
+		$("#datepicker").val(yy+"년"+mm+"월"+dd+"일");
+		
+		$.ajax({
+			url:"http://localhost:5000/dailyRank?setDate="+yyyy+mm+dd,
+			dataType:"json",
+			type: "POST"
+		}).done(function(data){
+			if(data != undefined){
+				var code = "";
+				for(var i=0; i<data.length; i++){
+					code += "<tr><td class='daily'>";
+					code += data[i].rank;
+					code += "<input type=hidden value='";
+					code += data[i].movieCd;
+					code += "'/></td><td class='daily'><a class='asd' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+					code += data[i].movieNm;
+					code += "</a></td><td class='daily'>";
+					code += data[i].openDt;
+					code += "</td></tr>";
 				}
-			}).fail(function(err){
-				console.log(err);
-			});
-		}
-		// 상세 정보
-		function go(frm){
-			var paran = "movieCd="+encodeURIComponent(frm);
-			
-			$.ajax({
-				url: "oo.inc",
-				type: "POST",
-				data: paran,
-				dataType : "json"
-			}).done(function(data){
-				if(data.vo != undefined){
-					$("#view_win").dialog();
-					$("#i1").attr("src", data.vo.postURL);
-					
-					var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
-					$("#m_name").html(code);
-					var time = "상영시간: "+data.vo.showTm+"분";
-					$("#time").html(time);
-					var year = "제작년도: "+data.vo.prdtYear+"년";
-					$("#year").html(year);
-					var openyear = "개봉연도: "+data.vo.openDt;
-					$("#openyear").html(openyear);
-					var genere = "장르: "+data.vo.genreNm;
-					$("#genere").html(genere);	
-					var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
-					$("#company").html(company);
-					var nations = "제작국가: "+ data.vo.nationNm;
-					$("#nations").html(nations);
-					var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
-					$("#d_people").html(d_people);
-					var info = data.vo.movieNm+"&nbsp;상세보기";
-					$("#info").html(info);	
-					
-				if(data.vo.avo != undefined){
-					var a_people = "배우:";
-					for(var i=0; i<data.vo.avo.length; i++){
-						a_people +=  data.vo.avo[i].peopleNm;
-					}
-					$("#a_people").html(a_people);
+				$("#week>tbody").html(code);
+			}
+		}).fail(function(err){
+			console.log(err);
+		});
+	}
+	// 금주 달력 선택 시
+	function goweek() {
+		
+		var date2 = $("#datepicker1").val().replace('-', "").replace('-',"");
+		
+		var yy = date2.substring(0, 4);
+		var mm = date2.substring(4, 6);
+		var dd = date2.substring(6);
+		
+		$.ajax({
+			url:"http://localhost:5000/weeklyRank?setDate="+yy+mm+dd,
+			dataType:"json",
+			type: "POST"
+		}).done(function(data){
+			if(data != undefined){
+				var code = "";
+				for(var i=0; i<data.length; i++){
+					code += "<tr><td class='daily'>";
+					code += data[i].rank;
+					code += "<input type=hidden value='";
+					code += data[i].movieCd;
+					code += "'/></td><td class='daily'><a class='asd' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+					code += data[i].movieNm;
+					code += "</a></td><td class='daily'>";
+					code += data[i].openDt;
+					code += "</td></tr>";
 				}
+				$("#weekend>tbody").html(code);
+				// $("#datepicker1").val(data.ywt_Y+"년 "+data.ywt_W+"주차");
+			}
+		}).fail(function(err){
+			console.log(err);
+		});
+	}
+	// 상세 정보
+	function movieDetailInfo(frm){
+		var paran = "movieCd="+encodeURIComponent(frm);
+		
+		$.ajax({
+			url: "movieDetailInfo.inc",
+			type: "POST",
+			data: paran,
+			dataType : "json"
+		}).done(function(data){
+			if(data.vo != undefined){
+				$("#view_win").dialog({width: "600px", padding: "0px"}).parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+				$("#i1").attr("src", data.vo.postURL);
+				
+				var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
+				$("#m_name").html(code);
+				var time = "상영시간: "+data.vo.showTm+"분";
+				$("#time").html(time);
+				var year = "제작년도: "+data.vo.prdtYear+"년";
+				$("#year").html(year);
+				var openyear = "개봉연도: "+data.vo.openDt;
+				$("#openyear").html(openyear);
+				var genere = "장르: "+data.vo.genreNm;
+				$("#genere").html(genere);	
+				var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
+				$("#company").html(company);
+				var nations = "제작국가: "+ data.vo.nationNm;
+				$("#nations").html(nations);
+				var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
+				$("#d_people").html(d_people);
+				var info = data.vo.movieNm+"&nbsp;";
+				$("#info").html(info);
+				
+			if(data.vo.avo != undefined){
+				var a_people = "배우:";
+				for(var i=0; i<data.vo.avo.length; i++){
+					a_people +=  data.vo.avo[i].peopleNm;
 				}
-			}).fail(function(err){
-				console.log(err);
-			});
-		}
+				$("#a_people").html(a_people);
+			}
+			}
+		}).fail(function(err){
+			console.log(err);
+		});
+	}
 	</script>
 </body>
 </html>

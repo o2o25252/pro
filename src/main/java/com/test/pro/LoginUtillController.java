@@ -35,6 +35,7 @@ public class LoginUtillController {
 		
 		return mv;
 	}
+	
 	//ID 이름을 찾기 
 	@RequestMapping(value = "/idsearch.inc", method = RequestMethod.POST)
 	@ResponseBody
@@ -49,19 +50,20 @@ public class LoginUtillController {
 		
 		return map;
 	}
-		//PW 이름을 찾기 
-		@RequestMapping(value = "/pwsearch.inc", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, String> pw_info(String nickname_info){
-			
-			System.out.println(nickname_info);
-			
-			Map<String, String>map = new HashMap<String, String>();
-			
-			UserVO uvo = u_dao.pw_info(nickname_info);
-			
-			map.put("pw",uvo.getPw());
-			
-			return map;
-		}
+	
+	//PW 이름을 찾기 
+	@RequestMapping(value = "/pwsearch.inc", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> pw_info(String nickname_info){
+		
+		System.out.println(nickname_info);
+		
+		Map<String, String>map = new HashMap<String, String>();
+		
+		UserVO uvo = u_dao.pw_info(nickname_info);
+		
+		map.put("pw",uvo.getPw());
+		
+		return map;
+	}
 }

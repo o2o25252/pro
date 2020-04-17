@@ -18,7 +18,7 @@ public class UserDAO {
 	private SqlSessionTemplate ss;
 	
 	
-	// 회원가입을 했는지 판단 부분 
+	// 소셜 로그인시 회원가입을 했는지 판단 부분 
 	public boolean search(UserVO vo) {
 		//신규가입자라면 true 
 		//기존에 가입되어있다면 false
@@ -41,10 +41,9 @@ public class UserDAO {
 	private void insertMem(UserVO vo) {
 		int cnt2 = ss.insert("user.h_add", vo);
 	}
-	
-	//★★★★★★★★★★별점 DAO 
+
 	//별점 추가 
-	public boolean staradd(StarVO svo) {
+	public boolean writeRating(StarVO svo) {
 		boolean chk = false;
 		int cnt =ss.insert("star.star_add", svo);
 		if(cnt > 0) {
@@ -65,17 +64,17 @@ public class UserDAO {
 		return s_list;
 	}
 
-	//아이디 중복 확인
+	// 회원가입시 아이디 중복 확인
 	public boolean id_okok(String id) {
 		boolean chk = false;
 		
-		 List<UserVO> cnt =  ss.selectList("user.id_ok",id);
-		 for(UserVO uvo:cnt) {
-			 if(uvo.getId().equals(id)) {
-				 chk = true;
-				 break;
-			 }
-		 }
+		List<UserVO> cnt =  ss.selectList("user.id_ok",id);
+		for(UserVO uvo:cnt) {
+			if(uvo.getId().equals(id)) {
+				chk = true;
+				break;
+			}
+		}
 		return chk;
 	}
 	
@@ -132,18 +131,3 @@ public class UserDAO {
 		return uvo;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

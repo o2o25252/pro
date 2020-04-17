@@ -52,12 +52,10 @@
 				</tbody>
 			</table>
 		</form>
-				
 	</div>
 	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
-	
 	
 	//선택회원 정지 함수
 	function ban(idx) {
@@ -117,12 +115,6 @@
 		console.log(nickname);
 		location.href="selectview_bbs.inc?nickname="+nickname;
 	}
-		
-		
-		
-		
-	
-	
 	</script>
 </body>
 </html>
