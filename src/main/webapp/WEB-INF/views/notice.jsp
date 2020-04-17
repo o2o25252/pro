@@ -24,7 +24,7 @@
 					<td>
 						<!-- admin 일떄 버튼생성 기능 구현 해주기 --> 
 						<c:if test="${ sessionScope.userVO.status eq 9}">
-						<input type="button" value="공지 작성" onclick="javascript:location.href='b_write.inc?nowPage=${nowPage}'" />
+						<input type="button" value="공지 작성" onclick="javascript:location.href='bbsWrite.inc?nowPage=${nowPage}'" />
 						<!-- 현재 페이지 값을 준 상태로 write jsp 가기   -->
 						</c:if>
 					</td>
@@ -49,7 +49,7 @@
 										<!-- ${(nowPage-1)*blockList+st.index+1}  --> 
 									</td>
 									<td>
-										<a href="b_view.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
+										<a href="bbsView.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
 											${vo.subject }
 										</a>
 									</td>

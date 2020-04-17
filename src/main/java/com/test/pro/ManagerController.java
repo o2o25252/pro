@@ -68,7 +68,7 @@ public class ManagerController {
 		
 		mv.addObject("c_list", c_list);
 		mv.addObject("nickname", nickname);
-		mv.setViewName("viewbbs_comm");
+		mv.setViewName("adminComm");
 		
 		return mv;
 		

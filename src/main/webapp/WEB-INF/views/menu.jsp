@@ -23,17 +23,8 @@
 	margin: auto;
 	width: 500px;
 }
-
-td {
-	text-align: center;
-}
-
 #dialog {
 	display: none;
-}
-
-table td a {
-	text-decoration: none;
 }
 
 #menu a:hover {
@@ -116,14 +107,9 @@ ul#menu>li>a {
 	text-decoration: none;
 }
 
-table th {
-	text-align: center;
-}
-
 .cal_month {
 	width: 220px;
 }
-
 #body {
 	background-color: #eee;
 }
@@ -158,7 +144,7 @@ table th {
 				<input class="form-control mr-sm-2" type="text" id="search"
 					placeholder="Search" style="width: 400px; "/>
 				<button class = "btn btn-primary" type="button"
-					id="ok_btn" ">
+					id="ok_btn">
 					<font style="vertical-align: inherit;"> <font
 						style="vertical-align: inherit;"> 검색 </font>
 					</font>
@@ -168,7 +154,7 @@ table th {
 		<div id="h_login">
 			<!-- 로그인 전 -->
 			<c:if test="${empty sessionScope.userVO.nickname }">
-				<a href="login.inc">로그인</a>&nbsp; <a href="b_reg.inc">회원가입</a>
+				<a href="login.inc">로그인</a>&nbsp; <a href="reg.inc">회원가입</a>
 			</c:if>
 			<!-- 홈 로그인 시 -->
 			<c:if

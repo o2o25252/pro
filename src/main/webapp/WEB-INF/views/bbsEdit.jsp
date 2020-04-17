@@ -51,7 +51,7 @@
 		<h2>게시판 수정</h2>
 	</div>
 	<div id="bbs">
-	<form action="b_editok.inc" method="post" encType="multipart/form-data" name="edit_frm">
+	<form action="bbsEditok.inc" method="post" encType="multipart/form-data" name="edit_frm">
 		<table summary="게시판 글쓰기" style="margin: auto; width:740px;">
 			<tbody>
 				<tr>

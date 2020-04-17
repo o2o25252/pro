@@ -167,7 +167,7 @@
 
 	// 수정 화면 전환
 	function edit(){
-		document.frm.action = "b_editgo.inc";
+		document.frm.action = "bbsEditgo.inc";
 		document.frm.submit();
 	
 	}
@@ -197,7 +197,7 @@
 			
 			
 			$.ajax({
-				url: "b_del.inc",
+				url: "bbsDel.inc",
 				data: param,
 				type:"post",
 				dataType:"json"
@@ -314,7 +314,7 @@
 			if(data.chk){
 				if(data.pwd == ok_pwd){
 				alert("댓글삭제 완료");
-				location.href="b_view.inc?nowPage=${nowPage}&b_idx=${b_idx}";
+				location.href="bbsView.inc?nowPage=${nowPage}&b_idx=${b_idx}";
 				}
 			}else{
 				alert("삭제 실패!");

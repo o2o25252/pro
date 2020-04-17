@@ -38,7 +38,7 @@
 	              </tr>
 	            
 	           </table>
-	            <form action="b_add.inc" method="post" enctype="multipart/form-data" name="frm" style="border: 1px solid gray;">
+	            <form action="bbsAdd.inc" method="post" enctype="multipart/form-data" name="frm" style="border: 1px solid gray;">
 					<input type="hidden" name="nowPage" value="${nowPage }"/>
 					<input type="hidden" name="content" id="content"/>
 		            <table  border="0" cellspacing="0" cellpadding="0" style="width : 800px;">

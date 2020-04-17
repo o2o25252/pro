@@ -82,9 +82,9 @@ public class goList {
 	}
 
 	// 회원가입 화면 전환하기
-	@RequestMapping("/b_reg.inc")
+	@RequestMapping("/reg.inc")
 	public String goreg() {
-		return "b_reg";
+		return "reg";
 	}
 	
 }

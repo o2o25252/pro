@@ -2,8 +2,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	Date today = new Date();
 	SimpleDateFormat date = new SimpleDateFormat("YY년MM월dd일");
@@ -44,6 +45,8 @@
 
 <!-- jquery-ui -->
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
+
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 	#view_win {
 		display: none;
@@ -101,39 +104,82 @@
 	#chart{
 		margin: auto;
 	}
-	
-	/* 평점 CSS */
-	.star-rating {
-		width: 304px; 
+	#tit{
+		position: relative;
+	    font-size: 30px;
+	    text-align: center;
+	    font-weight: bold;
+	    line-height: 1;
+	    letter-spacing: -0.01em;
+	    margin: auto;
+	    margin-top: 40px;
+	    padding: auto;
+	    width: auto;
 	}
-	.star-rating {
-		display: inline-block; 
-		height: 55px; 
-		overflow: hidden; 
-		background-image: url("resources/css/images/starRating.png");
-		background-repeat: no-repeat; 
+	#tit:before{
+		position: absolute;
+	    top: 50%;
+	    left: 0;
+	    width: 425px;
+	    height: 1px;
+	    background: url(resources/css/images/bg30.png);
+	    content: '';
 	}
-	
-	#nRating{
-		display: inline-block; 
-		height: 55px; 
-		overflow: hidden; 
-		background-image: url("resources/css/images/starRating.png");
-		background-repeat: no-repeat; 
+	#tit:after{
+		position: absolute;
+	    top: 50%;
+	    right: 0;
+	    width: 425px;
+	    height: 1px;
+	    background: url(resources/css/images/bg60.png);
+	    content: '';
 	}
-	#hRating{
-		display: inline-block; 
-		height: 55px; 
-		overflow: hidden; 
-		background-image: url("resources/css/images/starRatingB.png");
-		background-repeat: no-repeat; 
+	.ico_comm{
+		background: url(resources/css/images/ico_comm.png) 0 0 no-repeat;
+	    font-size: 0;
+	    line-height: 0;
+	    text-indent: -9999px;
+	    width: 20px;
+	    height: 20px;
+	    background-position: -40px -25px;
+	    display: inline-block;
 	}
-	
-	.star-rating span {
-		background-position : left bottom; 
-		line-height : 0px; 
-		vertical-align : top; 
+	#c_info{
+		padding: 60px 0;
+	    background: url(resources/css/images/product_bg.jpg) 0 0 no-repeat;
+	    background-size: cover;
+	    margin-top: 25px;
 	}
+	#ico{
+		float: right;
+		margin: auto;
+		margin-top: 8px;
+	}
+	#tit2{
+		position: relative;
+	    font-size: 22px;
+	    font-weight: bold;
+	    margin: auto;
+	}
+	#c_information{
+		width: 30%;
+		margin-left: 130px;
+	}
+	#c_subject{
+		width: 65%;
+	}
+	#c_date{
+		width: 35%;
+	}
+	#c_infotable{
+		width: 100%;
+		border-top: 2px solid black;
+	}
+	.divpop {
+	  	position: absolute; 
+	  	display:none;
+  	}
+  .button_area {position:absolute;bottom:0;left:10px;} 
 </style>
 </head>
 <body>
@@ -265,6 +311,35 @@
 					</div>
 				</div>
 			</div>
+			
+			<div id="divpop1" class="divpop" style="position: absolute; right: 11%; top: 230px; z-index: 200; visibility: visible;">
+				<table style="width: 490px; height: 340px;">
+					<tbody>
+						<tr>
+							<td style="height: 340px; text-align: center; background-color: white">
+								<a href="">
+									
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td style="height: 5px; background-color: #000000;"></td>
+						</tr>
+						<tr>
+							<td style="height: 25px; text-align: right; background-color: #000000; display: block; padding: 0px 20px;">
+								<div class="button_area">
+									<input type="checkbox" id="todaycloseyn" name="chkbox"><font style="color: #eee; margin-right: 15px;">오늘 하루 이 창을 열지 않습니다.</font>
+									<a href="#" id="chkclose" onclick="javascript:closeWin(1);">
+										<font style="color: #eeeeee">
+											<b>[닫기]</b>
+										</font>
+									</a>
+								</div>	
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 			<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
 				<span class="sr-only">Previous</span>
@@ -275,7 +350,42 @@
 			</a>
 		</div>
 	</header>
-
+	
+	<div id="c_info">
+		
+		<div id="c_information" class="container">
+			<div id="information">
+				<h3 id="tit2">공지사항<a href="notice.inc"><span class="ico_comm" id="ico"></span> </a></h3>
+			</div>
+			<table id="c_infotable">
+				<tbody id="c_body"> 
+					<tr>
+						<td>
+							<table  class="table table-hover">
+								<tbody>	
+									<c:forEach var="vo" items="${ list }" begin="0" end="4">
+										<tr>
+											<td id="c_subject">
+												<a href="b_view.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
+													${vo.subject }
+												</a>
+											</td>	
+											<td id="c_date">${fn:substring(vo.write_date,0,10)}</td>
+										</tr>
+									</c:forEach>
+								</tbody>	
+								<%-- list 에 없을떄 목록에 없습니다. 표시용 --%>
+								<c:if test="${empty  list }">
+									<tr><td colspan="5">작성된 공지가 없습니다.</td></tr>
+								</c:if>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
+	</div>
 	<div id="view_win" title="영화상세">
 		<div id="tabs">
 			<ul>
@@ -698,6 +808,52 @@
 			alert("재시도");
 		});
 	}
+	//쿠키설정	
+	function setCookie( name, value, expiredays ){
+	    var todayDate = new Date();
+	    todayDate.setDate( todayDate.getDate() + expiredays );
+	    document.cookie = name + '=' + escape( value ) + '; path=/; expires=' + todayDate.toGMTString() + ';'
+	}
+
+	//쿠키 불러오기
+	function getCookie(name) 
+	{ 
+	    var obj = name + "="; 
+	    var x = 0; 
+	    while ( x <= document.cookie.length ) 
+	    { 
+	        var y = (x+obj.length); 
+	        if ( document.cookie.substring( x, y ) == obj ) 
+	        { 
+	            if ((endOfCookie=document.cookie.indexOf( ";", y )) == -1 ) 
+	                endOfCookie = document.cookie.length;
+	            return unescape( document.cookie.substring( y, endOfCookie ) ); 
+	        } 
+	        x = document.cookie.indexOf( " ", x ) + 1; 
+	        if ( x == 0 ) 
+	            break; 
+	    } 
+	    return ""; 
+	}
+		
+	//닫기 버튼 클릭시
+	function closeWin(key)
+	{
+	    if($("#todaycloseyn").prop("checked")){
+	    	
+	        setCookie('divpop'+key, 'Y' , 1 );
+	    }
+	    $("#divpop"+key+"").hide();
+	}
+  
+	$(function(){	
+
+		if(getCookie("divpop1") !="Y"){
+			$("#divpop1").show();
+		}
+
+	});
+	
 	</script>
 </body>
 </html>

@@ -90,18 +90,20 @@ public class ListController  {
 		mv.addObject("blockList", BLOCK_LIST);
 		mv.addObject("rowTotal", rowTotal); // 게시물 앞에 번호찍는용
 
+		session.setAttribute("list", ar);
+		
 		mv.setViewName("notice");
 
 		return mv;
 	}
 
 	//쓰기  페이지로 가는 곳 갈떄 nowPage 챙기고 가기
-	@RequestMapping("/b_write.inc")
+	@RequestMapping("/bbsWrite.inc")
 	public ModelAndView add(String nowPage) {
 		ModelAndView mv = new ModelAndView();
 
 		mv.addObject("nowPage", nowPage);
-		mv.setViewName("b_write");
+		mv.setViewName("bbsWrite");
 
 		return mv;
 	}
@@ -129,7 +131,7 @@ public class ListController  {
 	}
 
 	//원글 추가 기능 
-	@RequestMapping(value = "/b_add.inc", method = RequestMethod.POST)
+	@RequestMapping(value = "/bbsAdd.inc", method = RequestMethod.POST)
 	public ModelAndView write(BbsVO vo )throws Exception{
 
 		ModelAndView mv = new ModelAndView();
@@ -164,7 +166,7 @@ public class ListController  {
 	}
 
 	// 보기 화면 전환
-	@RequestMapping("/b_view.inc")
+	@RequestMapping("/bbsView.inc")
 	public ModelAndView view(String b_idx,String nowPage) {
 		ModelAndView mv = new ModelAndView();
 		
@@ -205,14 +207,15 @@ public class ListController  {
 		}
 		}
 		mv.addObject("vo", vo);
-		mv.setViewName("b_view");
+		mv.setViewName("bbsView");
 		mv.addObject("b_idx", b_idx);
 		mv.addObject("nowPage", nowPage);
+		
 		return mv;
 	}
 
 	// 수정 화면 전환
-	@RequestMapping("/b_editgo.inc")
+	@RequestMapping("/bbsEditgo.inc")
 	public ModelAndView goedit(String b_idx, String nowPage) {
 
 		BbsVO vo = b_dao.getview(b_idx);
@@ -220,13 +223,13 @@ public class ListController  {
 		ModelAndView mv = new ModelAndView();
 
 		mv.addObject("vo", vo);
-		mv.setViewName("b_edit");
+		mv.setViewName("bbsEdit");
 
 		return mv;
 	}
 
 	// 원글 수정 완료
-	@RequestMapping(value = "/b_editok.inc", method = RequestMethod.POST)
+	@RequestMapping(value = "/bbsEditok.inc", method = RequestMethod.POST)
 	public ModelAndView editok(BbsVO vo) throws Exception{
 
 		// 파일 처리시 예외 처리 가능하여 뒤에 throws Exception을 사용 만약 try catch를 사용하면 필요가 없다.
@@ -251,24 +254,21 @@ public class ListController  {
 		boolean value = b_dao.b_edit(vo);
 
 		if(value) {
-			mv.setViewName("redirect:/b_view.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
+			mv.setViewName("redirect:/bbsView.inc?nowPage="+vo.getNowPage()+"&b_idx="+vo.getB_idx());
 		}
 
 		return mv;
 	}
 
 	//게시물삭제
-	@RequestMapping(value = "/b_del.inc", method = RequestMethod.POST)
+	@RequestMapping(value = "/bbsDel.inc", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Boolean> del(String b_idx, String pwd) {
 		Map<String, Boolean> map = new  HashMap<String, Boolean>();
 
-		boolean chk =	b_dao.b_del(b_idx, pwd);
-
-
+		boolean chk = b_dao.b_del(b_idx, pwd);
 
 		map.put("chk", chk);
-
 
 		return map;
 
