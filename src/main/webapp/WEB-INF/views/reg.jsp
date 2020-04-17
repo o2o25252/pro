@@ -7,48 +7,61 @@
 <title>Insert title here</title>
 <!-- 메뉴 css -->
 <link rel="stylesheet" href="resources/css/styles.css" />
+<!-- 퍼플 -->
+<link rel="stylesheet"
+	href="resources/css/pupple.css">	
 <style type="text/css">
 	#registry{
 		border: 1px solid black;
 		margin: auto;
 	}
 	#box{
-		border: 3px solid red;
-		
+		color: #AA66FF
 	}
 </style>
 </head>
 <body>
+<jsp:include page="menu.jsp" />
+ <div class="form-wrap">
+      <div class="form-wrap-inn">
+          <div class="frame">
+              <div class="form-content">
+                  <div class="header">
+                      <i class="fa fa-eye"></i>
+                      <h2>회원가입</h2>
+                  </div>
+                  
+                  <div class="login-form">
+                      <form action="regOk.inc" method="post" name="frm" class="form">
+                        <div class="form-group">
+                          <input id="b_id" name="id" placeholder="아이디를 입력하세요" autocomplete="off" class="form-input" type="text" />
+                        </div><div id="box"></div>
+                        
+                        <div class="form-group">
+                          <input id="b_pw" name="pw" placeholder="비밀번호 영문/숫자 조합 6~15자" class="form-input" type="password" >
+                        </div>
+                        
+                        <div class="form-group">
+                          <input type="text" id="b_name" name="name" placeholder="이름을 입력하세요" autocomplete="off" class="form-input"/>
+                        </div>
+                        <div class="form-group">
+                        	<input type="text" id="b_nick" name="nickname" placeholder="별칭을 입력하세요" autocomplete="off" class="form-input"/>
+                        </div>
+                        
+                        <div>
+                        	<button type="button" id="reg_btn"  class="btn btn-outline-danger">회원가입</button>&nbsp;&nbsp;
+							<button type="button" id="cancle_btn" onclick="javascript:location.href='control?type=main'" class="btn btn-outline-danger">취소</button>
+                        </div>
+                        
+                      </form>
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+ </div>
 	
-	<jsp:include page="menu.jsp" />
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
-	<div id="registry">
-		<form action="regOk.inc" method="post" name="frm">
-			<h3>회원 가입</h3>
-			<table>
-				<tr>
-					<th><label for="b_id">아이디:</label></th>
-					<td><input type="text" id="b_id" name="id" placeholder="아이디를 입력하세요" autocomplete="off"/><div id="box"></div> </td>
-				</tr>
-				<tr>
-					<th><label for="b_name">이름:</label></th>
-					<td><input type="text" id="b_name" name="name" placeholder="이름을 입력하세요" autocomplete="off"/></td>
-				</tr>
-				<tr>
-					<th><label for="b_pw">비밀번호:</label></th>
-					<td><input type="password" id="b_pw" name="pw" placeholder="영문/숫자 조합 6~15자"/></td>
-				</tr>
-				<tr>
-					<th><label for="b_nick">닉네임:</label></th>
-					<td><input type="text" id="b_nick" name="nickname" placeholder="이름을 입력하세요" autocomplete="off"/></td>
-				</tr>
-				</table><br/><br/><br/>
-			<button type="button" id="reg_btn"  class="btn btn-success">회원가입</button>&nbsp;&nbsp;
-			<button type="button" id="cancle_btn" onclick="javascript:location.href='control?type=main'" class="btn btn-success">취소</button>
-		</form>
-	</div>
-	
-	
 	<script>
 		$(function(){
 			
