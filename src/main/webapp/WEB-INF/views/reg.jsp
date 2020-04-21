@@ -63,8 +63,8 @@
 	
 	<script src="resources/js/jquery-3.4.1.min.js"></script>
 	<script>
+		var idChk = false; // 중복 으로 회원가입 체크 판단 부분 
 		$(function(){
-			
 			// id 중복검사
 			$("#b_id").on("keyup",function(){
 			      var id = $(this).val();
@@ -79,8 +79,10 @@
 			         }).done(function(data){
 			           		if(data.tru){
 			           			$("#box").text("아이디 사용 불가능");
+			           			idChk = false; //불가시 중복체크 거짓 
 			           		}else{
 			           			$("#box").text("아이디 사용 가능");
+			           			idChk = true; //가능시 중복체크 참 
 			           		}
 			         }).fail(function(err) {
 			            console.log(err);
@@ -97,7 +99,10 @@
 				var pw = $("#b_pw").val();
 				var name = $("#b_name").val();
 				var nick = $("#b_nick").val();
-							
+				var boxi =$("#box").text();
+				console.log(boxi);
+				
+				//공백 인지 확인 유효성 검사 
 				if(id.trim().length<1){
 					alert("아이디를 입력하세요");
 					$("#b_id").focus();
@@ -118,8 +123,14 @@
 					$("#b_nick").focus();
 					return;
 				}
-				
-				frm.submit();
+				//중복체크 확인용 
+				if(idChk == false){
+					alert("아이디를 확인하세요");
+					$("#b_id").focus();
+					return;
+				}else if(idChk == true){
+					frm.submit();	
+				}
 			});
 			
 			$("#cancle_btn").bind("click",function(){

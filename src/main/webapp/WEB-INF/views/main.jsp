@@ -223,8 +223,6 @@
 			<ol class="carousel-indicators">
 				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 			</ol>
 			<div class="carousel-inner" role="listbox"
 				style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246));">
@@ -337,22 +335,24 @@
 						</tbody>
 					</table>
 				</div>
-				<!-- Slide Three -->
-				<div class="carousel-item" style="height: 694px;">
-					<div style="margin: auto; text-align: center;">
-						<jsp:include page="chartExO2.jsp" />
-					</div>
-				</div>
 			</div>
 			
+			<!-- 팝업창 -->
 			<div id="divpop1" class="divpop" style="position: absolute; right: 11%; top: 230px; z-index: 200; visibility: visible;">
 				<table style="width: 490px; height: 340px;">
 					<tbody>
 						<tr>
-							<td style="height: 340px; text-align: center; background-color: white">
-								<a href="">
-									
-								</a>
+							<td style="height: auto; text-align: center; background-color: white">
+								<c:forEach var="vo" items="${ list }" begin="0" end="0">
+									<a href="bbsView.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}" style="text-decoration: none;">
+										${ vo.content }
+									</a>
+								</c:forEach>
+								<c:if test="${empty list }">
+									<a href="notice.inc">
+										<img alt="코로나 조심" src="resources/css/images/108.png" width="490px;" height="450px;">
+									</a>	
+								</c:if>
 							</td>
 						</tr>
 						<tr>
@@ -396,10 +396,11 @@
 						<td>
 							<table  class="table table-hover">
 								<tbody>	
-									<c:forEach var="vo" items="${ list }" begin="0" end="4">
+								
+									<c:forEach var="vo" items="${ sessionScope.list }" begin="0" end="4">
 										<tr>
 											<td id="c_subject">
-												<a href="b_view.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
+												<a href="bbsView.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
 													${vo.subject }
 												</a>
 											</td>	
@@ -564,152 +565,145 @@
 		$( "#tabs" ).tabs();
 		
 		// 금일 박스 오피스
-		var param = "targetDt="+${beforeD};
-		
-		$.ajax({
-			url:"http://localhost:5000/dailyRank?setDate=${beforeD}",
-			dataType:"json",
-			type: "POST"
-		}).done(function(data){
-			if(data != undefined){
-				var code = "";
-				
-				for(var i=0; i<data.length; i++){
-					code += "<tr class='trBorder'><td>";
-					code += data[i].rank;
-					code += "<input type=hidden value='";
-					code += data[i].movieCd;
-					code += "'/></td><td><a class='elice' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
-					code += data[i].movieNm;
-					code += "</a></td><td>";
-					code += data[i].openDt;
-					code += "</td></tr>";
-				}
-				$("#week>tbody").html(code);
-				
-				// 금일 순위 마우스 위치 시 옆의 내용 변환
-				$(".weekM tr").mouseenter(function(){
-			  		
-					var cd = $(this).children().eq(0).children().eq(0).val();
-			  		
-			  		var paran = "movieCd="+encodeURIComponent(cd);
-			  		
-			  		$.ajax({
-						url: "movieSimpleInfo.inc",
-						type: "POST",
-						data: paran,
-						dataType : "json"
-					}).done(function(data){
-						if(data.vo != undefined){
-							$("#i12").attr("src", data.vo.postURL);
-		                     
-							var code = ""+data.vo.movieNm;
-							$("#m_name1").html(code);
-							var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
-							$("#openyear1").html(openyear);
-		                    
-							var prdtStatNm = data.vo.prdtStatNm;
-							$("#prdtStatNm1").html(prdtStatNm);
-		                     
-							var typeNm = data.vo.typeNm;
-							$("#typeNm1").html(typeNm);
-		                     
-							var watchGradeNm = data.vo.watchGradeNm;
-							$("#watchGradeNm1").html(watchGradeNm);
-		                     
-							var showTm = data.vo.showTm;
-							$("#showTm1").html(showTm);
-		                                          
-							var genere = ""+data.vo.genreNm;
-							$("#genere1").html(genere);   
-							var company = ""+data.vo.companyNm;
-							$("#company1").html(company);
-							var nations = ""+ data.vo.nationNm;
-							$("#nations1").html(nations);
-							var d_people = ""+ data.vo.directors_peopleNm;
-							$("#d_people1").html(d_people);
-						}
-					}).fail(function(err){
-						console.log(err);
-					});
-				});
-			}
-		}).fail(function(err){
-			console.log(err);
-		});
-		
-		
-		// 처음 페이지 로딩 시 금주 박스 오피스
-		$.ajax({
-			url:"http://localhost:5000/weeklyRank?setDate=${beforeW}",
-			dataType:"json",
-			type: "POST"
-		}).done(function(data){
-			if(data != undefined){
-				var code = "";
-				for(var i=0; i<data.length; i++){
-					code += "<tr class='trBorder'><td>";
-					code += data[i].rank;
-					code += "<input type=hidden value='";
-					code += data[i].movieCd;
-					code += "'/></td><td><a href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
-					code += data[i].movieNm;
-					code += "</a></td><td>";
-					code += data[i].openDt;
-					code += "</td></tr>";
-				}
-			
-				$("#weekend>tbody").html(code);
-				
-				// 금주 순위에 포커스 위치 시 옆에 변환
-				$(".weekendM tr").mouseenter(function(){
-			  		var cd = $(this).children().eq(0).children().eq(0).val();
-			  		var paran = "movieCd="+encodeURIComponent(cd);
-			  		
-			  		$.ajax({
-						url: "movieSimpleInfo.inc",
-						type: "POST",
-						data: paran,
-						dataType : "json"
-					}).done(function(data){
-						if(data.vo != undefined){
-							$("#i13").attr("src", data.vo.postURL);
-			                  
-							var code = ""+data.vo.movieNm;
-							$("#m_name2").html(code);
-							var openyear = ""+data.vo.openDt.substring(0,4)+"-"+data.vo.openDt.substring(4,6)+"-"+data.vo.openDt.substring(6);
-							$("#openyear2").html(openyear);
-			                  
-							var prdtStatNm = data.vo.prdtStatNm;
-							$("#prdtStatNm2").html(prdtStatNm);
-			                  
-							var typeNm = data.vo.typeNm;
-							$("#typeNm2").html(typeNm);
-			                  
-							var watchGradeNm = data.vo.watchGradeNm;
-							$("#watchGradeNm2").html(watchGradeNm);
-			                  
-							var showTm = data.vo.showTm;
-							$("#showTm2").html(showTm);
-			                  
-							var genere = ""+data.vo.genreNm;
-							$("#genere2").html(genere);   
-							var company = ""+data.vo.companyNm;
-							$("#company2").html(company);
-							var nations = ""+ data.vo.nationNm;
-							$("#nations2").html(nations);
-							var d_people = ""+ data.vo.directors_peopleNm;
-							$("#d_people2").html(d_people);
-						}
-					}).fail(function(err){
-						console.log(err);
-					});
-				});
-			}
-		}).fail(function(err){
-			console.log(err);
-		});
-	});
+      $.ajax({
+         url:"http://localhost:5000/dailyRank?setDate=${beforeD}",
+         dataType:"json",
+         type: "POST"
+      }).done(function(data){
+         if(data != undefined){
+            var code = "";
+            
+            for(var i=0; i<data.length; i++){
+               code += "<tr class='trBorder'><td>";
+               code += data[i].rank;
+               code += "<input type=hidden value='";
+               code += data[i].movieCd;
+               code += "'/></td><td><a class='elice' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+               code += data[i].movieNm;
+               code += "</a></td><td>";
+               code += data[i].openDt;
+               code += "</td></tr>";
+            }
+            $("#week>tbody").html(code);
+            
+            // 금일 순위 마우스 위치 시 옆의 내용 변환
+            $(".weekM tr").mouseenter(function(){
+                 
+               var cd = $(this).children().eq(0).children().eq(0).val();
+               
+                 $.ajax({
+                    url:"http://localhost:5000/movieSimpleInfo?movieCd="+cd,
+                  type: "POST",
+                  dataType : "json"
+               }).done(function(data){
+                  if(data != undefined){
+                     $("#i12").attr("src", data[0].imageSrc);
+
+                     var code = data[0].movieNm;
+                     $("#m_name1").html(code);
+                     var openyear = data[0].openDt;
+                     $("#openyear1").html(openyear);
+                          
+                     var prdtStatNm = data[0].prdtStatNm;
+                     $("#prdtStatNm1").html(prdtStatNm);
+                           
+                     var typeNm = data[0].typeNm;
+                     $("#typeNm1").html(typeNm);
+                           
+                     var watchGradeNm = data[0].watchGradeNm;
+                     $("#watchGradeNm1").html(watchGradeNm);
+                           
+                     var showTm = data[0].showTm;
+                     $("#showTm1").html(showTm);
+                                                
+                     var genere = data[0].genreNm;
+                     $("#genere1").html(genere);   
+                     var company = data[0].companyNm;
+                     $("#company1").html(company);
+                     var nations = data[0].nationNm;
+                     $("#nations1").html(nations);
+                     var d_people = data[0].peopleNm;
+                     $("#d_people1").html(d_people);
+                  }
+               }).fail(function(err){
+                  console.log(err);
+               });
+            });
+         }
+      }).fail(function(err){
+         console.log(err);
+      });
+      
+      
+      // 처음 페이지 로딩 시 금주 박스 오피스
+      $.ajax({
+         url:"http://localhost:5000/weeklyRank?setDate=${beforeW}",
+         dataType:"json",
+         type: "POST"
+      }).done(function(data){
+         if(data != undefined){
+            var code = "";
+            for(var i=0; i<data.length; i++){
+               code += "<tr class='trBorder'><td>";
+               code += data[i].rank;
+               code += "<input type=hidden value='";
+               code += data[i].movieCd;
+               code += "'/></td><td><a href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+               code += data[i].movieNm;
+               code += "</a></td><td>";
+               code += data[i].openDt;
+               code += "</td></tr>";
+            }
+         
+            $("#weekend>tbody").html(code);
+            
+            // 금주 순위에 포커스 위치 시 옆에 변환
+            $(".weekendM tr").mouseenter(function(){
+                 var cd = $(this).children().eq(0).children().eq(0).val();
+                 
+                 $.ajax({
+                    url:"http://localhost:5000/movieSimpleInfo?movieCd="+cd,
+                  type: "POST",
+                  dataType : "json"
+               }).done(function(data){
+                  if(data != undefined){
+                     $("#i13").attr("src", data[0].imageSrc);
+                           
+                     var code = ""+data[0].movieNm;
+                     $("#m_name2").html(code);
+                     var openyear = ""+data[0].openDt;
+                     $("#openyear2").html(openyear);
+                           
+                     var prdtStatNm = data[0].prdtStatNm;
+                     $("#prdtStatNm2").html(prdtStatNm);
+                           
+                     var typeNm = data[0].typeNm;
+                     $("#typeNm2").html(typeNm);
+                           
+                     var watchGradeNm = data[0].watchGradeNm;
+                     $("#watchGradeNm2").html(watchGradeNm);
+                           
+                     var showTm = data[0].showTm;
+                     $("#showTm2").html(showTm);
+                           
+                     var genere = ""+data[0].genreNm;
+                     $("#genere2").html(genere);   
+                     var company = ""+data[0].companyNm;
+                     $("#company2").html(company);
+                     var nations = ""+ data[0].nationNm;
+                     $("#nations2").html(nations);
+                     var d_people = ""+ data[0].peopleNm;
+                     $("#d_people2").html(d_people);
+                  }
+               }).fail(function(err){
+                  console.log(err);
+               });
+            });
+         }
+      }).fail(function(err){
+         console.log(err);
+      });
+   });
   
 	// 영화 상세정보 보기
 	function movieDetailInfo(frm){

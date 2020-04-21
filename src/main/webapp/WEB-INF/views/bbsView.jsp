@@ -186,7 +186,7 @@
 		});
 		
 		$("#delete_bt").bind("click",function(){
-			// pw
+			// pw	
 			var b_idx =$("#b_idx").val();
 			var pw =$("#b_pw").val();
 			
@@ -207,8 +207,11 @@
 				if(data.chk){
 					alert("삭제성공");					
 					location.href="notice.inc?nowPage=${param.nowPage}";
-				}else
+				}else{
 					alert("비밀번호가 틀렸어요 확인해보세요");
+					$("#b_pw").val("");
+					$("#b_pw").focus();
+				}
 			}).fail(function(err){
 				console.log("실패");
 				alert(err);

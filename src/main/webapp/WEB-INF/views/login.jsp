@@ -64,16 +64,18 @@ body {
 									<div class="login-form">
 										<form action="userdo.inc" method="post" name="frm"
 											class="form">
+											<!-- 아이디 입력  -->
 											<div class="form-group">
-
 												<input id="id" name="id" class="form-input" type="text"
 													placeholder="What is your ID?" value="${id}"
 													autocomplete="off">
 											</div>
+											<!-- 비밀번호 입력 -->
 											<div class="form-group">
 												<input id="pwd" name="pw" class="form-input" type="password"
 													placeholder="Password">
 											</div>
+											<!-- 로그인 버튼  -->
 											<div class="form-group">
 												<input type="button" id="log_btn" value="로그인"
 													class="btn btn-bd-primary btn-sm shake-chunk">
@@ -83,6 +85,8 @@ body {
 												<a class="btn btn-bd-primary btn-sm shake-chunk"
 													href="user_info.inc">ID/PW찾기</a>
 											</div>
+											
+											<!-- 소셜 로그인 및 회원가입  -->
 											<div>
 												<h3 style="color: #AA66FF">소셜 로그인</h3>
 												<!-- 카카오 -->

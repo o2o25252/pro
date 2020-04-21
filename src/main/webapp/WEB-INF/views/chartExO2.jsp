@@ -26,6 +26,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 	#chart_div{
 		width: 700px;
@@ -36,6 +37,7 @@
 </style>
 </head>
 <body>
+	<jsp:include page="menu.jsp" />
 	<div id="chart_div"></div>
 <script src="resources/js/jquery-3.4.1.min.js"></script>
 <script src="https://www.amcharts.com/lib/4/core.js"></script>

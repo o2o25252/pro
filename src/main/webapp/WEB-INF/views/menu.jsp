@@ -10,92 +10,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css" />
 <style type="text/css">
-#div1 {
-	display: none;
-}
-
-#div2 {
-	display: none;
-}
-
-#week, #weekend {
-	border: 1px solid black;
-	margin: auto;
-	width: 500px;
-}
-#dialog {
-	display: none;
-}
-
-#menu a:hover {
-	color: blue;
-}
-
-.li {
-	color: black;
-	list-style: none;
-	margin: auto;
-}
-
-#menu_header {
-	margin: auto;
-	border: 1px solid black;
-}
 
 a:hover {
 	text-decoration: none;
 	color: #6cc091
-}
-
-ul#menu {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	font: 15px sans-serif;
-	line-height: 44px;
-	text-align: center;
-	text-decoration: none;
-	background-color: rgba(75, 75, 93, 0.85);
-}
-
-ul#menu>li {
-	display: inline-block;
-	width: 150px;
-	margin: auto;
-}
-
-.li:hover {
-	color: #6cc091;
-}
-
-ul#menu>li>a {
-	color: #efefef;
-	text-decoration: none;
-}
-
-#logo {
-	width: 100px;
-	height: 70px;
-	float: left;
-}
-
-#logo a {
-	padding: auto;
-}
-
-#high {
-	float: auto;
-	height: 70px;
-	margin: auto;
-}
-
-#map {
-	display: inline-block;
-	margin: auto;
-	overflow-y: auto;
-	border: 1px solid black;
-	position: fixed;
-	width: 240px;
 }
 
 .h {
@@ -103,22 +21,15 @@ ul#menu>li>a {
 	width: 500px;
 }
 
-#week a, #weekend a {
-	text-decoration: none;
-}
-
-.cal_month {
-	width: 220px;
-}
 #body {
 	background-color: #eee;
 }
 
 #holder {
-	width: 80%;
+	width: 900px;
 	height: 140px;
 	line-height: 140px;
-	text-align: center;
+	border: 3px solid puple;
 }
 #h_logo,#h_search,#h_login{
 	display: inline-block;
@@ -126,11 +37,17 @@ ul#menu>li>a {
 #h_logo{
 	margin-right: 30px;
 }
-#h_searchbtn{
-}
 #h_login{
 	margin-left: 30px;
 	text-align: right;
+}
+#navbar{
+	height: 60px;
+	width: auto;
+	padding: auto;
+}
+#u_navbar{
+	border: 4px solid red;
 }
 </style>
 </head>
@@ -139,6 +56,7 @@ ul#menu>li>a {
 		<div id="h_logo">
 			<a class="navbar-brand" href="main.inc"> <font style="vertical-align: inherit;"> <font style="vertical-align: inherit;"> <img src="resources/css/images/KakaoTalk_20200410_165204848.png" style="width: 80px; height: 80px"> </font></font></a>
 		</div>
+		<!-- 검색 부분  -->
 		<div id="h_search">
 			<div class="form-inline my-2 my-lg-0" id="h_searchbtn">
 				<input class="form-control mr-sm-2" type="text" id="search"
@@ -184,9 +102,9 @@ ul#menu>li>a {
 		</div>
 	</div>
 	<div></div>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
 		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav mr-auto" id="u_navbar">
 				<li class="nav-item"><a class="nav-link" href="kMap.inc"> <font
 						style="vertical-align: inherit;"><font
 							style="vertical-align: inherit; color: #ffffff; ;"> 지도 </font></font></a></li>
@@ -197,6 +115,10 @@ ul#menu>li>a {
 				<li class="nav-item"><a class="nav-link" href="notice.inc">
 						<font style="vertical-align: inherit;"><font
 							style="vertical-align: inherit; color: #ffffff;"> 공지 </font></font>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="statistics.inc">
+						<font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit; color: #ffffff;"> 공식통계 </font></font>
 				</a></li>
 			</ul>
 			
@@ -241,13 +163,6 @@ ul#menu>li>a {
 			}
 		});
 		
-		$(".asd").bind("click", function() {
-			var seq = $(".asd").val();
-			console.log(seq);
-			$("#seq").val() = seq;
-			document.froms[0].submit();
-		});
-
         $("#open_btn").bind("click", function() {
            $("#view_win").dialog();
            $("#view_win").css("display", "block");

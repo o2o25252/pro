@@ -87,4 +87,8 @@ public class goList {
 		return "reg";
 	}
 	
+	@RequestMapping("/statistics.inc")
+	public String statistics() {
+		return "chartExO2";
+	}
 }
