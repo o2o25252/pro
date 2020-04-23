@@ -45,7 +45,11 @@ a:hover {
 	width: auto;
 	padding: auto;
 }
-#u_navbar{
+.change{
+	 color: #FFFFFF;
+}
+.change:hover {
+	color: black;
 }
 </style>
 </head>
@@ -97,19 +101,19 @@ a:hover {
 		</div>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="navbar" style="background-color: #28A0FF; text-align: center;  box-shadow: 2px 2px 2px 2px #bebebe; ">
-		<div class="collapse navbar-collapse" id="navbarColor01">
+		<div class="collapse navbar-collapse" id="navbarColor01" >
 			<ul class="navbar-nav" id="u_navbar" style="margin: auto;">
-				<li class="nav-item"><a class="nav-link" href="notice.inc"><font
-							style="color: #0D0D0D;">공지</font>
+				<li class="nav-item" style="padding-left: 80px; padding-right: 80px;  color: #FFFFFF;"><a class="nav-link" href="notice.inc"><font
+							class="change">공지</font>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="ranking.inc"><font
-							style="color: #0D0D0D;">순위</font>
+				<li class="nav-item" style="padding-left: 80px; padding-right: 80px"><a class="nav-link" href="ranking.inc"><font
+							class="change">순위</font>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="statistics.inc"><font
-							style="color: #0D0D0D;">공식통계</font>
+				<li class="nav-item" style="padding-left: 80px; padding-right: 80px"><a class="nav-link" href="statistics.inc"><font
+							class="change">공식통계</font>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="kMap.inc"><font
-							style="color: #0D0D0D;">주변 영화관</font>
+				<li class="nav-item" style="padding-left: 80px; padding-right: 80px"><a class="nav-link" href="kMap.inc"><font
+							class="change">주변 영화관</font>
 				</a></li>
 			</ul>
 		</div>

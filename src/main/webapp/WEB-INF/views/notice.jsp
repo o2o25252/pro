@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <!-- 선생님이한 게시판 css  -->
 <link rel="stylesheet" href="resources/css/text.css" />
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -22,6 +23,8 @@
 			<tbody> 
 				<tr style="float:right">
 					<td>
+						<input type="text" placeholder="검색" id="search_bbs" name="search_bbs"/>
+						<button type="button" id="search_btn" > 검색 </button>
 						<!-- admin 일떄 버튼생성 기능 구현 해주기 --> 
 						<c:if test="${ sessionScope.userVO.status eq 9}">
 						<input type="button" value="공지 작성" onclick="javascript:location.href='bbsWrite.inc?nowPage=${nowPage}'" />
@@ -31,7 +34,7 @@
 				</tr>
 				<tr>
 					<td>
-						<table  class="table table-hover">
+						<table id="table1" class="table table-hover">
 							<thead>
 								<tr>
 									<th>번호</th>
@@ -45,10 +48,12 @@
 							<c:forEach var="vo" items="${list }" varStatus="st">
 								<tr>
 									<td bgcolor="#f2f7f5">
+									
+										<input type="hidden" value="row"> 
 										${rowTotal-((nowPage-1)*blockList+st.index)}
 										<!-- ${(nowPage-1)*blockList+st.index+1}  --> 
 									</td>
-									<td>
+									<td >
 										<a href="bbsView.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}">
 											${vo.subject }
 										</a>
@@ -85,5 +90,48 @@
 			</tfoot>
 		</table>
 	</div>
+	<script src="resources/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			
+			
+			$("#search_btn").bind("click",function(){
+				var s_bbs = $("#search_bbs").val();
+				console.log(s_bbs);
+				var param = "subject="+encodeURIComponent(s_bbs);
+				
+				$.ajax({
+					url:"search.inc",
+			         dataType:"json",
+			         type: "POST",
+					data:param
+				}).done(function(data){
+					if(data.ar != undefined){
+						var code = "";
+						var cd = 1;
+						for(var i=0; i<data.ar.length;i++){
+							code += "<tr><td bgcolor='#f2f7f5'>";
+							code += cd++;
+							code += "</td><td>";
+							code += data.ar[i].subject;
+							code += "</td><td>";
+							code += data.ar[i].writer;
+							code += "</td><td>";
+							code += data.ar[i].write_date.substring(0,10);
+							code += "</td><td>";
+							code += data.ar[i].hit;
+							code += "</td></tr>"
+						}	
+						
+					$("#table1>tbody").html(code);
+					}
+				}).fail(function(err){
+					
+				});
+				
+			});
+			
+		});
+	</script>
 </body>
 </html>

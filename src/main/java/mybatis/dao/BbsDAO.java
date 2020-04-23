@@ -148,5 +148,16 @@ public class BbsDAO {
 		
 		return value;
 	}
+	//게시글 찾기
+	public BbsVO[] b_search(String subject) {
+		BbsVO[] ar = null;
+		List<BbsVO> b_list = template.selectList("bbs.b_search",subject);
+		
+		if(b_list != null) {
+			ar = new BbsVO[b_list.size()];
+			b_list.toArray(ar);
+			}
+		return ar;
+		}
 }
 

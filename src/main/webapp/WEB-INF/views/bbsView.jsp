@@ -17,19 +17,21 @@
 		padding: auto;
 	}
 	#v_bbs{
-		border: 1px solid black;
 		border-collapse: collapse;
 		float: center;
 		width: 700px;
 		height: auto;
 		padding: auto;
 		margin: auto;
+		box-shadow: 2px 2px 2px 2px #bebebe;
 	}
 	#v_bbs th,#v_bbs td{
-		border: 1px solid black;
+		border-bottom: 1px solid #dedede;
+		
 	}
 	#v_bbs th{
-		background-color: #C3C3C3;
+		background-color: #F9FFFF;
+		
 	}
 	#del_win{
 		display: none;
@@ -48,6 +50,13 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	#v_bbs label{
+		width: 70px;
+		font: italic;
+		height: auto;
+		text-align: center;
+	}
+	
 </style>
 </head>
 <body>
@@ -61,13 +70,13 @@
 			<table id="v_bbs" class="table">
 				<tbody>
 					<tr>
-						<th><label>제목:</label></th>
+						<th><label>제목</label></th>
 						<td>${ vo.subject }</td>
-						<th><label>조회수:</label></th>
+						<th><label>조회수</label></th>
 						<td>${ vo.hit }</td>
 					</tr>
 					<tr>
-						<th><label>첨부 파일:</label></th>
+						<th><label>첨부 파일</label></th>
 						<td colspan="3">
 							<c:if test="${ vo.file_name != null and fn:length(vo.file_name) >4 }">
 								<a href="javascript: download('${vo.file_name }')">
@@ -78,11 +87,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th><label>이름:</label></th>
+						<th><label>이름</label></th>
 						<td colspan="3">${ vo.writer }</td>
 					</tr>
 					<tr>
-						<th><label>내용:</label></th>
+						<th><label>내용</label></th>
 						<td colspan="3"><pre>${ vo.content }</pre></td>
 					</tr>
 				</tbody>

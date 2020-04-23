@@ -234,11 +234,16 @@
   color: #000000;
 }
 </style>
+
 </head>
+
 <body style="background-color: #ffffff; width: 80%; margin: auto;">
+	<div id="h_Top"></div>
 	<jsp:include page="menu.jsp" />
+	
 	<div style="height: 10px;"></div>
 	<header>
+		
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-ride="carousel">
 			<ol class="carousel-indicators">
@@ -357,7 +362,6 @@
 					</table>
 				</div>
 			</div>
-			
 			<!-- 팝업창 -->
 			<div id="divpop1" class="divpop" style="position: absolute; right: 11%; top: 230px; z-index: 200; visibility: visible;">
 				<table style="width: 490px; height: 340px;">
@@ -404,19 +408,24 @@
 			</a>
 		</div>
 	</header>
+	<div style="position: fixed; bottom: 600px; right: 10px; z-index: 99;">
+				<a href="#h_Top" style="display: block; float: right; text-align: center; color: black; background: rgba(0,0,0,0.2);">
+					<img src="resources/css/images/btn_top_arrow.png">
+				</a>
+			</div>
 	<!-- 클린센터 신고 박스 -->
-	<div style="width: 100%; padding: 30px 0 30px 0; display: block;">
+	<div style="width: 100%; padding: 30px 0 30px 0; height: 350px; display: block;">
 		<!--  -->
-		<div style="margin: 110px; width: 1200px; margin: 0 0;">
+		<div style="margin: 110px; width: 1200px; margin: 0 auto;">
 			<div style="border: 1px solid #d8d8d8; background-color: #fff; width: 45%; height: 100%; padding: 30px; float: left;">
 				<div style="background: url(resources/css/images/icon_clean_center.png) 25px 0 no-repeat; padding: 0 0 0 150px;">
 					<div style="font-size: 26px; line-height: 30px; color: #000;">클린센터신고</div>
 					<p style="font-size: 14px; line-height: 20px; color: #5b5b5b; padding: 10px 0 0 0; ">
-						"영화진흥위원회는 임직원의 투명하고 청렴한 공직사회를 "
+						영화진흥위원회는 임직원의 투명하고 청렴한 공직사회를 
 						<span style="display: block;">실현하기 위하여 클린(불편부조리)신고센터를 운영하고 있습니다.</span>
 					</p>
 				</div>
-				<div style="width: 100%; border: 1px dashed #d9d9d9; margin: 18px 0 18px 0"></div>
+				<div style="width: 100%; border: 1px dashed #d9d9d9; margin: 30px 0 30px 0"></div>
 				<div style="float: left;">
 					<img alt="클린신고 연락처" src="resources/css/images/icon_cleancenter_phone.png" style="border: none; vertical-align: middle;">
 				</div>

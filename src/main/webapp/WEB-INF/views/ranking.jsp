@@ -49,6 +49,9 @@
 	#view_win h3,#view_win i1 {
 	   margin-left: 40px;
 	}
+	#week,#weekend{
+		box-shadow: 2px 2px 2px 2px #bebebe;
+	}
 	 #div1 {
 	    display: none;
 	 }
@@ -115,7 +118,7 @@
 		</table>
 	</div>
 	<div id="weekendDiv" style="margin: auto; margin-left: 250px; padding: auto;">
-		<table id="weekend" class="table-hover" style="border:0px solid black;" class="table-hover">
+		<table id="weekend" class="table-hover" style="border:0px solid black; " class="table-hover">
 			<colgroup>
 				<col width="46px"/>
 				<col width="278px"/>
@@ -202,7 +205,7 @@
 			if(data != undefined){
 				var code = "";
 				for(var i=0; i<data.length; i++){
-					code += "<tr><td class='daily'>";
+					code += "<tr ><td class='daily'>";
 					code += data[i].rank;
 					code += "<input type='hidden' value='";
 					code += data[i].movieCd;

@@ -103,5 +103,8 @@
 		UPDATE comment_t SET content = #{content} 
 		WHERE  pwd = #{pwd} AND c_idx = #{c_idx}
 	</update>
-	
+	<!-- 게시물 찾기 -->
+	<select id="b_search" parameterType="String" resultType="com.data.vo.BbsVO">
+		select * from bbs_t where subject LIKE '%' ||  #{subject} || '%' AND status = 0 
+	</select>
 </mapper>
