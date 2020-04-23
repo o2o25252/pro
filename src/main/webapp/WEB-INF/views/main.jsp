@@ -48,6 +48,8 @@
 
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
+	font{
+	}
 	#view_win {
 		display: none;
 		background-color : rgba( 255, 255, 255, 0 );
@@ -146,9 +148,9 @@
 	}
 	#c_info{
 		padding: 60px 0;
-	    background: url(resources/css/images/product_bg.jpg) 0 0 no-repeat;
 	    background-size: cover;
 	    margin-top: 25px;
+	    background-color: #f6f3f2;
 	}
 	#ico{
 		float: right;
@@ -212,11 +214,30 @@
 		line-height : 0px; 
 		vertical-align : top; 
 	}
-	  
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: #000000;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: #000000;
+}
 </style>
 </head>
-<body>
+<body style="background-color: #ffffff; width: 80%; margin: auto;">
 	<jsp:include page="menu.jsp" />
+	<div style="height: 10px;"></div>
 	<header>
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-ride="carousel">
@@ -225,11 +246,11 @@
 				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 			</ol>
 			<div class="carousel-inner" role="listbox"
-				style="background: linear-gradient(-45deg, rgb(46, 53, 56), rgb(243, 245, 246));">
+				style="background-color: #F9FFFF; padding: 20px 0px;">
 				<!-- 금일 순위 -->
 				<!-- Slide One - Set the background image for this slide in the line below -->
-				<div class="carousel-item active" style="height: 694px;">
-					<table style="margin: auto; margin-top: 100px">
+				<div class="carousel-item active" style="height: 500px;">
+					<table style="margin: auto;">
 						<thead>
 							<tr>
 								<th colspan="2" id="date"><label>${ today } 박스 오피스 순위</label></th>
@@ -284,8 +305,8 @@
 				</div>
 				<!-- Slide Two - Set the background image for this slide in the line below -->
 				<!-- 주간 순위 -->
-				<div class="carousel-item" style="height: 694px;">
-					<table style="margin: auto; margin-top: 100px">
+				<div class="carousel-item" style="height: 500px;">
+					<table style="margin: auto; padding: 30px 0px;">
 						<thead>
 							<tr>
 								<th colspan="2"><label>${ toweek }박스 오피스</label></th>
@@ -383,7 +404,58 @@
 			</a>
 		</div>
 	</header>
-	
+	<!-- 클린센터 신고 박스 -->
+	<div style="width: 100%; padding: 30px 0 30px 0; display: block;">
+		<!--  -->
+		<div style="margin: 110px; width: 1200px; margin: 0 0;">
+			<div style="border: 1px solid #d8d8d8; background-color: #fff; width: 45%; height: 100%; padding: 30px; float: left;">
+				<div style="background: url(resources/css/images/icon_clean_center.png) 25px 0 no-repeat; padding: 0 0 0 150px;">
+					<div style="font-size: 26px; line-height: 30px; color: #000;">클린센터신고</div>
+					<p style="font-size: 14px; line-height: 20px; color: #5b5b5b; padding: 10px 0 0 0; ">
+						"영화진흥위원회는 임직원의 투명하고 청렴한 공직사회를 "
+						<span style="display: block;">실현하기 위하여 클린(불편부조리)신고센터를 운영하고 있습니다.</span>
+					</p>
+				</div>
+				<div style="width: 100%; border: 1px dashed #d9d9d9; margin: 18px 0 18px 0"></div>
+				<div style="float: left;">
+					<img alt="클린신고 연락처" src="resources/css/images/icon_cleancenter_phone.png" style="border: none; vertical-align: middle;">
+				</div>
+				<p style="float: left; font-size: 20px; line-height: 26px; color: #000; font-weight: 500; padding: 8px 0 0 10px;">051.720.4731</p>
+			</div>
+			
+			<!-- 공정 환경 조성 센터 이미지 -->
+			<div style="float: right; width: 45%; height: 100%; background-color: #fff; border: 1px solid #d8d8d8; padding: 20px; position: relative;">
+				<div style="position: absolute; bottom: 0; right: 0">
+					<img alt="공정 환경 조성 센터 이미지" src="resources/css/images/unfair_img.png" style="border: none; vertical-align: middle;">
+				</div>
+				<a href="https://www.kofic.or.kr/kofic/business/guid/introUnfairCenter.do">
+					<div style="font-size: 26px; line-height: 30px; color: #000;">공정환경조성센터</div>
+					<strong style="color: #ff4c3a; font-weight: 700;">신고전화</strong>
+					<p style="font-size: 26px; line-height: 28px; color: #000; font-weight: 700;">1855-0511</p>
+					<p style="font-size: 14px; line-height: 20px; color: #5b5b5b; padding: 10px 0 0 0;">
+						<img alt="" src="resources/css/images/unfair_list_01.jpg" style="border: none; vertical-align: middle;">영화산업 불공정행위 
+						<span style="color: #ff6e00; !important;">상담과 신고 제보</span>
+					</p>
+					<p style="font-size: 14px; line-height: 20px; color: #5b5b5b; padding: 10px 0 0 0;">
+						<img alt="" src="resources/css/images/unfair_list_02.jpg" style="border: none; vertical-align: middle;"> 영화산업 성희롱 성폭력
+						<span style="color: #ff6e00; !important;">상담과 신고·제보</span>
+					</p>
+				</a>
+				<div style="width: 300px; padding-top: 5px; border-top: 1px solid #d9d9d9; line-height: 24px;">
+					<a href="http://solido.kr" target="_blank" title="한국영화 성평등 센터 든든 바로가기" style="font-size: 14px; color: #000; display: block;">
+						한국영화 성평등센터 든든 바로가기
+						<img alt="한국영화 성평등센터 든든 바로가기" src="resources/css/images/icon_right_arrow.png" style="margin-left: 5px;">
+					</a>
+				</div>
+				<div>
+					<a href="http://www.sinmungo.kr/film/" target="_blank" title="영화인 신분고 바로가기" style="font-size: 14px; color: #000; display: block;">
+						영화인 신문고 바로가기
+						<img alt="영화인 신문고 바로가기" src="resources/css/images/icon_right_arrow.png" style="margin-left: 5px;">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="c_info">
 		
 		<div id="c_information" class="container">
@@ -578,7 +650,7 @@
                code += data[i].rank;
                code += "<input type=hidden value='";
                code += data[i].movieCd;
-               code += "'/></td><td><a class='elice' href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
+               code += "'/></td><td><a href=\"javascript:movieDetailInfo('"+data[i].movieCd+"')\">";
                code += data[i].movieNm;
                code += "</a></td><td>";
                code += data[i].openDt;
@@ -588,7 +660,7 @@
             
             // 금일 순위 마우스 위치 시 옆의 내용 변환
             $(".weekM tr").mouseenter(function(){
-                 
+                 //children().eq(0) 하나만 했을떄  TR 값이 넘오 오고 children().eq(0) 2번했을경우 해당 행의 TR 값이 넘어온다 .
                var cd = $(this).children().eq(0).children().eq(0).val();
                
                  $.ajax({

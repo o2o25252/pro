@@ -22,14 +22,13 @@ a:hover {
 }
 
 #body {
-	background-color: #eee;
+	width: 80%;
 }
 
 #holder {
-	width: 900px;
 	height: 140px;
 	line-height: 140px;
-	border: 3px solid puple;
+	text-align: center;
 }
 #h_logo,#h_search,#h_login{
 	display: inline-block;
@@ -47,25 +46,21 @@ a:hover {
 	padding: auto;
 }
 #u_navbar{
-	border: 4px solid red;
 }
 </style>
 </head>
 <body>
-	<div id="holder" style="margin: auto;">
+	<div id="holder">
 		<div id="h_logo">
-			<a class="navbar-brand" href="main.inc"> <font style="vertical-align: inherit;"> <font style="vertical-align: inherit;"> <img src="resources/css/images/KakaoTalk_20200410_165204848.png" style="width: 80px; height: 80px"> </font></font></a>
+			<a class="navbar-brand" href="main.inc"><img src="resources/css/images/KakaoTalk_20200410_165204848.png" style="width: 80px; height: 80px"></a>
 		</div>
 		<!-- 검색 부분  -->
 		<div id="h_search">
 			<div class="form-inline my-2 my-lg-0" id="h_searchbtn">
 				<input class="form-control mr-sm-2" type="text" id="search"
 					placeholder="Search" style="width: 400px; "/>
-				<button class = "btn btn-primary" type="button"
-					id="ok_btn">
-					<font style="vertical-align: inherit;"> <font
-						style="vertical-align: inherit;"> 검색 </font>
-					</font>
+				<button class = "btn" type="button" style="background-color: #594F4F;"
+					id="ok_btn"><font style="color: #ffffff;">검색</font>
 				</button>
 			</div>
 		</div>
@@ -101,30 +96,22 @@ a:hover {
 			</c:if>
 		</div>
 	</div>
-	<div></div>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar">
+	<nav class="navbar navbar-expand-lg navbar-dark" id="navbar" style="background-color: #28A0FF; text-align: center;  box-shadow: 2px 2px 2px 2px #bebebe; ">
 		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav mr-auto" id="u_navbar">
-				<li class="nav-item"><a class="nav-link" href="kMap.inc"> <font
-						style="vertical-align: inherit;"><font
-							style="vertical-align: inherit; color: #ffffff; ;"> 지도 </font></font></a></li>
-				<li class="nav-item"><a class="nav-link" href="ranking.inc">
-						<font style="vertical-align: inherit;"><font
-							style="vertical-align: inherit; color: #ffffff; "> 순위 </font></font>
+			<ul class="navbar-nav" id="u_navbar" style="margin: auto;">
+				<li class="nav-item"><a class="nav-link" href="notice.inc"><font
+							style="color: #0D0D0D;">공지</font>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="notice.inc">
-						<font style="vertical-align: inherit;"><font
-							style="vertical-align: inherit; color: #ffffff;"> 공지 </font></font>
+				<li class="nav-item"><a class="nav-link" href="ranking.inc"><font
+							style="color: #0D0D0D;">순위</font>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="statistics.inc">
-						<font style="vertical-align: inherit;"><font
-							style="vertical-align: inherit; color: #ffffff;"> 공식통계 </font></font>
+				<li class="nav-item"><a class="nav-link" href="statistics.inc"><font
+							style="color: #0D0D0D;">공식통계</font>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="kMap.inc"><font
+							style="color: #0D0D0D;">주변 영화관</font>
 				</a></li>
 			</ul>
-			
-		</div>
-		<div>
-			
 		</div>
 	</nav>
 	<div id="body">
