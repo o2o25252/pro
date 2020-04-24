@@ -44,7 +44,9 @@ public class DataController {
    @RequestMapping("/search.inc")
    public ModelAndView search(String movieNm)throws Exception{
       URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&movieNm="+movieNm);
-
+     
+      System.out.println("왔어");
+      System.out.println(movieNm);
       Element s_root = connectXML(search);
 
       Element movieList = s_root.getChild("movieList");

@@ -12,10 +12,10 @@
 <body>
 	<%--메뉴 바 가져오기 --%>
 	<jsp:include page="menu.jsp" />
-	<h2>회원 관리 페이지</h2>
+	<h2 style="width: 80%; height:10%; margin: auto; padding: auto; text-align: center; margin-top: 10px;">회원 관리 페이지</h2>
 	<div>
 		<form id="frm" method="post" action="selectview_bbs.inc">
-			<table>
+			<table class="table" style="width: 80%; height: 80%; margin: auto; box-shadow: 2px 2px 2px 2px #bebebe;">
 				<thead>
 					<tr>
 						<th>ID</th>

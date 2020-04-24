@@ -368,16 +368,9 @@
 					<tbody>
 						<tr>
 							<td style="height: auto; text-align: center; background-color: white">
-								<c:forEach var="vo" items="${ list }" begin="0" end="0">
-									<a href="bbsView.inc?nowPage=${nowPage}&b_idx=${vo.b_idx}" style="text-decoration: none;">
-										${ vo.content }
-									</a>
-								</c:forEach>
-								<c:if test="${empty list }">
 									<a href="notice.inc">
 										<img alt="코로나 조심" src="resources/css/images/108.png" width="490px;" height="450px;">
 									</a>	
-								</c:if>
 							</td>
 						</tr>
 						<tr>
@@ -603,6 +596,11 @@
 	var moviecode = "";
 	
 	$(function(){
+		
+		if(getCookie("divpop1") !="Y"){
+			$("#divpop1").show();
+		}
+		
 		//레이팅 JS 
 		jQuery(document).ready(function($){
 	    
@@ -954,14 +952,6 @@
 	    $("#divpop"+key+"").hide();
 	}
   
-	$(function(){	
-
-		if(getCookie("divpop1") !="Y"){
-			$("#divpop1").show();
-		}
-
-	});
-	
 	</script>
 </body>
 </html>

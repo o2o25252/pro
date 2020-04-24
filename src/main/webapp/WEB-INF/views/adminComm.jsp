@@ -13,13 +13,13 @@
 	<%--메뉴 바 가져오기 --%>
 	<jsp:include page="menu.jsp" />
 	<c:if test="${empty c_list  }">
-		<h3>${nickname }님의 댓글이 없습니다.</h3>
+		<h3 style="width: 80%; height: 80%; margin: auto; margin-top: 350px; margin-left: 750px;">${nickname }님의 댓글이 없습니다.</h3>
 	</c:if>
 	
 	<c:if test="${!empty c_list }">
-	<h3>${nickname }님의 작성한 댓글 </h3>
+	<h3 style="width: 80%; height: 10%; margin: auto; text-align: center; margin-top: 10px;">${nickname }님의 작성한 댓글 </h3>
 	<div>
-		<table>
+		<table class="table" style="width: 80%; height: 80%; margin: auto; box-shadow: 2px 2px 2px 2px #bebebe;">
 			<thead>
 			<tr>
 				<th>C_IDX</th>
@@ -38,7 +38,7 @@
 						<td id="c_idx${st.index }">${vo.c_idx }</td>
 						<td>${vo.writer }</td>
 						<td id="content${st.index }">${vo.content }</td>
-						<td>${vo.write_date }</td>
+						<td>${vo.write_date.substring(0,10) }</td>
 						<td>${vo.ip }</td>
 						<td id="b_idx${st.index }">${vo.b_idx }</td>
 						<td id="status${st.index }">${vo.status }</td>

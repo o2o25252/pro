@@ -53,7 +53,7 @@ a:hover {
 }
 </style>
 </head>
-<body>
+<body style="margin: auto;">
 	<div id="holder">
 		<div id="h_logo">
 			<a class="navbar-brand" href="main.inc"><img src="resources/css/images/KakaoTalk_20200410_165204848.png" style="width: 80px; height: 80px"></a>
@@ -63,7 +63,7 @@ a:hover {
 			<div class="form-inline my-2 my-lg-0" id="h_searchbtn">
 				<input class="form-control mr-sm-2" type="text" id="search"
 					placeholder="Search" style="width: 400px; "/>
-				<button class = "btn" type="button" style="background-color: #594F4F;"
+				<button class="btn" type="button" style="background-color: #594F4F;"
 					id="ok_btn"><font style="color: #ffffff;">검색</font>
 				</button>
 			</div>
@@ -128,16 +128,15 @@ a:hover {
 	<script>
 	
 	$(function() {
-		
 		// 검색 정보
 		$("#ok_btn").bind("click",function(){
 			var movieNm = $("#search").val().trim().replace(/ /g, "%20");
 			if(movieNm==0){
 				alert("입력하세요");
 			}else{
-			
-			document.nm.movieNm.value=movieNm;
-			document.nm.submit();
+				document.nm.movieNm.value=movieNm;
+				console.log(movieNm);
+				document.nm.submit();
 			}
 		});
 		
