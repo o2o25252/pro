@@ -45,7 +45,6 @@ public class DataController {
    public ModelAndView search(String movieNm)throws Exception{
       URL search = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&movieNm="+movieNm);
      
-      System.out.println("왔어");
       System.out.println(movieNm);
       Element s_root = connectXML(search);
 
@@ -88,7 +87,7 @@ public class DataController {
       URL Weeklyurl = new URL("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=707ef8cccc5cc5f5c7bea32415d2b949&movieCd="+movieCd);
 
       MovieVO vo = new MovieVO();
-
+ 
       Element root = connectXML(Weeklyurl);
 
       Element movieInfo = root.getChild("movieInfo");   
@@ -268,7 +267,7 @@ public class DataController {
       return map;
    }
 
-   // 영화 포스터 가져오기
+   // 메인 영화 포스터 가져오기
    public Map<String, String> getPoster(String movieNm, String prdtYear, String nationEE) throws Exception{
       String mv_name = URLEncoder.encode(movieNm, "UTF-8");
       URL url = new URL("https://openapi.naver.com/v1/search/movie.xml?query="+mv_name+"&yearfrom="+prdtYear+"&yearto="+prdtYear); 
@@ -317,7 +316,7 @@ public class DataController {
    }
 
    
-   // 영화 포스터 가져오기
+   // 상세보기 영화 포스터 가져오기
    @RequestMapping(value = "/movieDetailInfo2.inc",method = RequestMethod.GET)
    @ResponseBody
    public String getPoster2(String movieNm, String prdtYear) throws Exception{
@@ -368,7 +367,7 @@ public class DataController {
    public Map<String, Object> printRating(String movieCd) {
       StarVO svo = new StarVO();   
 
-   /*수정 필요*/
+   /*수정 필요
       double avg = u_dao.avg(movieCd);
       svo.setAvg(avg);
    /* 

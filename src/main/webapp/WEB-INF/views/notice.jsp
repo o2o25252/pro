@@ -97,11 +97,10 @@
 			
 			$("#search_btn").bind("click",function(){
 				var s_bbs = $("#search_bbs").val();
-				console.log(s_bbs);
 				var param = "subject="+encodeURIComponent(s_bbs);
 				
 				$.ajax({
-					url:"search.inc",
+					url:"Bbs_search.inc",
 			         dataType:"json",
 			         type: "POST",
 					data:param

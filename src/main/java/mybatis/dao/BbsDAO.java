@@ -149,9 +149,9 @@ public class BbsDAO {
 		return value;
 	}
 	//게시글 찾기
-		public BbsVO[] b_search(String subject) {
+		public BbsVO[] bbssearch(String subject) {
 			BbsVO[] ar = null;
-			List<BbsVO> b_list = template.selectList("bbs.b_sear",subject);
+			List<BbsVO> b_list = template.selectList("bbs.bbsSearch",subject);
 			
 			if(b_list != null) {
 				ar = new BbsVO[b_list.size()];

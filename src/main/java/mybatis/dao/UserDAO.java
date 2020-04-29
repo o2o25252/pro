@@ -52,11 +52,10 @@ public class UserDAO {
 		return chk;
 	}
 	
-	//별점 평균 보기 
-	public double avg(String moviecd) {
-		double avgr =ss.selectOne("star.avg_r",moviecd);
-		return avgr;
-	}
+	/*
+	 * //별점 평균 보기 public double avg(String moviecd) { double avgr
+	 * =ss.selectOne("star.avg_r",moviecd); return avgr; }
+	 */
 	
 	// 별점 리스트 가져옴
 	public List<StarVO> getList(String moviecd) {

@@ -343,12 +343,12 @@ public class ListController  {
 	}
 	
 	//게시판 검색
-		@RequestMapping(value = "/search.inc", method = RequestMethod.POST)
+		@RequestMapping(value = "/Bbs_search.inc", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, BbsVO[]> b_search(String subject){
 			Map<String, BbsVO[]> map = new HashMap<String, BbsVO[]>();
 			
-		BbsVO[] ar = b_dao.b_search(subject);
+		BbsVO[] ar = b_dao.bbssearch(subject);
 		
 		map.put("ar", ar);
 		

@@ -135,7 +135,6 @@ a:hover {
 				alert("입력하세요");
 			}else{
 				document.nm.movieNm.value=movieNm;
-				console.log(movieNm);
 				document.nm.submit();
 			}
 		});
