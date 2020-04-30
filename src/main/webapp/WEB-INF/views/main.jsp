@@ -214,25 +214,159 @@
 		line-height : 0px; 
 		vertical-align : top; 
 	}
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  background-image: none;
-}
+/* 메인 순위 화살표 버튼 */
+	.carousel-control-prev-icon,
+	.carousel-control-next-icon {
+	  height: 100px;
+	  width: 100px;
+	  background-image: none;
+	}
+	
+	.carousel-control-next-icon:after
+	{
+	  content: '>';
+	  font-size: 55px;
+	  color: #000000;
+	}
+	
+	.carousel-control-prev-icon:after {
+	  content: '<';
+	  font-size: 55px;
+	  color: #000000;
+	}
+/* dialog CSS */
+	#view_win {
+		display: none;
+		padding: 25px;
+	}
+	#dia_loading{
+		width: 100%;
+		height: 800px;
+		margin: auto;
+		background: url("resources/css/images/loading.gif");
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	#info{
+		display: inline-block;
+	}
+	#close_bt{
+		background: url("resources/css/images/ico_comm.png");
+		background-repeat: no-repeat;
+	    background-position: 0px -145px;
+	   	float: right;
+	}
+	.icon{
+		display: block;
+	    width: 22px;
+	    height: 21px;
+	    font-size: 0;
+	    line-height: 0;
+	    text-indent: -9999px;
+	}
+	#dia_topLayer{
+		display: none;
+		padding-bottom: 40px;
+	}
+	#dia_Tabs{
+		display: none;
+	}
+	.list_tab{
+		padding: 0px;
+		list-style: none;
+		position: relative;
+	    border-bottom: 1px solid #afafaf;
+	    overflow: hidden;
+	}
+	.list_tab li{
+		display: block;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+		width: 270px;
+	    height: 38px;
+		border: 1px solid #d9d9d9;
+    	border-bottom: none;
+    	text-align: center;
+	}
+	.list_tab li:hover{
+		background-color: #28A0FF;
+	}
+	.list_tab li a {
+		display: block;
+	    line-height: 38px;
+	    text-decoration: none;
+    	color: #28A0FF;
+    }
+    .list_tab li a:hover {
+	    color: #ffffff;
+    }
+    
+    #tabs1{
+    	display: none;
+    	overflow: auto;
+    }
 
-.carousel-control-next-icon:after
-{
-  content: '>';
-  font-size: 55px;
-  color: #000000;
-}
-
-.carousel-control-prev-icon:after {
-  content: '<';
-  font-size: 55px;
-  color: #000000;
-}
+    #i1{
+    	display: inline-block;
+    	float: left;
+    	margin-right: 20px;
+    	width: 190px;
+    	height: 280px;
+    }
+    #dia_info{
+    	display: inline-block;
+    }
+    #dia_info dt{
+    	float: left;
+	    width: 85px;
+	    margin-right: 20px;
+	    font-weight: bold;
+    }
+    #dia_info dd{
+	    overflow: hidden;
+	    line-height: 25px;
+	    color: #555;
+    }
+    .titType{
+    	display: block;
+    	border-left: 5px solid #373737;
+    	border-bottom: 1px solid #373737;
+    	padding: 4px 0 5px 10px;
+    	color: #373737;
+    	font-size: 20px;
+    }
+    #story{
+    	display: block;
+    	font-weight: bold;
+    	font-size: 18px;
+    }
+    .dia_content{
+    	display: inline-block;
+    	margin: 12px 20px;
+    }
+    .star_dt{
+    	display: inline-block;
+    	margin-right: 20px;
+    	margin-bottom: 0px; 
+    	position: relative; 
+    	top: -20px;
+    	width: 100px;
+    	font-size: 16px;
+    	text-align: left;
+    	font-weight: bold;
+    }
+    .dia_dl dt{
+    	display: inline-block;
+    	margin-right: 30px;
+    }
+    .dia_dl dd{
+    	display: inline;
+    }
+    #tabs2{
+    	display: none;
+    }
+    
 </style>
 
 </head>
@@ -494,97 +628,119 @@
 			</table>
 		</div>
 	</div>
-	<div id="view_win" title="영화상세">
-		<div id="tabs">
-			<ul>
-				<li><a href="#tabs1">상세보기</a></li>
-				<li><a href="#tabs2">평가</a></li>
+	<div id="view_win">
+		<div id="dia_loading"></div>
+		<div id="dia_topLayer">
+			<h3 id="info"></h3><a id="close_bt" class="icon"><span>닫기</span></a>
+		</div>
+		<div id="dia_Tabs">
+			<ul class="list_tab">
+				<li id="tabLi1"><a id="tabA1" href="javaScript:tabs2Open()">상세보기</a></li>
+				<li id="tabLi2"><a id="tabA2" href="javaScript:tabs1Open()">평가</a></li>
 			</ul>
-			<div id="tabs1">
-				<img id="i1" alt="이미지 출력불가시 나올 대체 이미지 자리" width="150" height="200">
-				<div style="display: inline-block; float: right; border: 3px solid red;">
-					<div class="wrap-star">
-						<h5 style="text-align: center;">네이버 평점</h5>
-						<div class='star-rating'>
-							<span id="nRating" style="width: 30%"></span>
-						</div>
-					</div>
-					<div class="wrap-star">
-						<h5 style="text-align: center;">KINEMA 평점</h5>
-						<div class='star-rating'>
-							<span id="hRating" style="width: 30%"></span>
-						</div>
+		</div>
+		<div id="tabs1">
+			<img id="i1">
+				<dl id="dia_info">		
+					<dt>요약정보</dt><dd id="summary"></dd>
+					<dt>개봉연도</dt><dd id="openyear"></dd>
+					<dt>제작연도</dt><dd id="year"></dd>
+					<dt>제작상태</dt><dd id="prdtStatNm"></dd>
+				</dl>
+				<div class="wrap-star">
+					<p class="star_dt">네이버 평점</p>
+					<div class='star-rating'>
+						<span id="nRating" style="width: 30%"></span>
 					</div>
 				</div>
-				<h3 id="info"></h3>
-				<hr />
-				<label id="m_name"></label><br />
-				<label id="time"></label><br />
-				<label id="year"></label><br />
-				<label id="openyear"></label><br />
-				<label id="genere"></label><br />
-				<hr />
-				<label id="company"></label><br />
-				<hr />
-				<label id="nations"></label><br />
-				<hr />
-				<label id="d_people"></label><br />
-				<hr />
-				<label id="a_people"></label><br />
-				<hr />
-				<label></label>
-				<hr />
-				<jsp:include page="kMap2.jsp" />
-				<button type="button" id="close_bt">닫기</button>
-			</div>
-			<!-- 레이팅  -->
-			<div id="tabs2">
-				<form action="coco.inc" method="post">
-					<input type="hidden" id="ratinggg">
-					<hr />
-					<!-- 레이팅  -->
-					<div class="form-group" id="rating-ability-wrapper">
-						<label class="control-label" for="rating"> <span
-							class="field-label-header">영화 리뷰 평가 </span><br> <span
-							class="field-label-info"></span> <input type="hidden"
-							id="selected_rating" name="selected_rating" value=""
-							required="required">
-						</label>
-						<h3 class="bold rating-header" style="">
-							<span id="ratingVal" class="selected-rating">0</span><small>
-								/ 5</small>
-						</h3>
-						<button type="button" class="btnrating btn btn-default btn-lg"
-							data-attr="1" id="rating-star-1">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</button>
-						<button type="button" class="btnrating btn btn-default btn-lg"
-							data-attr="2" id="rating-star-2">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</button>
-						<button type="button" class="btnrating btn btn-default btn-lg"
-							data-attr="3" id="rating-star-3">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</button>
-						<button type="button" class="btnrating btn btn-default btn-lg"
-							data-attr="4" id="rating-star-4">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</button>
-						<button type="button" class="btnrating btn btn-default btn-lg"
-							data-attr="5" id="rating-star-5">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</button>
+				<div class="wrap-star">
+					<p class="star_dt">KINEMA 평점</p>
+					<div class='star-rating'>
+						<span id="hRating" style="width: 30%"></span>
 					</div>
-					<!-- ----------------------댓글작성부분------------------- -->
-					<textarea rows="8" cols="50" name="content" id="content"></textarea>
-					<br /> <input type="button" value="등록" onclick="writeRating()" />
-					<hr />
-					<!-- 댓글내용  표현-->
-					<!-- 아코디언 부분  -->
-					<div id="accordion"></div>
-				</form>
-				<button type="button" id="close_bt2">닫기</button>
+				</div>
+			<div>
+				<strong id="dia_synop" class="titType" style="margin-top: 30px;">시놉시스</strong>
+				<div class="dia_content">
+					<label id="story"></label>
+					<label id="storyCon"></label>
+				</div>
 			</div>
+			<div>
+				<strong id="dia_makers" class="titType">만든사람들</strong>
+				<div class="dia_content">
+				<dl class="dia_dl">
+					<dt style="color: #5076db;">감독</dt><dd id="director"></dd>
+					<br/>
+					<dt style="color: #5076db;">배우</dt><dd id="actor"></dd>
+				</dl>
+				</div>
+			</div>
+			<div>
+				<strong id="dia_conpany" class="titType">영화사</strong>
+				<div class="dia_content" id="company"></div>
+			</div>
+			<div>
+				<strong id="dia_tec" class="titType">등급분류 / 기술정보</strong>
+				<div class="dia_content">
+					<dl>
+						<dt style="color: #5076db;">등급분류 / 기술</dt><dd id="tec"></dd><br/>
+					</dl>
+				</div>
+			</div>
+			<div id=dia_map>
+				<strong id="dia_maptit" class="titType">내 주변 영화관</strong>
+				<div style="margin-top: 80px; margin-left: 30px;">
+					<jsp:include page="kMap2.jsp" />
+				</div>
+			</div>
+		</div>
+		<!-- 레이팅  -->
+		<div id="tabs2">
+			<form action="coco.inc" method="post">
+				<input type="hidden" id="ratinggg">
+				<hr />
+				<!-- 레이팅  -->
+				<div class="form-group" id="rating-ability-wrapper">
+					<label class="control-label" for="rating"> <span
+						class="field-label-header">영화 리뷰 평가 </span><br> <span
+						class="field-label-info"></span> <input type="hidden"
+						id="selected_rating" name="selected_rating" value=""
+						required="required">
+					</label>
+					<h3 class="bold rating-header" style="">
+						<span id="ratingVal" class="selected-rating">0</span><small>
+							/ 5</small>
+					</h3>
+					<button type="button" class="btnrating btn btn-default btn-lg"
+						data-attr="1" id="rating-star-1">
+						<i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btnrating btn btn-default btn-lg"
+						data-attr="2" id="rating-star-2">
+						<i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btnrating btn btn-default btn-lg"
+						data-attr="3" id="rating-star-3">
+						<i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btnrating btn btn-default btn-lg"
+						data-attr="4" id="rating-star-4">
+						<i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btnrating btn btn-default btn-lg"
+						data-attr="5" id="rating-star-5">
+						<i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+				</div>
+				<!-- ----------------------댓글작성부분------------------- -->
+				<textarea rows="8" cols="50" name="content" id="content"></textarea>
+				<br /> <input type="button" value="등록" onclick="writeRating()" />
+				<hr />
+				<!-- 댓글내용  표현-->
+				<!-- 아코디언 부분  -->
+				<div id="accordion"></div>
+			</form>
 		</div>
 	</div>
 
@@ -603,6 +759,11 @@
 		
 		//레이팅 JS 
 		jQuery(document).ready(function($){
+			
+			$("#tabA2").css("color", "#28A0FF");
+			$("#tabLi2").css("background-color", "#ffffff");
+			$("#tabA1").css("color", "#ffffff");
+			$("#tabLi1").css("background-color", "#28A0FF");
 	    
 			$(".btnrating").on('click',(function(e) {
 			
@@ -627,20 +788,31 @@
 			}));
 		});
 		
+		if(getCookie("divpop1") !="Y"){
+			$("#divpop1").show();
+		}
+		
 		//아코디언	
 		$( "#accordion" ).accordion({
 			collapsible: true
 		});
 		
 		$("#close_bt").bind("click", function() {
+			$("#dia_loading").css("display", "block");
+			
+			$("#dia_topLayer").css("display", "none");
+			$("#dia_Tabs").css("display", "none");
+			$("#tabs1").css("display", "none");
+			$("#tabs2").css("display", "none");
 			$("#view_win").dialog("close");				// dialog 닫을경우 dialog 내용 삭제
 			$("#accordion").html("");
+			
+			$("#tabA2").css("color", "#28A0FF");
+			$("#tabLi2").css("background-color", "#ffffff");
+			$("#tabA1").css("color", "#ffffff");
+			$("#tabLi1").css("background-color", "#28A0FF");
 		});
-		$("#close_bt2").bind("click", function() {
-			$("#view_win").dialog("close");
-			$("#accordion").html("");
-		});
-
+		
 		$( "#tabs" ).tabs();
 		
 		// 금일 박스 오피스
@@ -786,6 +958,8 @@
   
 	// 영화 상세정보 보기
 	function movieDetailInfo(frm){
+		$("#view_win").dialog({width: "50%", padding: "0px"}).parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		
 		var paran = "movieCd="+encodeURIComponent(frm);
 		moviecode= frm;	// 멤버변수 사용
 		$.ajax({
@@ -795,7 +969,8 @@
 			dataType : "json"
 		}).done(function(data){
 			if(data.vo != undefined){
-				$("#view_win").dialog({width: "600px", padding: "0px"}).parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+				$("#dia_loading").css("display", "none");
+				
 				$("#i1").attr("src", data.vo.postURL);
 				
 				// var rating ="별점:"+ data.vo.nRating;			
@@ -805,36 +980,63 @@
 					$("#nRating").css("width", nRating+"%");					
 				}else{
 					$("#nRating").css("width", "0%");
-				}	
+				}
 				
-				var code = "영화명: "+data.vo.movieNm+"("+data.vo.movieNmEn+")";
-				$("#m_name").html(code);
-				var time = "상영시간: "+data.vo.showTm+"분";
-				$("#time").html(time);
-				var year = "제작년도: "+data.vo.prdtYear+"년";
+				var typeNm = data.vo.typeNm;				// 장편, 단편
+				var genre = data.vo.genreNm;				// 장르
+				var showTm = data.vo.showTm+"분";			// 상영시간
+				var watchGradeNm = data.vo.watchGradeNm;	// 관람등급
+				var nationNm = data.vo.nationNm				// 제작국가 명
+				
+				var summary = typeNm+" | "+genre+" | "+showTm+" | "+watchGradeNm+" | "+nationNm;
+				$("#summary").html(summary);
+				
+				var year = data.vo.prdtYear+"년";
 				$("#year").html(year);
-				var openyear = "개봉연도: "+data.vo.openDt;
+				var openyear = data.vo.openDt;
 				$("#openyear").html(openyear);
-				var genere = "장르: "+data.vo.genreNm;
-				$("#genere").html(genere);	
-				var company = "제작사: "+data.vo.companyNm +"("+data.vo.companyNmEn+")";
-				$("#company").html(company);
-				var nations = "제작국가: "+ data.vo.nationNm;
-				$("#nations").html(nations);
-				var d_people = "감독: "+ data.vo.directors_peopleNm+"("+data.vo.directors_peopleNmEn+")";
-				$("#d_people").html(d_people);
+				
 				var info = data.vo.movieNm+"&nbsp;";
 				$("#info").html(info);
-				
-				if(data.vo.avo != undefined){
-					var a_people = "배우:";
-					for(var i=0; i<data.vo.avo.length; i++){
-						a_people +=  data.vo.avo[i].peopleNm;
-						a_people +=  " / ";               
-					}
-		               $("#a_people").html(a_people);
+
+				if(data.vo.directors != undefined){
+					var director = data.vo.directors;
+					$("#director").html(director);
 				}
+
+				if(data.vo.actors != undefined){
+					var actor = data.vo.actors;
+					$("#actor").html(actor);
+				}
+				
+				var strCompany = "";
+				if(data.vo.companyNm != undefined){
+					strCompany += '<dl class="dia_dl">'
+					for(var x = 0; x<data.vo.companyNm.length; x++){
+						strCompany += '<dt style="color: #5076db;">';
+						strCompany += data.vo.companyPartNm[x];
+						strCompany += '</dt>';
+						strCompany += '<dd id="distributor">';
+						strCompany += data.vo.companyNm[x];
+						strCompany += '</dd><br/>';
+					}
+					strCompany += "</dl>"
+					console.log(strCompany);
+					$("#company").html(strCompany);				
+				}
+				
+				var story = data.vo.story;
+				$("#story").html(story);
+				var storyCon = "&nbsp;"+data.vo.storyCon;
+				$("#storyCon").html(storyCon);
+				
+				
 			}//if의 끝
+			
+			$("#dia_topLayer").css("display", "block");
+			$("#dia_Tabs").css("display", "block");
+			$("#tabs1").css("display", "block");
+			
 			printRating();
 		}).fail(function(err){
 			console.log(err);
@@ -952,6 +1154,25 @@
 	    $("#divpop"+key+"").hide();
 	}
   
+	
+	function tabs1Open() {
+		$("#tabs1").css("display", "none");
+		$("#tabs2").css("display", "block");
+		
+		$("#tabA1").css("color", "#28A0FF");
+		$("#tabLi1").css("background-color", "#ffffff");
+		$("#tabA2").css("color", "#ffffff");
+		$("#tabLi2").css("background-color", "#28A0FF");
+	}
+	function tabs2Open() {
+		$("#tabs1").css("display", "block");
+		$("#tabs2").css("display", "none");
+		
+		$("#tabA1").css("color", "#ffffff");
+		$("#tabLi1").css("background-color", "#28A0FF");
+		$("#tabA2").css("color", "#28A0FF");
+		$("#tabLi2").css("background-color", "#ffffff");
+	}
 	</script>
 </body>
 </html>
