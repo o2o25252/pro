@@ -48,8 +48,6 @@
 
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
-	font{
-	}
 	#view_win {
 		display: none;
 		background-color : rgba( 255, 255, 255, 0 );
@@ -85,7 +83,7 @@
 		width: 290px;
 		height: 410px;
 	}
-	dt{
+	dt .category{
 		display:  inline-block;
 		width: 65px;
 		height: 20px;
@@ -95,7 +93,7 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
-	dd{
+	.view_win dd{
 		display:  inline-block;
 		width: 165px;
 		height: 20px;

@@ -283,18 +283,17 @@ public class DataController {
 		return image_s;
 	}
 
-
+	
 	// 다이얼로그 평점표현
 	@RequestMapping(value ="/printRating.inc",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> printRating(String movieCd) {
 		StarVO svo = new StarVO();   
-	
-		/*수정 필요*/
 		/*
 		double avg = u_dao.avg(movieCd);
 		svo.setAvg(avg);
-		
+		*/
+		/* 
 		 * avg를 사용하지 않음.
 		 * 평점 평균을 사용하기 위해서는 
 		 * 다이얼로그 로딩시에 avg만 따로 불러와야 함.
@@ -314,7 +313,7 @@ public class DataController {
 		map.put("svo", svo);
 		return map;
 	}
-
+	
 	// 다이얼로그 평점등록
 	@RequestMapping(value ="/writeRating.inc",method = RequestMethod.POST)
 	@ResponseBody
